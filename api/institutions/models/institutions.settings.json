@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "institutions",
+  "info": {
+    "name": "institutions",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "srm_assigned": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "website": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "inactive"
+      ]
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.address"
+    },
+    "contacts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.contacts"
+    }
+  }
+}

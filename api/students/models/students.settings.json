@@ -1,0 +1,78 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students",
+  "info": {
+    "name": "students",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pre_enrolled",
+        "registered",
+        "graduated",
+        "placed"
+      ]
+    },
+    "name_of_parent_or_guardian": {
+      "type": "string"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "GEN",
+        "OBC",
+        "SC",
+        "ST"
+      ]
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "male",
+        "female",
+        "third_gender"
+      ]
+    },
+    "old_sis_id": {
+      "type": "string"
+    },
+    "income_level": {
+      "type": "enumeration",
+      "enum": [
+        "a_less_than_25k",
+        "b_50k_to_100k",
+        "c_100k_to_250k",
+        "d_greater_than_250k"
+      ]
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.address"
+    },
+    "academics": {
+      "type": "component",
+      "repeatable": true,
+      "component": "student.academics"
+    }
+  }
+}

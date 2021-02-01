@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_common_contacts",
+  "info": {
+    "name": "contacts",
+    "icon": "address-card",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address_line": {
+      "type": "string"
+    }
+  }
+}

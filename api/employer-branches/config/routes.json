@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/employer-branches",
+      "handler": "employer-branches.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/employer-branches/count",
+      "handler": "employer-branches.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/employer-branches/:id",
+      "handler": "employer-branches.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/employer-branches",
+      "handler": "employer-branches.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/employer-branches/:id",
+      "handler": "employer-branches.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/employer-branches/:id",
+      "handler": "employer-branches.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

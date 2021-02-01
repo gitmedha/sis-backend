@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employers",
+  "info": {
+    "name": "employers"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "AM": {
+      "plugin": "admin",
+      "model": "user"
+    },
+    "website": {
+      "type": "string"
+    },
+    "employment_contract": {
+      "type": "boolean"
+    },
+    "paid_leaves": {
+      "type": "boolean"
+    },
+    "emplyment_benefits": {
+      "type": "boolean"
+    },
+    "offer_letter": {
+      "type": "boolean"
+    },
+    "industry": {
+      "type": "enumeration",
+      "enum": [
+        "to_be_populated"
+      ]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "inactive",
+        "to_be_populated"
+      ]
+    }
+  }
+}

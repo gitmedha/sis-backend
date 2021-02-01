@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "opportunities",
+  "info": {
+    "name": "Opportunities"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "employer_branch": {
+      "model": "employer-branches"
+    },
+    "role_or_designation": {
+      "type": "string"
+    },
+    "number_of_opportunities": {
+      "type": "integer"
+    },
+    "department_or_team": {
+      "type": "string"
+    },
+    "role_description": {
+      "type": "text"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "internship",
+        "job_or_placement"
+      ]
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "closed"
+      ]
+    },
+    "compensation_type": {
+      "type": "enumeration",
+      "enum": [
+        "paid",
+        "unpaid"
+      ]
+    },
+    "skills_required": {
+      "type": "enumeration",
+      "enum": [
+        "TBD"
+      ]
+    },
+    "salary": {
+      "type": "integer"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

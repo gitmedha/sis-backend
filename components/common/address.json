@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_common_addresses",
+  "info": {
+    "name": "address",
+    "icon": "home",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "address_line": {
+      "type": "string"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "Uttar_Pradesh"
+      ]
+    },
+    "medha_area": {
+      "type": "enumeration",
+      "enum": [
+        "lucknow"
+      ]
+    },
+    "pin_code": {
+      "type": "string"
+    }
+  }
+}
