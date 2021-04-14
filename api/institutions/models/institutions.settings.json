@@ -43,6 +43,9 @@
       "type": "component",
       "repeatable": true,
       "component": "common.contacts"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
