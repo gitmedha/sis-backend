@@ -1,18 +1,18 @@
 module.exports = {
   apps: [
     {
-      name: 'strapi-dev',
-      cwd: '/srv/strapi/mystrapiapp',
+      name: 'medha-sis-strapi-dev',
+      cwd: '/home/sis_admin/medha-backend-strapi',
       script: 'npm',
-      args: 'start',
+      args: 'run develop',
       env: {
         NODE_ENV: 'development',
         DB_HOST: 'localhost',
         DB_PORT: '5432',
         DB_NAME: 'medha_sis',
         DB_USER: 'postgres',
-        DB_PASS: 'postgres_stpc',
-        JWT_SECRET: 'ff822c83-d3ad-42ad-8146-e69dae75f5df',
+        DB_PASS: 'postgres',
+        // JWT_SECRET: 'aSecretKey',
       },
     },
   ],
