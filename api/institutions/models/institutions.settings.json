@@ -46,6 +46,9 @@
     },
     "description": {
       "type": "richtext"
+    },
+    "Type": {
+      "type": "string"
     }
   }
 }
