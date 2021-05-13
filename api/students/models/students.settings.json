@@ -73,6 +73,17 @@
       "type": "component",
       "repeatable": true,
       "component": "student.academics"
+    },
+    "CV": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }

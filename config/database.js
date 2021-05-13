@@ -10,7 +10,7 @@ module.exports = ({ env }) => ({
         // database: env('DATABASE_NAME', 'stpc'),
         database: env('DATABASE_NAME', 'medha_sis'),
         username: env('DATABASE_USERNAME', 'postgres'),
-        password: env('DATABASE_PASSWORD', 'postgres'),
+        password: env('DATABASE_PASSWORD', 'postgres_sis'),
         ssl: env.bool('DATABASE_SSL', false),
       },
       options: {}
