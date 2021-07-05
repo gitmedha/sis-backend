@@ -10,19 +10,16 @@
     "address_line": {
       "type": "string"
     },
+    "pin_code": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
     "state": {
-      "type": "enumeration",
-      "enum": [
-        "Uttar_Pradesh"
-      ]
+      "type": "string"
     },
     "medha_area": {
-      "type": "enumeration",
-      "enum": [
-        "lucknow"
-      ]
-    },
-    "pin_code": {
       "type": "string"
     }
   }

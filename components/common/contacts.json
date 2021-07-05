@@ -7,19 +7,16 @@
   },
   "options": {},
   "attributes": {
-    "first_name": {
-      "type": "string"
-    },
-    "last_name": {
-      "type": "string"
-    },
     "email": {
       "type": "email"
     },
     "phone": {
       "type": "string"
     },
-    "address_line": {
+    "designation": {
+      "type": "string"
+    },
+    "full_name": {
       "type": "string"
     }
   }

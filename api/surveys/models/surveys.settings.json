@@ -17,8 +17,8 @@
     "response": {
       "type": "string"
     },
-    "survey_response_id": {
-      "model": "employers"
+    "survey_json": {
+      "type": "json"
     }
   }
 }

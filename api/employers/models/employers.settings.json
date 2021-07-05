@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "employers",
   "info": {
-    "name": "employers"
+    "name": "employers",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -13,7 +14,7 @@
     "name": {
       "type": "string"
     },
-    "AM": {
+    "assigned_to": {
       "plugin": "admin",
       "model": "user"
     },
@@ -32,19 +33,36 @@
     "offer_letter": {
       "type": "boolean"
     },
-    "industry": {
-      "type": "enumeration",
-      "enum": [
-        "to_be_populated"
-      ]
-    },
     "status": {
-      "type": "enumeration",
-      "enum": [
-        "active",
-        "inactive",
-        "to_be_populated"
-      ]
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "industry": {
+      "type": "string"
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.address"
+    },
+    "contacts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.contacts"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }

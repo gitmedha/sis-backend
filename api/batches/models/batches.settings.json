@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "batches",
   "info": {
-    "name": "Batches"
+    "name": "Batches",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -18,6 +19,52 @@
     },
     "end_date": {
       "type": "date"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "status": {
+      "type": "string"
+    },
+    "number_of_sessions_planned": {
+      "type": "integer"
+    },
+    "program": {
+      "model": "programs"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "per_student_fees": {
+      "type": "integer"
+    },
+    "name_in_current_sis": {
+      "type": "string"
+    },
+    "institution": {
+      "model": "institutions"
+    },
+    "grant": {
+      "model": "grants"
+    },
+    "additional_logos_for_certificates": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "include_institution_logo_in_certificates": {
+      "type": "boolean"
     }
   }
 }

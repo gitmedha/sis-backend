@@ -84,6 +84,9 @@
       ],
       "plugin": "upload",
       "required": false
+    },
+    "date_of_birth": {
+      "type": "date"
     }
   }
 }

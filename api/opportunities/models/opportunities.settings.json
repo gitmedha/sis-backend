@@ -10,9 +10,6 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "employer_branch": {
-      "model": "employer-branches"
-    },
     "role_or_designation": {
       "type": "string"
     },

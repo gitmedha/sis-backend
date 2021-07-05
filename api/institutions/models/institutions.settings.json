@@ -14,7 +14,7 @@
     "name": {
       "type": "string"
     },
-    "srm_assigned": {
+    "assigned_to": {
       "plugin": "users-permissions",
       "model": "user"
     },
@@ -26,13 +26,6 @@
     },
     "email": {
       "type": "email"
-    },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "active",
-        "inactive"
-      ]
     },
     "address": {
       "type": "component",
@@ -47,7 +40,19 @@
     "description": {
       "type": "richtext"
     },
-    "Type": {
+    "type": {
+      "type": "string"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "status": {
       "type": "string"
     }
   }
