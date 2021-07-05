@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/employment-connections",
+      "handler": "employment-connections.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/employment-connections/count",
+      "handler": "employment-connections.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/employment-connections/:id",
+      "handler": "employment-connections.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/employment-connections",
+      "handler": "employment-connections.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/employment-connections/:id",
+      "handler": "employment-connections.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/employment-connections/:id",
+      "handler": "employment-connections.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

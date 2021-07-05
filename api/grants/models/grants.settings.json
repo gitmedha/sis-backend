@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "grants",
+  "info": {
+    "name": "Grants",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "donor": {
+      "type": "string"
+    }
+  }
+}

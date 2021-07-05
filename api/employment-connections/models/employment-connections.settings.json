@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employment_connections",
+  "info": {
+    "name": "employment_connections",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "student": {
+      "model": "students"
+    },
+    "opportunity": {
+      "model": "opportunities"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "status": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "reason_if_rejected": {
+      "type": "string"
+    },
+    "salary_in_inr": {
+      "type": "integer"
+    }
+  }
+}

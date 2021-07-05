@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sessions",
+  "info": {
+    "name": "sessions",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "batch": {
+      "model": "batches"
+    },
+    "date": {
+      "type": "date"
+    },
+    "topics_covered": {
+      "type": "string"
+    }
+  }
+}

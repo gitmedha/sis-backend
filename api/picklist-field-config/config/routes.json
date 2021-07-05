@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/picklist-field-configs",
+      "handler": "picklist-field-config.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/picklist-field-configs/count",
+      "handler": "picklist-field-config.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/picklist-field-configs/:id",
+      "handler": "picklist-field-config.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/picklist-field-configs",
+      "handler": "picklist-field-config.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/picklist-field-configs/:id",
+      "handler": "picklist-field-config.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/picklist-field-configs/:id",
+      "handler": "picklist-field-config.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

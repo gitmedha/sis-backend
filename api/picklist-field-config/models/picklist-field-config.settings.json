@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "picklist_field_configs",
+  "info": {
+    "name": "picklist-field-config",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "table": {
+      "type": "string",
+      "required": true
+    },
+    "field": {
+      "type": "string",
+      "required": true
+    },
+    "values": {
+      "type": "json"
+    }
+  }
+}

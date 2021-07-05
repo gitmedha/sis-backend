@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "program_enrollments",
+  "info": {
+    "name": "program_enrollments"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "student": {
+      "model": "students"
+    },
+    "batch": {
+      "model": "batches"
+    },
+    "institution": {
+      "model": "institutions"
+    },
+    "status": {
+      "type": "string"
+    },
+    "registration_date": {
+      "type": "date"
+    },
+    "fee_status": {
+      "type": "string"
+    },
+    "fee_payment_date": {
+      "type": "date"
+    },
+    "fee_amount": {
+      "type": "integer"
+    },
+    "fee_transaction_id": {
+      "type": "string"
+    },
+    "fee_refund_status": {
+      "type": "string"
+    },
+    "fee_refund_date": {
+      "type": "date"
+    },
+    "course_type": {
+      "type": "string"
+    },
+    "course_level": {
+      "type": "string"
+    },
+    "course_year": {
+      "type": "string"
+    },
+    "year_of_course_completion": {
+      "type": "string"
+    },
+    "certification_date": {
+      "type": "date"
+    },
+    "institution_name_entered_by_student": {
+      "type": "string"
+    }
+  }
+}

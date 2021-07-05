@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attendances",
+  "info": {
+    "name": "attendance"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "program_enrollment": {
+      "model": "program-enrollments"
+    },
+    "session": {
+      "model": "sessions"
+    },
+    "present": {
+      "type": "boolean"
+    }
+  }
+}

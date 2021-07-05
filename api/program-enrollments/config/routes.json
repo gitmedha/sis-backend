@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/program-enrollments",
+      "handler": "program-enrollments.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/program-enrollments/count",
+      "handler": "program-enrollments.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/program-enrollments/:id",
+      "handler": "program-enrollments.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/program-enrollments",
+      "handler": "program-enrollments.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/program-enrollments/:id",
+      "handler": "program-enrollments.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/program-enrollments/:id",
+      "handler": "program-enrollments.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
