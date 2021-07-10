@@ -6,7 +6,7 @@ module.exports = {
       script: 'npm',
       args: 'run develop',
       env: {
-        NODE_ENV: 'development',
+        NODE_ENV: 'staging',
         DB_HOST: 'localhost',
         DB_PORT: '5432',
         DB_NAME: 'medha_sis',
