@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metrics-states",
+      "handler": "metrics-state.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-states/count",
+      "handler": "metrics-state.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-states/:id",
+      "handler": "metrics-state.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metrics-states",
+      "handler": "metrics-state.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metrics-states/:id",
+      "handler": "metrics-state.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metrics-states/:id",
+      "handler": "metrics-state.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
