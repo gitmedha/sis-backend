@@ -69,11 +69,6 @@
       "repeatable": false,
       "component": "common.address"
     },
-    "academics": {
-      "type": "component",
-      "repeatable": true,
-      "component": "student.academics"
-    },
     "CV": {
       "model": "file",
       "via": "related",
@@ -83,7 +78,8 @@
         "videos"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "date_of_birth": {
       "type": "date"
