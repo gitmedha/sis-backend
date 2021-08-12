@@ -40,7 +40,8 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "per_student_fees": {
       "type": "integer"
@@ -61,10 +62,14 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "include_institution_logo_in_certificates": {
       "type": "boolean"
+    },
+    "seats_available": {
+      "type": "integer"
     }
   }
 }

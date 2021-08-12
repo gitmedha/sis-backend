@@ -83,6 +83,16 @@
     },
     "date_of_birth": {
       "type": "date"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
