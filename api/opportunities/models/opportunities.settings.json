@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "opportunities",
   "info": {
-    "name": "Opportunities"
+    "name": "Opportunities",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -55,6 +56,9 @@
     "assigned_to": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "employer": {
+      "model": "employers"
     }
   }
 }

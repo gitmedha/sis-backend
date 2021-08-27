@@ -50,9 +50,13 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "status": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
       "type": "string"
     }
   }
