@@ -23,56 +23,16 @@
     "phone": {
       "type": "string"
     },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "pre_enrolled",
-        "registered",
-        "graduated",
-        "placed"
-      ]
-    },
     "name_of_parent_or_guardian": {
       "type": "string"
     },
-    "category": {
-      "type": "enumeration",
-      "enum": [
-        "GEN",
-        "OBC",
-        "SC",
-        "ST"
-      ]
-    },
-    "gender": {
-      "type": "enumeration",
-      "enum": [
-        "male",
-        "female",
-        "third_gender"
-      ]
-    },
     "old_sis_id": {
       "type": "string"
-    },
-    "income_level": {
-      "type": "enumeration",
-      "enum": [
-        "a_less_than_25k",
-        "b_50k_to_100k",
-        "c_100k_to_250k",
-        "d_greater_than_250k"
-      ]
     },
     "address": {
       "type": "component",
       "repeatable": false,
       "component": "common.address"
-    },
-    "academics": {
-      "type": "component",
-      "repeatable": true,
-      "component": "student.academics"
     },
     "CV": {
       "model": "file",
@@ -83,10 +43,54 @@
         "videos"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "date_of_birth": {
       "type": "date"
+    },
+    "logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "status": {
+      "type": "string"
+    },
+    "registration_date_latest": {
+      "type": "date"
+    },
+    "certification_date_latest": {
+      "type": "date"
+    },
+    "internship_date_latest": {
+      "type": "date"
+    },
+    "placement_date_latest": {
+      "type": "date"
+    },
+    "category": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "income_level": {
+      "type": "string"
+    },
+    "course_type_latest": {
+      "type": "string"
+    },
+    "medha_champion": {
+      "type": "boolean"
+    },
+    "interested_in_employment_opportunities": {
+      "type": "boolean"
     }
   }
 }

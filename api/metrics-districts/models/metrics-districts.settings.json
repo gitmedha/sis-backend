@@ -1,9 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "metrics",
+  "collectionName": "metrics_districts",
   "info": {
-    "name": "metrics",
-    "description": ""
+    "name": "metrics-districts"
   },
   "options": {
     "increments": true,
@@ -11,11 +10,14 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "scope": {
+    "district_name": {
       "type": "string"
     },
-    "scopeId": {
+    "state_code": {
       "type": "string"
+    },
+    "date": {
+      "type": "date"
     },
     "registrations": {
       "type": "integer"
@@ -28,9 +30,6 @@
     },
     "placements": {
       "type": "integer"
-    },
-    "date": {
-      "type": "date"
     }
   }
 }
