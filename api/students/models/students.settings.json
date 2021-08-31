@@ -29,11 +29,6 @@
     "old_sis_id": {
       "type": "string"
     },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "common.address"
-    },
     "CV": {
       "model": "file",
       "via": "related",
@@ -91,6 +86,25 @@
     },
     "interested_in_employment_opportunities": {
       "type": "boolean"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
     }
   }
 }

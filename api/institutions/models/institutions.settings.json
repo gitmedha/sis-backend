@@ -27,11 +27,6 @@
     "email": {
       "type": "email"
     },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "common.address"
-    },
     "contacts": {
       "type": "component",
       "repeatable": true,
@@ -57,6 +52,21 @@
       "type": "string"
     },
     "id_in_current_sis": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
       "type": "string"
     }
   }

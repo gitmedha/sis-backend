@@ -23,33 +23,6 @@
     "role_description": {
       "type": "text"
     },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "internship",
-        "job_or_placement"
-      ]
-    },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "active",
-        "closed"
-      ]
-    },
-    "compensation_type": {
-      "type": "enumeration",
-      "enum": [
-        "paid",
-        "unpaid"
-      ]
-    },
-    "skills_required": {
-      "type": "enumeration",
-      "enum": [
-        "TBD"
-      ]
-    },
     "salary": {
       "type": "integer"
     },
@@ -59,6 +32,18 @@
     },
     "employer": {
       "model": "employers"
+    },
+    "type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "compensation_type": {
+      "type": "string"
+    },
+    "skills_required": {
+      "type": "string"
     }
   }
 }

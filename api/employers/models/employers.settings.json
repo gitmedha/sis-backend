@@ -42,11 +42,6 @@
     "industry": {
       "type": "string"
     },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "common.address"
-    },
     "contacts": {
       "type": "component",
       "repeatable": true,
@@ -62,7 +57,23 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
     }
   }
 }
