@@ -24,7 +24,7 @@
     "status": {
       "type": "string"
     },
-    "type": {
+    "source": {
       "type": "string"
     },
     "start_date": {
@@ -36,8 +36,19 @@
     "reason_if_rejected": {
       "type": "string"
     },
-    "salary_in_inr": {
+    "salary_offered": {
       "type": "integer"
+    },
+    "internship_certificate": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }

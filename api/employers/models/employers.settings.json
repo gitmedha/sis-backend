@@ -15,7 +15,7 @@
       "type": "string"
     },
     "assigned_to": {
-      "plugin": "admin",
+      "plugin": "users-permissions",
       "model": "user"
     },
     "website": {
@@ -74,6 +74,12 @@
     },
     "medha_area": {
       "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "medha_partner": {
+      "type": "boolean"
     }
   }
 }
