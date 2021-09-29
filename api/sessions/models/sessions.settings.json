@@ -15,7 +15,7 @@
       "model": "batches"
     },
     "date": {
-      "type": "date"
+      "type": "datetime"
     },
     "topics_covered": {
       "type": "string"

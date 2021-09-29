@@ -72,6 +72,9 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "course_name_in_current_sis": {
+      "type": "string"
     }
   }
 }

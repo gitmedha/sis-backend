@@ -15,7 +15,7 @@
       "type": "string"
     },
     "assigned_to": {
-      "plugin": "admin",
+      "plugin": "users-permissions",
       "model": "user"
     },
     "website": {
@@ -42,11 +42,6 @@
     "industry": {
       "type": "string"
     },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "common.address"
-    },
     "contacts": {
       "type": "component",
       "repeatable": true,
@@ -62,7 +57,29 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "medha_partner": {
+      "type": "boolean"
     }
   }
 }
