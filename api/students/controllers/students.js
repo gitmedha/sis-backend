@@ -16,7 +16,7 @@ module.exports = {
         student.last_name = data.lastname
         student.email = data.email
         student.phone = data.phone
-        student.status = 'Registered' // default status is Registered
+        student.status = 'New Request' // default status is Registered
         // student.date_of_birth = NOT_FOUND
         // student.name_of_parent_or_guardian = NOT_FOUND
         // student.category = NOT_FOUND
@@ -47,15 +47,15 @@ module.exports = {
             CREATED AT: ${sanitizedStudentEntity.created_at}
         `)
 
-        const institution = await strapi.services.restaurant.findOne({ id: data.batch_id });
-        const batch = await strapi.services.restaurant.findOne({ id: data.institution_id });
+        const institution = await strapi.services.institutions.findOne({ id: data.batch_id });
+        const batch = await strapi.services.batches.findOne({ id: data.institution_id });
 
         // create a program enrollment for the student
         const programEnrollment = {}
         programEnrollment.student = sanitizedStudentEntity
         programEnrollment.batch = batch
         programEnrollment.institution = institution
-        programEnrollment.status = 'Enrolled' // default status is Enrolled
+        programEnrollment.status = 'Enrollment Request Received' // default status is Enrolled
         // programEnrollment.registration_date = NOT_FOUND
         // programEnrollment.fee_status = NOT_FOUND
         programEnrollment.fee_payment_date = data.addedon
