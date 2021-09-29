@@ -47,11 +47,14 @@ module.exports = {
             CREATED AT: ${sanitizedStudentEntity.created_at}
         `)
 
+        const institution = await strapi.services.restaurant.findOne({ id: data.batch_id });
+        const batch = await strapi.services.restaurant.findOne({ id: data.institution_id });
+
         // create a program enrollment for the student
         const programEnrollment = {}
         programEnrollment.student = sanitizedStudentEntity
-        // programEnrollment.batch = NOT_FOUND
-        // programEnrollment.institution = NOT_FOUND
+        programEnrollment.batch = batch
+        programEnrollment.institution = institution
         programEnrollment.status = 'Enrolled' // default status is Enrolled
         // programEnrollment.registration_date = NOT_FOUND
         // programEnrollment.fee_status = NOT_FOUND
