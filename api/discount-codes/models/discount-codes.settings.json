@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "discount_codes",
+  "info": {
+    "name": "discount_codes"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "coupon_code": {
+      "type": "string"
+    },
+    "valid_till_date": {
+      "type": "date"
+    },
+    "expired": {
+      "type": "boolean"
+    }
+  }
+}
