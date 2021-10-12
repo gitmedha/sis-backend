@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metrics-areas",
+      "handler": "metrics-area.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-areas/count",
+      "handler": "metrics-area.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metrics-areas",
+      "handler": "metrics-area.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -69,6 +69,12 @@
     "reports_to": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "state": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
     }
   }
 }

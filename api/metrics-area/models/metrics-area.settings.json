@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metrics_areas",
+  "info": {
+    "name": "Metrics-area",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "area_name": {
+      "type": "string"
+    },
+    "registrations": {
+      "type": "integer"
+    },
+    "certifications": {
+      "type": "integer"
+    },
+    "internships": {
+      "type": "integer"
+    },
+    "placements": {
+      "type": "integer"
+    },
+    "state_code": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metrics_alls",
+  "info": {
+    "name": "Metrics-all",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "registrations": {
+      "type": "integer"
+    },
+    "certifications": {
+      "type": "integer"
+    },
+    "internships": {
+      "type": "integer"
+    },
+    "placements": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}
