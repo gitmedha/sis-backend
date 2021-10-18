@@ -59,6 +59,9 @@
     },
     "medha_area": {
       "type": "string"
+    },
+    "district": {
+      "type": "string"
     }
   }
 }

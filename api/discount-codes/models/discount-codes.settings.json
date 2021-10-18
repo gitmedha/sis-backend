@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "discount_codes",
   "info": {
-    "name": "discount_codes"
+    "name": "discount_codes",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -11,13 +12,20 @@
   },
   "attributes": {
     "coupon_code": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "valid_till_date": {
       "type": "date"
     },
-    "expired": {
-      "type": "boolean"
+    "max_uses": {
+      "type": "integer",
+      "min": 1,
+      "default": 1
+    },
+    "reason_for_discount_or_waiver": {
+      "type": "string"
     }
   }
 }

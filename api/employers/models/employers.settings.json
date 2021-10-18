@@ -80,6 +80,9 @@
     },
     "medha_partner": {
       "type": "boolean"
+    },
+    "district": {
+      "type": "string"
     }
   }
 }
