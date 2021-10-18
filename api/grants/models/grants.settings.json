@@ -25,6 +25,13 @@
     },
     "donor": {
       "type": "string"
+    },
+    "contributon_type": {
+      "type": "enumeration",
+      "enum": [
+        "FC_Foreign_Contribution",
+        "NFC_Non_Foreign_Contribution"
+      ]
     }
   }
 }
