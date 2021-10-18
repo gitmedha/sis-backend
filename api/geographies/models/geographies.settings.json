@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "geographies",
   "info": {
-    "name": "geographies"
+    "name": "geographies",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -17,9 +18,6 @@
       "type": "string"
     },
     "state": {
-      "type": "string"
-    },
-    "pin_code": {
       "type": "string"
     }
   }
