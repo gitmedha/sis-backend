@@ -17,10 +17,6 @@
     "opportunity": {
       "model": "opportunities"
     },
-    "assigned_to": {
-      "plugin": "users-permissions",
-      "model": "user"
-    },
     "status": {
       "type": "string"
     },
