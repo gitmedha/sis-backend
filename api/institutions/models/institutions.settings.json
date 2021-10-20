@@ -52,7 +52,8 @@
       "type": "string"
     },
     "id_in_current_sis": {
-      "type": "string"
+      "type": "string",
+      "private": true
     },
     "address": {
       "type": "string"
