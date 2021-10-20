@@ -70,6 +70,15 @@
     },
     "seats_available": {
       "type": "integer"
+    },
+    "state": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
+    },
+    "enrollment_type": {
+      "type": "string"
     }
   }
 }
