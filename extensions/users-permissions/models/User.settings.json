@@ -59,13 +59,6 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "medha_role": {
-      "type": "enumeration",
-      "enum": [
-        "SRM",
-        "AM"
-      ]
-    },
     "reports_to": {
       "plugin": "users-permissions",
       "model": "user"
