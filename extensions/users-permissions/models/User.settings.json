@@ -68,6 +68,15 @@
     },
     "area": {
       "type": "string"
+    },
+    "department_in_zoho_people": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "employee_id_in_zoho_people": {
+      "type": "string"
     }
   }
 }
