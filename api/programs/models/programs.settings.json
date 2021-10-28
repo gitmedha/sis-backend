@@ -25,6 +25,9 @@
     },
     "show_on_student_signup_form": {
       "type": "boolean"
+    },
+    "default_enrollment_batch": {
+      "model": "batches"
     }
   }
 }

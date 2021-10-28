@@ -111,6 +111,17 @@
     },
     "full_name": {
       "type": "string"
+    },
+    "student_id": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
