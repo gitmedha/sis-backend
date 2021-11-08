@@ -25,7 +25,7 @@ module.exports = {
         student.income_level = data.income_level
         // student.cv = NOT_FOUND
         // student.logo = NOT_FOUND
-	// student.registration_date_latest = NOT_FOUND
+        // student.registration_date_latest = NOT_FOUND
         // student.certification_date_latest = NOT_FOUND
         // student.internship_date_latest = NOT_FOUND
         // student.placement_date_latest = NOT_FOUND
@@ -60,7 +60,7 @@ module.exports = {
         programEnrollment.status = 'Enrollment Request Received' // default status is Enrolled
         programEnrollment.registration_date = new Date()
         if(money_id == 0){
-           programEnrollment.fee_status ='Waived off'
+           programEnrollment.fee_status ='Waived Off'
         }   
         else{
            programEnrollment.fee_status='Paid'
