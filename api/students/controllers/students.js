@@ -16,14 +16,14 @@ module.exports = {
         student.email = data.email
         student.phone = data.phone
         student.status = 'New Request' // default status is Registered
-	student.date_of_birth = data.date_of_birth
+        student.date_of_birth = data.date_of_birth
         student.name_of_parent_or_guardian = data.parent_or_guardian_name
         student.category = data.category
         student.gender = data.gender
-	student.assigned_to = 353
+        student.assigned_to = 353
         // student.old_sis_id = NOT_FOUND
         student.income_level = data.income_level
-	// student.cv = NOT_FOUND
+        // student.cv = NOT_FOUND
         // student.logo = NOT_FOUND
 	// student.registration_date_latest = NOT_FOUND
         // student.certification_date_latest = NOT_FOUND
@@ -36,8 +36,8 @@ module.exports = {
         student.city = data.city
         student.pin_code = data.pin_code
         student.state = data.state
-	student.district = data.district
-	student.medha_area = data.area    
+        student.district = data.district
+        student.medha_area = data.area    
 
         let studentEntity = await strapi.services.students.create(student)
         let sanitizedStudentEntity = sanitizeEntity(studentEntity, { model: strapi.models.students })
@@ -49,24 +49,22 @@ module.exports = {
 
        // const batch = await strapi.services.batches.findOne({ id: data.batch_id });
         const institution = await strapi.services.institutions.findOne({ id: data.institution_id });
-	const program = await strapi.services.programs.findOne({ id:data.program_id });   
+        const program = await strapi.services.programs.findOne({ id:data.program_id });   
         const money_id = data.payuMoneyId
 
         // create a program enrollment for the student
         const programEnrollment = {}
         programEnrollment.student = sanitizedStudentEntity
-        //programEnrollment.batch = batch
         programEnrollment.institution = institution
-	programEnrollment.batch = program.default_enrollment_batch
+        programEnrollment.batch = program.default_enrollment_batch
         programEnrollment.status = 'Enrollment Request Received' // default status is Enrolled
         programEnrollment.registration_date = new Date()
-	
-	    if(money_id == 0){
-              programEnrollment.fee_status ='Waived off'
-	    }   
-	    else{
-  	      programEnrollment.fee_status='Paid'
-	    }
+        if(money_id == 0){
+           programEnrollment.fee_status ='Waived off'
+        }   
+        else{
+           programEnrollment.fee_status='Paid'
+        }
         // programEnrollment.fee_status = NOT_FOUND
         // programEnrollment.fee_payment_date = data.addedon
         programEnrollment.fee_amount = data.amount
