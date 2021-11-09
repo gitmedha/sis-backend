@@ -47,7 +47,7 @@ module.exports = {
         const programEnrollment = {}
         programEnrollment.student = sanitizedStudentEntity
         programEnrollment.institution = institution
-        programEnrollment?.batch = program.default_enrollment_batch
+        programEnrollment.batch = program.default_enrollment_batch
         programEnrollment.status = 'Enrollment Request Received' // default status is Enrolled
         programEnrollment.registration_date = new Date()
         programEnrollment.fee_status = money_id == 0 ? 'Waived Off' : 'Paid'
