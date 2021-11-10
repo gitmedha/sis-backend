@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/discount-codes",
+      "handler": "discount-codes.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/discount-codes/count",
+      "handler": "discount-codes.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/discount-codes",
+      "handler": "discount-codes.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

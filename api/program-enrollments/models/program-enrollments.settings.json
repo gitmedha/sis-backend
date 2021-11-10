@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "program_enrollments",
   "info": {
-    "name": "program_enrollments"
+    "name": "program_enrollments",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -60,6 +61,31 @@
     },
     "institution_name_entered_by_student": {
       "type": "string"
+    },
+    "medha_program_certificate": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "course_name_in_current_sis": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

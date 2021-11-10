@@ -59,16 +59,24 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "medha_role": {
-      "type": "enumeration",
-      "enum": [
-        "SRM",
-        "AM"
-      ]
-    },
     "reports_to": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "state": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "department_in_zoho_people": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "employee_id_in_zoho_people": {
+      "type": "string"
     }
   }
 }

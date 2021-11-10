@@ -17,14 +17,10 @@
     "opportunity": {
       "model": "opportunities"
     },
-    "assigned_to": {
-      "plugin": "users-permissions",
-      "model": "user"
-    },
     "status": {
       "type": "string"
     },
-    "type": {
+    "source": {
       "type": "string"
     },
     "start_date": {
@@ -36,8 +32,30 @@
     "reason_if_rejected": {
       "type": "string"
     },
-    "salary_in_inr": {
+    "salary_offered": {
       "type": "integer"
+    },
+    "internship_certificate": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

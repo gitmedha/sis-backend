@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metrics_districts",
+  "info": {
+    "name": "metrics-districts"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "district_name": {
+      "type": "string"
+    },
+    "state_code": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "registrations": {
+      "type": "integer"
+    },
+    "certifications": {
+      "type": "integer"
+    },
+    "internships": {
+      "type": "integer"
+    },
+    "placements": {
+      "type": "integer"
+    }
+  }
+}

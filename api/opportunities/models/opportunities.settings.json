@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "opportunities",
   "info": {
-    "name": "Opportunities"
+    "name": "Opportunities",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -22,37 +23,54 @@
     "role_description": {
       "type": "text"
     },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "internship",
-        "job_or_placement"
-      ]
-    },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "active",
-        "closed"
-      ]
-    },
-    "compensation_type": {
-      "type": "enumeration",
-      "enum": [
-        "paid",
-        "unpaid"
-      ]
-    },
-    "skills_required": {
-      "type": "enumeration",
-      "enum": [
-        "TBD"
-      ]
-    },
     "salary": {
       "type": "integer"
     },
     "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "employer": {
+      "model": "employers"
+    },
+    "type": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "compensation_type": {
+      "type": "string"
+    },
+    "skills_required": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
     }

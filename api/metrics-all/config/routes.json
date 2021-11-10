@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metrics-alls",
+      "handler": "metrics-all.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-alls/count",
+      "handler": "metrics-all.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-alls/:id",
+      "handler": "metrics-all.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metrics-alls",
+      "handler": "metrics-all.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metrics-alls/:id",
+      "handler": "metrics-all.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metrics-alls/:id",
+      "handler": "metrics-all.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

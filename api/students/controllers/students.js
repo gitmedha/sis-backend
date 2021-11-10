@@ -1,13 +1,11 @@
 'use strict';
+const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/concepts/controllers.html#core-controllers)
  * to customize this controller
  */
 
-<<<<<<< Updated upstream
-module.exports = {};
-=======
 module.exports = {
     // create from webhook
     async createFromWebhook (ctx) {
@@ -78,4 +76,3 @@ module.exports = {
         return sanitizedStudentEntity
     }
 };
->>>>>>> Stashed changes

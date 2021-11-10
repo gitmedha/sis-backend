@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "metrics",
+  "collectionName": "metrics_areas",
   "info": {
-    "name": "metrics",
+    "name": "Metrics-area",
     "description": ""
   },
   "options": {
@@ -11,10 +11,7 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "scope": {
-      "type": "string"
-    },
-    "scopeId": {
+    "area_name": {
       "type": "string"
     },
     "registrations": {
@@ -28,6 +25,9 @@
     },
     "placements": {
       "type": "integer"
+    },
+    "state_code": {
+      "type": "string"
     },
     "date": {
       "type": "date"

@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/metrics",
-      "handler": "metrics.find",
+      "path": "/geographies",
+      "handler": "geographies.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/metrics/count",
-      "handler": "metrics.count",
+      "path": "/geographies/count",
+      "handler": "geographies.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/metrics/:id",
-      "handler": "metrics.findOne",
+      "path": "/geographies/:id",
+      "handler": "geographies.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/metrics",
-      "handler": "metrics.create",
+      "path": "/geographies",
+      "handler": "geographies.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/metrics/:id",
-      "handler": "metrics.update",
+      "path": "/geographies/:id",
+      "handler": "geographies.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/metrics/:id",
-      "handler": "metrics.delete",
+      "path": "/geographies/:id",
+      "handler": "geographies.delete",
       "config": {
         "policies": []
       }

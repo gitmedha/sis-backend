@@ -12,7 +12,9 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "start_date": {
       "type": "date"
@@ -40,7 +42,8 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "per_student_fees": {
       "type": "integer"
@@ -61,10 +64,34 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "include_institution_logo_in_certificates": {
       "type": "boolean"
+    },
+    "seats_available": {
+      "type": "integer"
+    },
+    "state": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
+    },
+    "enrollment_type": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

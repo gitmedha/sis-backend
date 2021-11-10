@@ -19,6 +19,14 @@
     },
     "survey_json": {
       "type": "json"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

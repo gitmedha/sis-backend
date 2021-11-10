@@ -12,7 +12,9 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "unique": true,
+      "required": true
     },
     "assigned_to": {
       "plugin": "users-permissions",
@@ -26,11 +28,6 @@
     },
     "email": {
       "type": "email"
-    },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "common.address"
     },
     "contacts": {
       "type": "component",
@@ -50,10 +47,41 @@
         "images"
       ],
       "plugin": "upload",
-      "required": false
+      "required": false,
+      "pluginOptions": {}
     },
     "status": {
       "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string",
+      "private": true
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin_code": {
+      "type": "string"
+    },
+    "medha_area": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

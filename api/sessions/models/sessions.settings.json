@@ -15,10 +15,21 @@
       "model": "batches"
     },
     "date": {
-      "type": "date"
+      "type": "datetime"
     },
     "topics_covered": {
       "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

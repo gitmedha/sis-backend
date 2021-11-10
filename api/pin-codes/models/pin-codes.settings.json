@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pin_codes",
+  "info": {
+    "name": "pin_codes",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "pin_code": {
+      "type": "string",
+      "maxLength": 6,
+      "minLength": 6,
+      "required": true,
+      "unique": true
+    },
+    "geography": {
+      "model": "geographies"
+    },
+    "state": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    }
+  }
+}

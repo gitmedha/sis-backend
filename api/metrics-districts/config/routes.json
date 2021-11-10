@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metrics-districts",
+      "handler": "metrics-districts.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-districts/count",
+      "handler": "metrics-districts.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metrics-districts/:id",
+      "handler": "metrics-districts.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metrics-districts",
+      "handler": "metrics-districts.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metrics-districts/:id",
+      "handler": "metrics-districts.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metrics-districts/:id",
+      "handler": "metrics-districts.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
