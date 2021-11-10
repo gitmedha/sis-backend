@@ -12,8 +12,8 @@ module.exports = {
     // create from webhook
     async createFromWebhook (ctx) {
         const data = ctx.request.body
-	const dob =data.date_of_birth
-	var date = new Date(dob); // M-D-YYYY
+        const dob =data.date_of_birth
+        var date = new Date(dob); // M-D-YYYY
         var d = date.getDate();
         var m = date.getMonth() + 1;
         var y = date.getFullYear();
