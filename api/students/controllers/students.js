@@ -10,13 +10,20 @@ module.exports = {
     // create from webhook
     async createFromWebhook (ctx) {
         const data = ctx.request.body
+        var date = new Date(data.date_of_birth); // M-D-YYYY
+        var dob_date = date.getDate();
+        var dob_month = date.getMonth() + 1;
+        var dob_year = date.getFullYear();
+
+        //add leading 0 if value of date and month is less than 10
+        const dateString = dob_year+ '-'+(dob_month <= 9 ? '0' + dob_month : dob_month) + '-' + (dob_date <= 9 ? '0' + dob_date : dob_date); 
 
         const student = {}
         student.full_name = data.full_name
         student.email = data.email
         student.phone = data.phone
         student.status = 'New Request' // default status is Registered
-        student.date_of_birth = data.date_of_birth
+        student.date_of_birth = dateString
         student.name_of_parent_or_guardian = data.parent_or_guardian_name
         student.category = data.category
         student.gender = data.gender
