@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "geographies",
+  "info": {
+    "name": "geographies",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "area": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    }
+  }
+}

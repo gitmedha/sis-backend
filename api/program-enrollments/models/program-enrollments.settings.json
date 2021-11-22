@@ -72,6 +72,20 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "course_name_in_current_sis": {
+      "type": "string"
+    },
+    "id_in_current_sis": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

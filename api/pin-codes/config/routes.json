@@ -1,54 +1,49 @@
 {
   "routes": [
     {
-      "method": "POST",
-      "path": "/students/createFromWebhook",
-      "handler": "students.createFromWebhook"
-    },
-    {
       "method": "GET",
-      "path": "/students",
-      "handler": "students.find",
+      "path": "/pin-codes",
+      "handler": "pin-codes.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/count",
-      "handler": "students.count",
+      "path": "/pin-codes/count",
+      "handler": "pin-codes.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/:id",
-      "handler": "students.findOne",
+      "path": "/pin-codes/:id",
+      "handler": "pin-codes.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/students",
-      "handler": "students.create",
+      "path": "/pin-codes",
+      "handler": "pin-codes.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/students/:id",
-      "handler": "students.update",
+      "path": "/pin-codes/:id",
+      "handler": "pin-codes.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/students/:id",
-      "handler": "students.delete",
+      "path": "/pin-codes/:id",
+      "handler": "pin-codes.delete",
       "config": {
         "policies": []
       }

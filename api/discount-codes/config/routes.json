@@ -1,54 +1,49 @@
 {
   "routes": [
     {
-      "method": "POST",
-      "path": "/students/createFromWebhook",
-      "handler": "students.createFromWebhook"
-    },
-    {
       "method": "GET",
-      "path": "/students",
-      "handler": "students.find",
+      "path": "/discount-codes",
+      "handler": "discount-codes.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/count",
-      "handler": "students.count",
+      "path": "/discount-codes/count",
+      "handler": "discount-codes.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/:id",
-      "handler": "students.findOne",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/students",
-      "handler": "students.create",
+      "path": "/discount-codes",
+      "handler": "discount-codes.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/students/:id",
-      "handler": "students.update",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/students/:id",
-      "handler": "students.delete",
+      "path": "/discount-codes/:id",
+      "handler": "discount-codes.delete",
       "config": {
         "policies": []
       }

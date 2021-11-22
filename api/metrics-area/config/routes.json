@@ -1,54 +1,49 @@
 {
   "routes": [
     {
-      "method": "POST",
-      "path": "/students/createFromWebhook",
-      "handler": "students.createFromWebhook"
-    },
-    {
       "method": "GET",
-      "path": "/students",
-      "handler": "students.find",
+      "path": "/metrics-areas",
+      "handler": "metrics-area.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/count",
-      "handler": "students.count",
+      "path": "/metrics-areas/count",
+      "handler": "metrics-area.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/students/:id",
-      "handler": "students.findOne",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/students",
-      "handler": "students.create",
+      "path": "/metrics-areas",
+      "handler": "metrics-area.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/students/:id",
-      "handler": "students.update",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/students/:id",
-      "handler": "students.delete",
+      "path": "/metrics-areas/:id",
+      "handler": "metrics-area.delete",
       "config": {
         "policies": []
       }
