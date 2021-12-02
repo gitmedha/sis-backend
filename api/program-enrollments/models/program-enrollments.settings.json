@@ -89,6 +89,9 @@
     },
     "program_selected_by_student": {
       "type": "string"
+    },
+    "discount_code_id": {
+      "type": "string"
     }
   }
 }

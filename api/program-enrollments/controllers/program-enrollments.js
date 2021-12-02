@@ -26,7 +26,7 @@ module.exports = {
         programEnrollment.status = 'Enrollment Request Received' // default status is Enrolled
         programEnrollment.registration_date = new Date()
         programEnrollment.fee_status = money_id == 0 ? 'Waived Off' : 'Paid'
-        programEnrollment.fee_amount = data.amount
+        programEnrollment.fee_amount = data.amount ? data.amount : null
         programEnrollment.fee_transaction_id = data.fee_transaction_id
         programEnrollment.course_type = data.course_type
         programEnrollment.course_level = data.course_level
@@ -34,6 +34,7 @@ module.exports = {
 	programEnrollment.program_selected_by_student = program.name
 	programEnrollment.year_of_course_completion = data.year_of_course_completion
 	programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
+	programEnrollment.discount_code_id = data.discount_code ? data.discount_code : null 
 
         let programEnrollmentEntity = await strapi.services['program-enrollments'].create(programEnrollment)
         let sanitizedProgramEnrollmentEntity = sanitizeEntity(programEnrollmentEntity, { model: strapi.models['program-enrollments'] })
