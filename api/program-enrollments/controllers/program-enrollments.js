@@ -11,8 +11,6 @@ module.exports = {
     async createFromWebhook (ctx){
         const data = ctx.request.body
         
-        console.log('data createFromWebhook program enrollment', data)
-
         const student = await strapi.services.students.findOne({ id: data.student_id });
         const institution = await strapi.services.institutions.findOne({ id: data.institution_id });
         const program = await strapi.services.programs.findOne({ id:data.program_id });
@@ -31,10 +29,10 @@ module.exports = {
         programEnrollment.course_type = data.course_type
         programEnrollment.course_level = data.course_level
         programEnrollment.course_year = data.course_year
-	programEnrollment.program_selected_by_student = program.name
-	programEnrollment.year_of_course_completion = data.year_of_course_completion
-	programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
-	programEnrollment.discount_code_id = data.discount_code ? data.discount_code : null 
+        programEnrollment.program_selected_by_student = program.name
+        programEnrollment.year_of_course_completion = data.year_of_course_completion
+        programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
+        programEnrollment.discount_code_id = data.discount_code ? data.discount_code : null 
 
         let programEnrollmentEntity = await strapi.services['program-enrollments'].create(programEnrollment)
         let sanitizedProgramEnrollmentEntity = sanitizeEntity(programEnrollmentEntity, { model: strapi.models['program-enrollments'] })
