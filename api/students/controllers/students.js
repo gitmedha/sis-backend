@@ -67,6 +67,7 @@ module.exports = {
         programEnrollment.year_of_course_completion= data.year_of_course_completion
         programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
         programEnrollment.program_selected_by_student =program.name
+        programEnrollment.fee_payment_date = money_id == 0 ? null : new Date()
 
         let programEnrollmentEntity = await strapi.services['program-enrollments'].create(programEnrollment)
         let sanitizedProgramEnrollmentEntity = sanitizeEntity(programEnrollmentEntity, { model: strapi.models['program-enrollments'] })
