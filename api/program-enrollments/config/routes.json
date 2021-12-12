@@ -1,6 +1,11 @@
 {
   "routes": [
     {
+      "method": "POST",
+      "path": "/program-enrollments/createFromWebhook",
+      "handler": "program-enrollments.createFromWebhook"
+    },
+    {
       "method": "GET",
       "path": "/program-enrollments",
       "handler": "program-enrollments.find",
