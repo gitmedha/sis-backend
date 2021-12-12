@@ -1,16 +1,6 @@
 {
   "routes": [
     {
-      "method": "POST",
-      "path": "/employers/createFromWebhook",
-      "handler": "employers.createFromWebhook"
-    },
-    {
-      "method": "GET",
-      "path": "/employers/createFromWebhook",
-      "handler": "employers.createFromWebhook"
-    },
-    {
       "method": "GET",
       "path": "/employers",
       "handler": "employers.find",
