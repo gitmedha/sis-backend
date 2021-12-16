@@ -43,7 +43,7 @@
               # connect_timeout: # optional, default is 30s
               # execute commands on ssh
               script: |
-                      cd ~/medha-backend-strapi/ && git pull && npm install && PUBLIC_URL=https://sis-new.medha.org.in/ npm run build
+                      cd ~/medha-backend-strapi/ && git pull && yarn install && PUBLIC_URL=https://sis-new.medha.org.in/ yarn run build
                exit
 
 
