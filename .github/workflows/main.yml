@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI - Staging
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push events but only for the main branch
   push:
-    branches: [main, automation/setup-ci-cd-on-staging]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -43,5 +43,6 @@ jobs:
           # execute commands on ssh
           # cd ~/medha-backend-strapi/ && git pull && npm install && PUBLIC_URL=https://sis-staging.medha.org.in/ npm run build
           script: |
-            cd ~/medha-backend-strapi/ && touch ci_cd_success
+            cd ~/medha-backend-strapi/ && git pull && yarn install && NODE_ENV=staging yarn build
+            pm2 restart medha-sis-strapi-dev
             exit
