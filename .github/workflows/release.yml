@@ -1,7 +1,7 @@
 
   # This is a basic workflow to help you get started with Actions
 
-  name: CI
+  name: CI - Production
 
   # Controls when the workflow will run
   on:
@@ -43,8 +43,8 @@
               # connect_timeout: # optional, default is 30s
               # execute commands on ssh
               script: |
-                      cd ~/medha-backend-strapi/ && git pull && yarn install && NODE_ENV=production yarn build
-                      pm2 restart medha-sis-strapi-production
+                cd ~/medha-backend-strapi/ && git pull && yarn install && NODE_ENV=production yarn build
+                pm2 restart medha-sis-strapi-production
                exit
 
 
