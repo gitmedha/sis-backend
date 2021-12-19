@@ -16,11 +16,31 @@ module.exports = ({ env }) => ({
       endpoint: '/graphql',
       shadowCRUD: true,
       playgroundAlways: false,
-      depthLimit: 10,
+      depthLimit: 7,
       amountLimit: 100,
       apolloServer: {
-        tracing: true,
+        tracing: false,
       },
-    }
+    },
+
+    email: {
+      provider: 'nodemailer',
+      providerOptions: {
+        host: env('SMTP_HOST', 'smtp.office365.com'),
+        port: env('SMTP_PORT', 587),
+        // secure: true,
+        // secureConnection: false,
+        // tls: { ciphers: 'SSLv3'},
+        auth: {
+          user: 'sis.admin@medha.org.in',
+          pass: 'sisadmin123A',
+        },
+        // ... any custom nodemailer options
+      },
+      settings: {
+        defaultFrom: 'SIS Admin <sis.admin@medha.org.in>',
+        defaultReplyTo: 'sis.admin@medha.org.in',
+      },
+    },    
 
   });
