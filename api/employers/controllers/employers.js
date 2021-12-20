@@ -1,47 +1,42 @@
-'use strict';
-const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
-
-/**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/concepts/controllers.html#core-controllers)
- * to customize this controller
- */
+const { sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
-    // CREATE FROM WEBHOOK
-    async createFromWebhook (ctx) {
-        console.log('ctx.request.body: ',  ctx.request.body)
 
-        const employer = {}
-        employer.name = ctx.request.body.name
+  async create(ctx) {
+    let entity;    
+    logged_in_user = ctx.state.user.id;
+    data = ctx.request.body;
+    data.assigned_to = data.assigned_to == null ? logged_in_user : data.assigned_to;
+    data.created_by_frontend = logged_in_user;
+    data.updated_by_frontend = logged_in_user;
+    entity = await strapi.services.employers.create(data);
+    return sanitizeEntity(entity, { model: strapi.models.employers});
+  },
 
-        let entity = await strapi.services.employers.create(employer)
-        let sanitizedEntity = sanitizeEntity(entity, { model: strapi.models.employers })
-        console.log(`
-            Employer Created! ID: ${sanitizedEntity.id}
-            NAME: ${sanitizedEntity.name}
-            CREATED AT: ${sanitizedEntity.created_at}
-            `)
+  async update(ctx) {
+    const { id } = ctx.params;
+    let entity;
+    logged_in_user = ctx.state.user.id;
+    data = ctx.request.body;
+    data.updated_by_frontend = logged_in_user;
+    entity = await strapi.services.employers.update({ id }, data);
+    return sanitizeEntity(entity, { model: strapi.models.employers });
+  },
 
-        const data = ctx.request.body        
-
-        Object.keys(data).forEach(async key => {
-            // console.log(key, ": " ,data[key])
-
-            const surveyResponse = {}
-            surveyResponse.survey_response_id = sanitizedEntity.id
-            surveyResponse.question = key
-            surveyResponse.response = data[key]
-
-            // console.log("surveyResponse: ", surveyResponse)
-
-            let unpivotedSurveyResponse = await strapi.services.surveys.create(surveyResponse)
-            console.log("unpivotedSurveyResponse: ", unpivotedSurveyResponse)
-            // return unpivotedSurveyResponse
-
-        })
-
-        
-        ctx.send(sanitizedEntity)
-        return sanitizedEntity
+  async delete(ctx) {
+    const { id } = ctx.params;
+    const record = await strapi.services.employers.findOne({ id });
+    if (!record.assigned_to) {
+        ctx.throw(401, 'This record is not assigned to any user!');
+    } else if ( 
+        (ctx.state.user.role.name == "Basic" && record.assigned_to.id == ctx.state.user.id) ||
+        (ctx.state.user.role.name == "Advanced" && record.medha_area == ctx.state.user.area) ||
+        ctx.state.user.role.name == "Admin"
+    ) {
+        const entity = await strapi.services.employers.delete({ id });
+        return sanitizeEntity(entity, { model: strapi.models.employers });
+    } else {
+        ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
     }
+  },
 };
