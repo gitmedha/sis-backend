@@ -28,12 +28,18 @@ module.exports = {
 
     // fetch program enrollment details
     const record = await strapi.services['program-enrollments'].findOne({ id });
+    const program = await strapi.services['programs'].findOne({ id: record.batch.program });
+    console.log(record);
+    console.log(program);
     student_name = record.student.full_name
     student_id  = record.student.student_id
-    batch_name = record.batch.name
+    program_name = program.name
     institution_name = record.institution.name
     institution_area = record.institution.medha_area
     course_type = record.course_type
+    certification_date = new Date(record.certification_date);
+    let monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    certification_date_formatted = certification_date.getDate() + " " + monthsList[certification_date.getMonth()] + ", " + certification_date.getFullYear();
 
     // load dependencies
     const fs = require('fs');
@@ -47,13 +53,26 @@ module.exports = {
     );
 
     // replace template variables with program enrollment data
+    if (record.institution.logo) {
+      console.log(strapi.config.get('server.url') + '/' + record.institution.logo.url);
+      institution_logo_html = `<img src="${strapi.config.get('server.url') + record.institution.logo.url}" class="institution-logo" alt="${institution_name}">`;
+      content = content.replace(/{{institution_logo}}/g, institution_logo_html);
+    }
+
+    if (institution_area) {
+      institution_name = `${institution_name}, ${institution_area}`
+    }
+    content = content.replace(/{{institution_name}}/g, institution_name);
     content = content.replace(/{{student_name}}/g, student_name);
+    content = content.replace(/{{course_type}}/g, course_type);
+    content = content.replace(/{{program_name}}/g, program_name);
+    content = content.replace(/{{student_id}}/g, student_id);
+    content = content.replace(/{{certification_date}}/g, certification_date_formatted);
 
     // create puppeteer instance
     const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage();
     await page.setContent(content, { waitUntil: 'networkidle2' });
-    // await page.waitFor(2000);
 
     // set certificate file details
     let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
@@ -64,7 +83,7 @@ module.exports = {
     await page.pdf({
       path: certficatePath,
       width: '1440px',
-      height: '1135px',
+      height: '1120px',
       printBackground: true,
       margin: {
         left: '0px',
