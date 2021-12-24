@@ -12,6 +12,7 @@
   "devDependencies": {},
   "dependencies": {
     "@azure/storage-blob": "^12.6.0",
+    "express-pdf": "^1.2.2",
     "knex": "<0.20.0",
     "pg": "latest",
     "strapi": "3.6.8",

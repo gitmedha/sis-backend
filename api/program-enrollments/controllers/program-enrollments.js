@@ -14,12 +14,47 @@ module.exports = {
 
   async update(ctx) {
     const { id } = ctx.params;
+    const record = await strapi.services['program-enrollments'].findOne({ id });
+    student_name = record.student.full_name
+    student_id  = record.student.student_id
+    batch_name = record.batch.name
+    institution_name = record.institution.name
+    institution_area = record.institution.medha_area
+    course_type = record.course_type
+
+
+    // const { id } = ctx.params;
     let entity;
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
     entity = await strapi.services['program-enrollments'].update({ id }, data);
     return sanitizeEntity(entity, { model: strapi.models['program-enrollments'] });
+  },
+  
+  async markAsCertified(ctx) {
+
+    const programEnrollment = {name:"shubham"}
+
+    var express = require("express"),
+    app = express(),
+    pdf = require("express-pdf");
+    path = require("path");
+    
+    app.use(pdf); // or you can app.use(require('express-pdf'));
+    app.use(express.static("public"));
+    app.set("certificate", __dirname + './certificate');
+    app.use("/certificate", function (req, res) {
+      res.pdfFromHTML({
+      filename: "file",
+      html: path.resolve(__dirname, "./certificate.html"),
+    });
+  });
+
+
+  app.listen(5000);
+    
+    return programEnrollment
   },
 
   async delete(ctx) {

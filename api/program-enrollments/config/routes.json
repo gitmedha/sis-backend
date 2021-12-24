@@ -6,6 +6,11 @@
       "handler": "program-enrollments.createFromWebhook"
     },
     {
+      "method": "POST",
+      "path": "/program-enrollments/markAsCertified",
+      "handler": "program-enrollments.markAsCertified"
+    },
+    {
       "method": "GET",
       "path": "/program-enrollments",
       "handler": "program-enrollments.find",
