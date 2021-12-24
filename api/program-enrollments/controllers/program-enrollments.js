@@ -3,7 +3,7 @@ const { sanitizeEntity } = require('strapi-utils');
 module.exports = {
 
   async create(ctx) {
-    let entity;    
+    let entity;
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.created_by_frontend = logged_in_user;
@@ -31,30 +31,36 @@ module.exports = {
     entity = await strapi.services['program-enrollments'].update({ id }, data);
     return sanitizeEntity(entity, { model: strapi.models['program-enrollments'] });
   },
-  
+
   async markAsCertified(ctx) {
-
-    const programEnrollment = {name:"shubham"}
-
-    var express = require("express"),
-    app = express(),
-    pdf = require("express-pdf");
-    path = require("path");
-    
-    app.use(pdf); // or you can app.use(require('express-pdf'));
-    app.use(express.static("public"));
-    app.set("certificate", __dirname + './certificate');
-    app.use("/certificate", function (req, res) {
-      res.pdfFromHTML({
-      filename: "file",
-      html: path.resolve(__dirname, "./certificate.html"),
+    const fs = require('fs');
+    const path = require('path');
+    const puppeteer = require('puppeteer');
+    const content = fs.readFileSync(
+      path.resolve(__dirname, 'certificate.html'),
+      'utf8'
+    );
+    const browser = await puppeteer.launch({ headless: true })
+    const page = await browser.newPage();
+    await page.setContent(content);
+    let certificateFileName = (new Date()).getTime() + '.pdf';
+    let certficatePath = `./public/uploads/program-enrollment-certificates/${certificateFileName}`;
+    let certficateUrl = `http://localhost:1339/uploads/program-enrollment-certificates/${certificateFileName}`;
+    await page.pdf({
+      path: certficatePath,
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        left: '0px',
+        top: '0px',
+        right: '0px',
+        bottom: '0px'
+      }
     });
-  });
+    await browser.close();
 
-
-  app.listen(5000);
-    
-    return programEnrollment
+    const programEnrollment = {certficateUrl: certficateUrl};
+    return programEnrollment;
   },
 
   async delete(ctx) {
@@ -62,7 +68,7 @@ module.exports = {
     const record = await strapi.services['program-enrollments'].findOne({ id });
     if (!record.student.assigned_to) {
         ctx.throw(401, 'This student is not assigned to any user!');
-    } else if ( 
+    } else if (
         (ctx.state.user.role.name == "Basic" && record.student.assigned_to.id == ctx.state.user.id) ||
         (ctx.state.user.role.name == "Advanced" && record.student.medha_area == ctx.state.user.area) ||
         ctx.state.user.role.name == "Admin"
@@ -73,7 +79,7 @@ module.exports = {
         ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
     }
   },
-    
+
   // create from webhook
   async createFromWebhook (ctx){
     const data = ctx.request.body
