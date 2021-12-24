@@ -7,8 +7,8 @@
     },
     {
       "method": "POST",
-      "path": "/program-enrollments/markAsCertified",
-      "handler": "program-enrollments.markAsCertified"
+      "path": "/program-enrollments/:id/generateCertificate",
+      "handler": "program-enrollments.generateCertificate"
     },
     {
       "method": "GET",

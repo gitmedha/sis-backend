@@ -14,16 +14,6 @@ module.exports = {
 
   async update(ctx) {
     const { id } = ctx.params;
-    const record = await strapi.services['program-enrollments'].findOne({ id });
-    student_name = record.student.full_name
-    student_id  = record.student.student_id
-    batch_name = record.batch.name
-    institution_name = record.institution.name
-    institution_area = record.institution.medha_area
-    course_type = record.course_type
-
-
-    // const { id } = ctx.params;
     let entity;
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
@@ -32,23 +22,49 @@ module.exports = {
     return sanitizeEntity(entity, { model: strapi.models['program-enrollments'] });
   },
 
-  async markAsCertified(ctx) {
+  async generateCertificate(ctx) {
+
+    const { id } = ctx.params;
+
+    // fetch program enrollment details
+    const record = await strapi.services['program-enrollments'].findOne({ id });
+    student_name = record.student.full_name
+    student_id  = record.student.student_id
+    batch_name = record.batch.name
+    institution_name = record.institution.name
+    institution_area = record.institution.medha_area
+    course_type = record.course_type
+
+    // load dependencies
     const fs = require('fs');
     const path = require('path');
     const puppeteer = require('puppeteer');
-    const content = fs.readFileSync(
-      path.resolve(__dirname, 'certificate.html'),
+
+    // read html file content and save it in a variable
+    let content = fs.readFileSync(
+      path.resolve('./public/program-enrollment-certificate-template/certificate.html'),
       'utf8'
     );
+
+    // replace template variables with program enrollment data
+    content = content.replace(/{{student_name}}/g, student_name);
+
+    // create puppeteer instance
     const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage();
-    await page.setContent(content);
-    let certificateFileName = (new Date()).getTime() + '.pdf';
-    let certficatePath = `./public/uploads/program-enrollment-certificates/${certificateFileName}`;
-    let certficateUrl = `http://localhost:1339/uploads/program-enrollment-certificates/${certificateFileName}`;
+    await page.setContent(content, { waitUntil: 'networkidle2' });
+    // await page.waitFor(2000);
+
+    // set certificate file details
+    let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
+    let certficatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
+    let certficateUrl = `http://localhost:1339/program-enrollment-certificates/${certificateFileName}`;
+
+    // generate pdf
     await page.pdf({
       path: certficatePath,
-      format: 'A4',
+      width: '1440px',
+      height: '1135px',
       printBackground: true,
       margin: {
         left: '0px',
@@ -57,10 +73,11 @@ module.exports = {
         bottom: '0px'
       }
     });
+
+    // terminate puppeteer instance
     await browser.close();
 
-    const programEnrollment = {certficateUrl: certficateUrl};
-    return programEnrollment;
+    return {certficateUrl: certficateUrl};
   },
 
   async delete(ctx) {
