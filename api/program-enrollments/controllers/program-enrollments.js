@@ -78,7 +78,7 @@ module.exports = {
 
     // set certificate file details
     let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
-    let certificatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
+    let certificatePath = `./public/${certificateFileName}`;
 
     // generate pdf
     await page.pdf({
@@ -111,7 +111,13 @@ module.exports = {
     });
 
     // update certificate url for the program enrollment record
-    const updatedRecord = await strapi.services['program-enrollments'].update({ id }, { medha_program_certificate: fileUpload[0].id });
+    const updatedRecord = await strapi.services['program-enrollments'].update({ id }, {
+      medha_program_certificate: fileUpload[0].id,
+      status: 'Certified by Medha',
+    });
+
+    // delete the generated certificate file
+    fs.unlinkSync(certificatePath);
 
     return ctx.send({programEnrollment: updatedRecord});
   },
