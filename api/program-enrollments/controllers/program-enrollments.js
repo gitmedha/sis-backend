@@ -1,4 +1,6 @@
 const { sanitizeEntity } = require('strapi-utils');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {
 
@@ -76,12 +78,12 @@ module.exports = {
 
     // set certificate file details
     let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
-    let certficatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
-    let certficateUrl = `${strapi.config.get('server.url')}/program-enrollment-certificates/${certificateFileName}`;
+    let certificatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
+    let certificateUrl = `${strapi.config.get('server.url')}/program-enrollment-certificates/${certificateFileName}`;
 
     // generate pdf
     await page.pdf({
-      path: certficatePath,
+      path: certificatePath,
       width: '1440px',
       height: '1120px',
       printBackground: true,
@@ -96,7 +98,23 @@ module.exports = {
     // terminate puppeteer instance
     await browser.close();
 
-    return {certficateUrl: certficateUrl};
+    // prepare file to be uploaded into strapi media uploads
+    let filePath = certificatePath;
+    let fileStat = fs.statSync(filePath);
+    let fileUpload = await strapi.plugins.upload.services.upload.upload({
+      data: {},
+      files: {
+        path: filePath,
+        name: certificateFileName,
+        type: 'application/pdf',
+        size: fileStat.size,
+      }
+    });
+
+    // update certificate url for the program enrollment record
+    const updatedRecord = await strapi.services['program-enrollments'].update({ id }, { medha_program_certificate: fileUpload[0].id });
+
+    return ctx.send({programEnrollment: updatedRecord});
   },
 
   async delete(ctx) {
