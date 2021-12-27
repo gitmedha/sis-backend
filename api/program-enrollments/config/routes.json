@@ -1,6 +1,16 @@
 {
   "routes": [
     {
+      "method": "POST",
+      "path": "/program-enrollments/createFromWebhook",
+      "handler": "program-enrollments.createFromWebhook"
+    },
+    {
+      "method": "POST",
+      "path": "/program-enrollments/:id/generateCertificate",
+      "handler": "program-enrollments.generateCertificate"
+    },
+    {
       "method": "GET",
       "path": "/program-enrollments",
       "handler": "program-enrollments.find",

@@ -86,6 +86,12 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "program_selected_by_student": {
+      "type": "string"
+    },
+    "discount_code_id": {
+      "type": "string"
     }
   }
 }
