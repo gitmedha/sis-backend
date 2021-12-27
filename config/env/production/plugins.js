@@ -32,14 +32,14 @@ module.exports = ({ env }) => ({
         // secureConnection: false,
         // tls: { ciphers: 'SSLv3'},
         auth: {
-          user: 'sis.admin@medha.org.in',
-          pass: 'sisadmin123A',
+          user: env('SMTP_USER', 'sis.admin@medha.org.in'),
+          pass: env('SMTP_PASSWORD', 'sisadmin123A'),
         },
         // ... any custom nodemailer options
       },
       settings: {
-        defaultFrom: 'SIS Admin <sis.admin@medha.org.in>',
-        defaultReplyTo: 'sis.admin@medha.org.in',
+        defaultFrom: env('SMTP_USER', 'sis.admin@medha.org.in'),
+        defaultReplyTo: env('SMTP_USER', 'sis.admin@medha.org.in'),
       },
     },    
 
