@@ -29,8 +29,6 @@ module.exports = {
     // fetch program enrollment details
     const record = await strapi.services['program-enrollments'].findOne({ id });
     const program = await strapi.services['programs'].findOne({ id: record.batch.program });
-    console.log(record);
-    console.log(program);
     student_name = record.student.full_name
     student_id  = record.student.student_id
     program_name = program.name
@@ -62,12 +60,13 @@ module.exports = {
     if (institution_area) {
       institution_name = `${institution_name}, ${institution_area}`
     }
+    content = content.replace(/{{app_url}}/g, strapi.config.get('server.url'));
     content = content.replace(/{{institution_name}}/g, institution_name);
     content = content.replace(/{{student_name}}/g, student_name);
-    content = content.replace(/{{course_type}}/g, course_type);
     content = content.replace(/{{program_name}}/g, program_name);
     content = content.replace(/{{student_id}}/g, student_id);
     content = content.replace(/{{certification_date}}/g, certification_date_formatted);
+    content = content.replace(/{{certificate_no}}/g, id);
 
     // create puppeteer instance
     const browser = await puppeteer.launch({ headless: true })
@@ -77,7 +76,7 @@ module.exports = {
     // set certificate file details
     let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
     let certficatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
-    let certficateUrl = `http://localhost:1339/program-enrollment-certificates/${certificateFileName}`;
+    let certficateUrl = `${strapi.config.get('server.url')}/program-enrollment-certificates/${certificateFileName}`;
 
     // generate pdf
     await page.pdf({
