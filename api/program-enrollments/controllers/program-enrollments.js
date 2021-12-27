@@ -51,11 +51,12 @@ module.exports = {
     );
 
     // replace template variables with program enrollment data
+    let institution_logo_html = '';
     if (record.institution.logo) {
       console.log(strapi.config.get('server.url') + '/' + record.institution.logo.url);
       institution_logo_html = `<img src="${strapi.config.get('server.url') + record.institution.logo.url}" class="institution-logo" alt="${institution_name}">`;
-      content = content.replace(/{{institution_logo}}/g, institution_logo_html);
     }
+    content = content.replace(/{{institution_logo}}/g, institution_logo_html);
 
     if (institution_area) {
       institution_name = `${institution_name}, ${institution_area}`
