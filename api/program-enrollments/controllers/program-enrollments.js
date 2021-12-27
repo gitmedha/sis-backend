@@ -79,7 +79,6 @@ module.exports = {
     // set certificate file details
     let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
     let certificatePath = `./public/program-enrollment-certificates/${certificateFileName}`;
-    let certificateUrl = `${strapi.config.get('server.url')}/program-enrollment-certificates/${certificateFileName}`;
 
     // generate pdf
     await page.pdf({
