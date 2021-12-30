@@ -5,4 +5,14 @@
  * to customize this model
  */
 
-module.exports = {};
+module.exports = {
+  lifecycles: {
+    // Called after an entry is deleted
+    async beforeDelete(params) {
+      const { id } = params;
+
+      // find attendances for the program enrollment and delete them
+      await strapi.query('attendance').delete({ program_enrollment: id });
+    },
+  },
+};
