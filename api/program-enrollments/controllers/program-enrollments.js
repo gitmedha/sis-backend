@@ -142,6 +142,7 @@ module.exports = {
   // create from webhook
   async createFromWebhook (ctx){
     const data = ctx.request.body
+    const logged_in_user = ctx.state.user.id;
 
     const student = await strapi.services.students.findOne({ id: data.student_id });
     const institution = await strapi.services.institutions.findOne({ id: data.institution_id });
@@ -166,6 +167,8 @@ module.exports = {
     programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
     programEnrollment.discount_code_id = data.discount_code ? data.discount_code : null
     programEnrollment.fee_payment_date = money_id == 0 ? null : new Date()
+    programEnrollment.created_by_frontend = logged_in_user;
+    programEnrollment.updated_by_frontend = logged_in_user;
 
     let programEnrollmentEntity = await strapi.services['program-enrollments'].create(programEnrollment)
     let sanitizedProgramEnrollmentEntity = sanitizeEntity(programEnrollmentEntity, { model: strapi.models['program-enrollments'] })
