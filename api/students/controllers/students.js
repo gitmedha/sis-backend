@@ -9,7 +9,7 @@ const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
 module.exports = {
 
     async create(ctx) {
-        let entity;    
+        let entity;
         logged_in_user = ctx.state.user.id;
         data = ctx.request.body;
         data.assigned_to = data.assigned_to == null ? logged_in_user : data.assigned_to;
@@ -18,7 +18,7 @@ module.exports = {
         entity = await strapi.services.students.create(data);
         return sanitizeEntity(entity, { model: strapi.models.students});
       },
-    
+
       async update(ctx) {
         const { id } = ctx.params;
         let entity;
@@ -33,6 +33,7 @@ module.exports = {
     async createFromWebhook (ctx) {
 
         const data = ctx.request.body
+        const logged_in_user = ctx.state.user.id;
         var date = new Date(data.date_of_birth); // M-D-YYYY
         var dob_date = date.getDate();
         var dob_month = date.getMonth() + 1;
@@ -40,7 +41,7 @@ module.exports = {
 
         const institution = await strapi.services.institutions.findOne({ id: data.institution_id });
         //add leading 0 if value of date and month is less than 10
-        const dateString = dob_year+ '-'+(dob_month <= 9 ? '0' + dob_month : dob_month) + '-' + (dob_date <= 9 ? '0' + dob_date : dob_date); 
+        const dateString = dob_year+ '-'+(dob_month <= 9 ? '0' + dob_month : dob_month) + '-' + (dob_date <= 9 ? '0' + dob_date : dob_date);
 
         const student = {}
         student.full_name = data.full_name
@@ -60,7 +61,9 @@ module.exports = {
         student.pin_code = data.pin_code
         student.state = data.state
         student.district = data.district
-        student.medha_area = data.area
+        student.medha_area = data.area       
+        student.created_by_frontend = logged_in_user;
+        student.updated_by_frontend = logged_in_user;
 
         let studentEntity = await strapi.services.students.create(student)
         let sanitizedStudentEntity = sanitizeEntity(studentEntity, { model: strapi.models.students })
@@ -70,7 +73,7 @@ module.exports = {
             CREATED AT: ${sanitizedStudentEntity.created_at}
         `)
 
-        const program = await strapi.services.programs.findOne({ id:data.program_id });   
+        const program = await strapi.services.programs.findOne({ id:data.program_id });
         const money_id = data.payuMoneyId
 
         // create a program enrollment for the student
@@ -90,6 +93,8 @@ module.exports = {
         programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
         programEnrollment.program_selected_by_student =program.name
         programEnrollment.fee_payment_date = money_id == 0 ? null : new Date()
+        programEnrollment.created_by_frontend = logged_in_user;
+        programEnrollment.updated_by_frontend = logged_in_user;
 
         let programEnrollmentEntity = await strapi.services['program-enrollments'].create(programEnrollment)
         let sanitizedProgramEnrollmentEntity = sanitizeEntity(programEnrollmentEntity, { model: strapi.models['program-enrollments'] })
@@ -104,19 +109,19 @@ module.exports = {
     },
 
     async delete(ctx) {
-        const { id } = ctx.params;
-        const record = await strapi.services.students.findOne({ id });
-        if (!record.assigned_to) {
-            ctx.throw(401, 'This record is not assigned to any user!');
-        } else if ( 
-            (ctx.state.user.role.name == "Basic" && record.assigned_to.id == ctx.state.user.id) ||
-            (ctx.state.user.role.name == "Advanced" && record.medha_area == ctx.state.user.area) ||
-            ctx.state.user.role.name == "Admin"
-        ) {
-            const entity = await strapi.services.students.delete({ id });
-            return sanitizeEntity(entity, { model: strapi.models.students });
-        } else {
-            ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
-        }
-      },
+      const { id } = ctx.params;
+      const record = await strapi.services.students.findOne({ id });
+      if (!record.assigned_to) {
+        ctx.throw(401, 'This record is not assigned to any user!');
+      } else if (
+        (ctx.state.user.role.name == "Basic" && record.assigned_to.id == ctx.state.user.id) ||
+        (ctx.state.user.role.name == "Advanced" && record.medha_area == ctx.state.user.area) ||
+        ctx.state.user.role.name == "Admin"
+      ) {
+        const entity = await strapi.services.students.delete({ id });
+        return sanitizeEntity(entity, { model: strapi.models.students });
+      } else {
+        ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
+      }
+    },
 };

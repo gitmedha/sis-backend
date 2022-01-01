@@ -11,10 +11,7 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "first_name": {
-      "type": "string"
-    },
-    "last_name": {
+    "full_name": {
       "type": "string"
     },
     "email": {
@@ -107,9 +104,6 @@
       "type": "string"
     },
     "district": {
-      "type": "string"
-    },
-    "full_name": {
       "type": "string"
     },
     "student_id": {

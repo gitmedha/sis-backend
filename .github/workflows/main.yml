@@ -43,6 +43,6 @@ jobs:
           # execute commands on ssh
           # cd ~/medha-backend-strapi/ && git pull && npm install && PUBLIC_URL=https://sis-staging.medha.org.in/ npm run build
           script: |
-            cd ~/medha-backend-strapi/ && git pull && yarn install && NODE_ENV=staging yarn build
+            cd ~/medha-backend-strapi/ && git pull origin main && yarn install && NODE_ENV=staging yarn build
             pm2 restart medha-sis-strapi-dev
             exit
