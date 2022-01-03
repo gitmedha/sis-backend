@@ -47,6 +47,11 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/batch/:id/complete",
+      "handler": "batches.markAsComplete"
     }
   ]
 }
