@@ -86,7 +86,7 @@ module.exports = {
       content = content.replace(/{{program_name}}/g, program_name);
       content = content.replace(/{{student_id}}/g, student_id);
       content = content.replace(/{{certification_date}}/g, certification_date_formatted);
-      content = content.replace(/{{certificate_no}}/g, id);
+      content = content.replace(/{{certificate_no}}/g, record.id);
 
       // create puppeteer instance
       let browser = await puppeteer.launch({ headless: true })
@@ -94,7 +94,7 @@ module.exports = {
       await page.setContent(content, { waitUntil: 'networkidle2' });
 
       // set certificate file details
-      let certificateFileName = `${id}-` + (new Date()).getTime() + '.pdf';
+      let certificateFileName = `${record.id}-` + (new Date()).getTime() + '.pdf';
       let certificatePath = `./public/${certificateFileName}`;
 
       // generate pdf
@@ -128,7 +128,7 @@ module.exports = {
       });
 
       // update certificate url for the program enrollment record
-      let updatedRecord = await strapi.services['program-enrollments'].update({ id }, {
+      let updatedRecord = await strapi.services['program-enrollments'].update({ id: record.id }, {
         medha_program_certificate: fileUpload[0].id,
         status: 'Certified by Medha',
       });

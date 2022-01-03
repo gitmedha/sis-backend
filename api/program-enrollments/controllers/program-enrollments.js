@@ -1,6 +1,4 @@
 const { sanitizeEntity } = require('strapi-utils');
-const path = require('path');
-const fs = require('fs');
 
 module.exports = {
 
