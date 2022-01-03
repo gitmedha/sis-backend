@@ -43,7 +43,7 @@ jobs:
         # execute commands on ssh
         script: |
           cd ~/medha-backend-strapi/ && git pull origin release && yarn install && NODE_ENV=production yarn build
-          pm2 restart medha-sis-strapi-production
+          /home/sis_admin/.yarn/bin/pm2 restart medha-sis-strapi-production
           exit
 
 
