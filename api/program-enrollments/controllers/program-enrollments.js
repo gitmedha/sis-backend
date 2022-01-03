@@ -55,7 +55,6 @@ module.exports = {
     // replace template variables with program enrollment data
     let institution_logo_html = '';
     if (record.institution.logo) {
-      console.log(strapi.config.get('server.url') + '/' + record.institution.logo.url);
       institution_logo_html = `<img src="${strapi.config.get('server.url') + record.institution.logo.url}" class="institution-logo" alt="${institution_name}">`;
     }
     content = content.replace(/{{institution_logo}}/g, institution_logo_html);
@@ -118,6 +117,28 @@ module.exports = {
 
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
+
+    // send email
+    let email = record.student.email;
+    let username = student_name;
+    let certificateLink = updatedRecord.medha_program_certificate.url;
+    const emailTemplate = {
+      subject: 'Your program enrollment certificate from Medha SIS',
+      text: `Dear ${username},\n\n
+      Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
+      ${certificateLink}\n\n
+      Regards,\n
+      Medha SIS
+      `,
+      html: `<p>Dear ${username},</p>
+      <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
+      <a href="${certificateLink}">See your certificate</a></p>
+      <p>Regards,<br>
+      Medha SIS</p>`,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
 
     return ctx.send({programEnrollment: updatedRecord});
   },
