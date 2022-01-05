@@ -3,7 +3,10 @@
     {
       "method": "POST",
       "path": "/program-enrollments/createFromWebhook",
-      "handler": "program-enrollments.createFromWebhook"
+      "handler": "program-enrollments.createFromWebhook",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "POST",

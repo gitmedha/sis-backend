@@ -3,7 +3,10 @@
     {
       "method": "POST",
       "path": "/students/createFromWebhook",
-      "handler": "students.createFromWebhook"
+      "handler": "students.createFromWebhook",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
