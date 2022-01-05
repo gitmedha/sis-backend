@@ -1,17 +1,8 @@
 module.exports = ({ env }) => ({
 
-  /* upload: {
-    provider: 'azure-storage',
-    providerOptions: {
-      account: env('medhasisfiles'),
-      accountKey: env('2HM6xrhwEOmm8ciRRIB8f2VjZ62DoXbR03mRgZWblHmnt0UzNnrVNTthG3+UpHWazw1EmdLPX5HkvGAyBvb44A=='),
-      // serviceBaseURL: env('STORAGE_URL'),
-      containerName: env('staging-server-files'),
-      // cdnBaseURL: env('STORAGE_CDN_URL'),
-      defaultPath: 'assets',
-      maxConcurrent: 10
-    }
-  }*/
+  sentry: {
+    dsn: env('SENTRY_DSN', 'https://c3400bacbfd045cc9fd1ca5f4780df48@o1107979.ingest.sentry.io/6135322'),
+  },
 
   graphql: {
     endpoint: '/graphql',

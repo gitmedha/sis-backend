@@ -1,5 +1,9 @@
 module.exports = ({ env }) => ({
 
+  sentry: {
+    dsn: env('SENTRY_DSN', 'https://c3400bacbfd045cc9fd1ca5f4780df48@o1107979.ingest.sentry.io/6135322'),
+  },
+
   graphql: {
     endpoint: '/graphql',
     shadowCRUD: true,
