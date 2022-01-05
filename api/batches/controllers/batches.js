@@ -157,7 +157,7 @@ module.exports = {
     //   await strapi.plugins['email'].services.email.sendTemplatedEmail({
     //     to: email,
     //   }, emailTemplate);
-    // });
+         });
 
     // update status for the batch
     let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
