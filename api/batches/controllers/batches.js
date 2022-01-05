@@ -136,27 +136,27 @@ module.exports = {
       // delete the generated certificate file
       fs.unlinkSync(certificatePath);
 
-      // // send email
-      // let email = record.student.email;
-      // let username = student_name;
-      // let certificateLink = updatedRecord.medha_program_certificate.url;
-      // let emailTemplate = {
-      //   subject: 'Your program enrollment certificate from Medha SIS',
-      //   text: `Dear ${username},\n\n
-      //   Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-      //   ${certificateLink}\n\n
-      //   Regards,\n
-      //   Medha SIS
-      //   `,
-      //   html: `<p>Dear ${username},</p>
-      //   <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-      //   <a href="${certificateLink}">See your certificate</a></p>
-      //   <p>Regards,<br>
-      //   Medha SIS</p>`,
-      // };
-      // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-      //   to: email,
-      // }, emailTemplate);
+    //   // send email
+    //   let email = record.student.email;
+    //   let username = student_name;
+    //   let certificateLink = updatedRecord.medha_program_certificate.url;
+    //   let emailTemplate = {
+    //     subject: 'Your program enrollment certificate from Medha SIS',
+    //     text: `Dear ${username},\n\n
+    //     Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
+    //     ${certificateLink}\n\n
+    //     Regards,\n
+    //     Medha SIS
+    //     `,
+    //     html: `<p>Dear ${username},</p>
+    //     <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
+    //     <a href="${certificateLink}">See your certificate</a></p>
+    //     <p>Regards,<br>
+    //     Medha SIS</p>`,
+    //   };
+    //   await strapi.plugins['email'].services.email.sendTemplatedEmail({
+    //     to: email,
+    //   }, emailTemplate);
     });
 
     // update status for the batch
