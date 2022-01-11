@@ -92,6 +92,20 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "marked_as_complete_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "marked_as_complete_date": {
+      "type": "date"
+    },
+    "certified_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "certification_date": {
+      "type": "date"
     }
   }
 }

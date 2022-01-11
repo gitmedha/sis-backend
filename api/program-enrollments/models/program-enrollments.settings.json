@@ -92,6 +92,18 @@
     },
     "discount_code_id": {
       "type": "string"
+    },
+    "certified_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "email_sent_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "email_sent_at": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
