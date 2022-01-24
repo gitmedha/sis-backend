@@ -12,7 +12,7 @@ module.exports = {
       const { id } = params;
       if (!id) return
 
-      // delete attendance records for the program enrollment
+      // delete attendance records for the every program enrollments for the student
       let programEnrollments = await strapi.query('program-enrollments').find({ student: id })
       for (let index = 0; index < programEnrollments.length; index++) {
         let programEnrollment = programEnrollments[index];
