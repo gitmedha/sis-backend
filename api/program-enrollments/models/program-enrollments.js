@@ -10,6 +10,7 @@ module.exports = {
     // Called after an entry is deleted
     async beforeDelete(params) {
       const { id } = params;
+      if (!id) return
 
       // find attendances for the program enrollment and delete them
       await strapi.query('attendance').delete({ program_enrollment: id });
