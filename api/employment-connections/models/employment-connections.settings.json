@@ -56,6 +56,17 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "offer_letter": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
