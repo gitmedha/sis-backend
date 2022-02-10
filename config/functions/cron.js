@@ -12,10 +12,10 @@
 
 module.exports = {
   '* * * * *': async () => {
-    const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing' });
+    const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 4 });
     programEnrollments.forEach(async programEnrollment => {
-        // generate certificate for program enrollment
-        await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+      // generate certificate for program enrollment
+      await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
     });
   }
 };
