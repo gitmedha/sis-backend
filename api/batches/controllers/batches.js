@@ -48,7 +48,10 @@ module.exports = {
     const batch = await strapi.services['batches'].findOne({ id });
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, { medha_program_certificate_status: 'processing' });
+      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+        medha_program_certificate_status: 'processing',
+        certification_date: new Date().toISOString().split('T')[0], // today's date with yyyy-mm-dd format
+      });
     });
 
     // update status for the batch
