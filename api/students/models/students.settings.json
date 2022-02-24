@@ -116,6 +116,9 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "alternate_phone": {
+      "type": "string"
     }
   }
 }
