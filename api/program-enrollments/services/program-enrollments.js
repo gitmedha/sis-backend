@@ -119,5 +119,22 @@ module.exports = {
     // }, emailTemplate);
 
     return updatedProgramEnrollment;
+  },
+
+  // calculates attendance for a program enrollment in it's batch
+  async calculateBatchAttendance(programEnrollment) {
+    // get batch for the program enrollment
+    let batch = programEnrollment.batch;
+
+    // get count of all sessions in the batch
+    let sessionCount = await strapi.services['sessions'].count({ batch: batch.id });
+
+    // get count of all attendance entries for the program enrollment
+    let attendanceCount = await strapi.services['attendance'].count({ program_enrollment: programEnrollment.id, present: true });
+
+    let percentage = (attendanceCount / sessionCount) * 100;
+    percentage = Number.parseFloat(percentage).toFixed(2);
+
+    return percentage;
   }
 };
