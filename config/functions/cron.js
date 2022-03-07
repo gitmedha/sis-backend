@@ -15,7 +15,12 @@ module.exports = {
     const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 4 });
     programEnrollments.forEach(async programEnrollment => {
       // generate certificate for program enrollment
-      await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+      let batchAttendancePercent = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+      if (batchAttendancePercent >= 75) {
+        await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+      } else {
+        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, { medha_program_certificate_status: 'low-attendance' });
+      }
     });
   }
 };
