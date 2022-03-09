@@ -93,6 +93,11 @@ module.exports = {
       medha_program_certificate_status: 'complete'
     });
 
+    // update status for the student record
+    await strapi.services['program-enrollments'].update({ id: programEnrollment.student.id }, {
+      status: 'Certified',
+    });
+
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 

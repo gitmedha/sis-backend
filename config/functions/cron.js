@@ -19,7 +19,10 @@ module.exports = {
       if (batchAttendancePercent >= 75) {
         await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
       } else {
-        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, { medha_program_certificate_status: 'low-attendance' });
+        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+          medha_program_certificate_status: 'low-attendance',
+          status: 'Student Dropped Out'
+        });
       }
     });
   }
