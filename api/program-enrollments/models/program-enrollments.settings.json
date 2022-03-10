@@ -95,6 +95,23 @@
     },
     "medha_program_certificate_status": {
       "type": "string"
+    },
+    "higher_education_course_name": {
+      "type": "string"
+    },
+    "higher_education_year_of_course_completion": {
+      "type": "string"
+    },
+    "higher_education_proof_of_enrollment": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
     }
   }
 }
