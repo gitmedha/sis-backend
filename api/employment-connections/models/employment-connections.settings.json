@@ -35,7 +35,7 @@
     "salary_offered": {
       "type": "integer"
     },
-    "internship_certificate": {
+    "experience_certificate": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
