@@ -103,7 +103,7 @@
       "type": "string"
     },
     "higher_education_proof_of_enrollment": {
-      "collection": "file",
+      "model": "file",
       "via": "related",
       "allowedTypes": [
         "files",
