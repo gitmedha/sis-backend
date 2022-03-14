@@ -94,7 +94,7 @@ module.exports = {
     });
 
     // update status for the student record
-    await strapi.services['program-enrollments'].update({ id: programEnrollment.student.id }, {
+    await strapi.services['students'].update({ id: programEnrollment.student.id }, {
       status: 'Certified',
     });
 
