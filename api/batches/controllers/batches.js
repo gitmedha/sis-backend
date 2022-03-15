@@ -50,7 +50,6 @@ module.exports = {
     programEnrollments.forEach(async programEnrollment => {
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         medha_program_certificate_status: 'processing',
-        certification_date: new Date().toISOString().split('T')[0], // today's date with yyyy-mm-dd format
       });
     });
 
