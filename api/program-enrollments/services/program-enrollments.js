@@ -14,7 +14,8 @@ module.exports = {
     let institution_name = programEnrollment.institution.name
     let institution_area = programEnrollment.institution.medha_area
     let course_type = programEnrollment.course_type
-    let certification_date = new Date(programEnrollment.certification_date);
+    let today = new Date().toISOString().split('T')[0]
+    let certification_date = new Date(today);
     let monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let certification_date_formatted = certification_date.getDate() + " " + monthsList[certification_date.getMonth()] + ", " + certification_date.getFullYear();
 
@@ -90,7 +91,8 @@ module.exports = {
     const updatedProgramEnrollment = await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
       medha_program_certificate: fileUpload[0].id,
       status: 'Certified by Medha',
-      medha_program_certificate_status: 'complete'
+      medha_program_certificate_status: 'complete',
+      certification_date: today,
     });
 
     // update status for the student record
