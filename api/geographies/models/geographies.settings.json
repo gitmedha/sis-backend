@@ -19,6 +19,9 @@
     },
     "state": {
       "type": "string"
+    },
+    "cluster": {
+      "type": "string"
     }
   }
 }
