@@ -82,6 +82,7 @@ ssl
 nbproject
 public/uploads/*
 !public/uploads/.gitkeep
+public/*.pdf
 
 ############################
 # Node.js
@@ -113,3 +114,4 @@ exports
 build
 .strapi-updater.json
 ecosystem.config.js
+
