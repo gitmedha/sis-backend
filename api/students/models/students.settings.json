@@ -119,6 +119,9 @@
     },
     "alternate_phone": {
       "type": "string"
+    },
+    "medha_area_state": {
+      "type": "string"
     }
   }
 }
