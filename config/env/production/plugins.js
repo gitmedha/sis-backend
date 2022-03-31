@@ -9,7 +9,7 @@ module.exports = ({ env }) => ({
     shadowCRUD: true,
     playgroundAlways: false,
     depthLimit: 7,
-    amountLimit: 100,
+    amountLimit: 500,
     apolloServer: {
       tracing: false,
     },
@@ -33,7 +33,7 @@ module.exports = ({ env }) => ({
       defaultFrom: env('SMTP_USER', 'sis.admin@medha.org.in'),
       defaultReplyTo: env('SMTP_USER', 'sis.admin@medha.org.in'),
     },
-  },    
+  },
 
   upload: {
     provider: 'azure-storage',
