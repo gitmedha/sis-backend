@@ -48,8 +48,11 @@ module.exports = {
     const batch = await strapi.services['batches'].findOne({ id });
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
+      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+      let status = attendance >= 75 ? "Batch Complete" : "Student Dropped Out";
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         medha_program_certificate_status: 'processing',
+        status,
       });
     });
 
