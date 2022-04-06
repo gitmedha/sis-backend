@@ -14,8 +14,14 @@ module.exports = {
     let institution_name = programEnrollment.institution.name
     let institution_area = programEnrollment.institution.medha_area
     let course_type = programEnrollment.course_type
+
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
+    if (programEnrollment.certification_date !== null) {
+      today = new Date(programEnrollment.certification_date).toISOString().split('T')[0]
+      certification_date = new Date(today);
+    }
+
     let monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let certification_date_formatted = certification_date.getDate() + " " + monthsList[certification_date.getMonth()] + ", " + certification_date.getFullYear();
 
