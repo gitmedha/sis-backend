@@ -12,7 +12,6 @@ module.exports = {
     let student_id  = programEnrollment.student.student_id
     let program_name = program.name
     let institution_name = programEnrollment.institution.name
-    let institution_area = programEnrollment.institution.medha_area
     let course_type = programEnrollment.course_type
 
     let today = new Date().toISOString().split('T')[0]
@@ -43,9 +42,6 @@ module.exports = {
     }
     content = content.replace(/{{institution_logo}}/g, institution_logo_html);
 
-    if (institution_area) {
-      institution_name = `${institution_name}, ${institution_area}`
-    }
     content = content.replace(/{{app_url}}/g, strapi.config.get('server.url'));
     content = content.replace(/{{institution_name}}/g, institution_name);
     content = content.replace(/{{student_name}}/g, student_name);
