@@ -14,8 +14,14 @@ module.exports = {
     let institution_name = programEnrollment.institution.name
     let institution_area = programEnrollment.institution.medha_area
     let course_type = programEnrollment.course_type
+
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
+    if (programEnrollment.certification_date !== null) {
+      today = new Date(programEnrollment.certification_date).toISOString().split('T')[0]
+      certification_date = new Date(today);
+    }
+
     let monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     let certification_date_formatted = certification_date.getDate() + " " + monthsList[certification_date.getMonth()] + ", " + certification_date.getFullYear();
 
@@ -103,27 +109,27 @@ module.exports = {
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 
-    // send email
-    let email = programEnrollment.student.email;
-    let username = student_name;
-    let certificateLink = updatedProgramEnrollment.medha_program_certificate.url;
-    const emailTemplate = {
-      subject: 'Your program enrollment certificate from Medha SIS',
-      text: `Dear ${username},\n\n
-      Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-      ${certificateLink}\n\n
-      Regards,\n
-      Medha SIS
-      `,
-      html: `<p>Dear ${username},</p>
-      <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-      <a href="${certificateLink}">See your certificate</a></p>
-      <p>Regards,<br>
-      Medha SIS</p>`,
-    };
-    await strapi.plugins['email'].services.email.sendTemplatedEmail({
-      to: email,
-    }, emailTemplate);
+    // // send email
+    // let email = programEnrollment.student.email;
+    // let username = student_name;
+    // let certificateLink = updatedProgramEnrollment.medha_program_certificate.url;
+    // const emailTemplate = {
+    //   subject: 'Your program enrollment certificate from Medha SIS',
+    //   text: `Dear ${username},\n\n
+    //   Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
+    //   ${certificateLink}\n\n
+    //   Regards,\n
+    //   Medha SIS
+    //   `,
+    //   html: `<p>Dear ${username},</p>
+    //   <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
+    //   <a href="${certificateLink}">See your certificate</a></p>
+    //   <p>Regards,<br>
+    //   Medha SIS</p>`,
+    // };
+    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
+    //   to: email,
+    // }, emailTemplate);
 
     return updatedProgramEnrollment;
   },
