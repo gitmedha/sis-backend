@@ -12,7 +12,7 @@ module.exports = {
     let student_id  = programEnrollment.student.student_id
     let program_name = program.name
     let institution_name = programEnrollment.institution.name
-    let course_type = programEnrollment.course_type
+    let course_name = programEnrollment.course_name
 
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
@@ -46,6 +46,7 @@ module.exports = {
     content = content.replace(/{{institution_name}}/g, institution_name);
     content = content.replace(/{{student_name}}/g, student_name);
     content = content.replace(/{{program_name}}/g, program_name);
+    content = content.replace(/{{course_name}}/g, course_name);
     content = content.replace(/{{student_id}}/g, student_id);
     content = content.replace(/{{certification_date}}/g, certification_date_formatted);
     content = content.replace(/{{certificate_no}}/g, programEnrollment.id);
