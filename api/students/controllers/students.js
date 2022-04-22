@@ -27,7 +27,6 @@ module.exports = {
         const { id } = ctx.params;
         let entity;
         const logged_in_user = ctx.state.user.id;
-        console.log('logged_in_user', logged_in_user);
         let data = ctx.request.body;
         data.updated_by_frontend = logged_in_user;
         entity = await strapi.services.students.update({ id }, data);
