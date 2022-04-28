@@ -119,6 +119,10 @@
     },
     "alternate_phone": {
       "type": "string"
+    },
+    "registered_by": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
