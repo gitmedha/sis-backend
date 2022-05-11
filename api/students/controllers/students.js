@@ -10,11 +10,15 @@ module.exports = {
 
     async create(ctx) {
         let entity;
-        logged_in_user = ctx.state.user.id;
-        data = ctx.request.body;
+        const logged_in_user = ctx.state.user.id;
+        let data = ctx.request.body;
         data.assigned_to = data.assigned_to == null ? logged_in_user : data.assigned_to;
         data.created_by_frontend = logged_in_user;
         data.updated_by_frontend = logged_in_user;
+        // if registered by is not present, then set it to logged in user
+        if (!data.registered_by) {
+          data.registered_by = logged_in_user;
+        }
         entity = await strapi.services.students.create(data);
         return sanitizeEntity(entity, { model: strapi.models.students});
       },
@@ -22,8 +26,8 @@ module.exports = {
       async update(ctx) {
         const { id } = ctx.params;
         let entity;
-        logged_in_user = ctx.state.user.id;
-        data = ctx.request.body;
+        const logged_in_user = ctx.state.user.id;
+        let data = ctx.request.body;
         data.updated_by_frontend = logged_in_user;
         entity = await strapi.services.students.update({ id }, data);
         return sanitizeEntity(entity, { model: strapi.models.students });
@@ -61,7 +65,7 @@ module.exports = {
         student.pin_code = data.pin_code
         student.state = data.state
         student.district = data.district
-        student.medha_area = data.area       
+        student.medha_area = data.area
         student.created_by_frontend = logged_in_user;
         student.updated_by_frontend = logged_in_user;
 

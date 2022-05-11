@@ -9,12 +9,12 @@ module.exports = ({ env }) => ({
     shadowCRUD: true,
     playgroundAlways: false,
     depthLimit: 7,
-    amountLimit: 100,
+    amountLimit: 500,
     apolloServer: {
       tracing: true,
     },
   },
-    
+
   email: {
     provider: 'nodemailer',
     providerOptions: {

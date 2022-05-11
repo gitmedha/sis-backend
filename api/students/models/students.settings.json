@@ -122,6 +122,10 @@
     },
     "medha_area_state": {
       "type": "string"
+    },
+    "registered_by": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

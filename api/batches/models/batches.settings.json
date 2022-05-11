@@ -92,6 +92,9 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "require_assignment_file_for_certification": {
+      "type": "boolean"
     }
   }
 }
