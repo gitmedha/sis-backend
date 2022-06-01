@@ -27,6 +27,24 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "survey_id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "program": {
+      "model": "programs"
+    },
+    "question_containing_student_id": {
+      "type": "string"
     }
   }
 }

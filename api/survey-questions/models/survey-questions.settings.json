@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_questions",
+  "info": {
+    "name": "survey_questions",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "question_id": {
+      "type": "string"
+    },
+    "survey_id": {
+      "type": "string"
+    },
+    "base_type": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "section_id": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string"
+    },
+    "question_id_unique": {
+      "type": "string"
+    },
+    "shortname": {
+      "type": "string"
+    }
+  }
+}

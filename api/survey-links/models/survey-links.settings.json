@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_links",
+  "info": {
+    "name": "survey_links"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "link_id": {
+      "type": "string",
+      "unique": false
+    },
+    "survey_id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "subtype": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "uri": {
+      "type": "string"
+    },
+    "open_date": {
+      "type": "date"
+    },
+    "close_date": {
+      "type": "date"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_responses_jsons",
+  "info": {
+    "name": "survey_responses_json",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "response": {
+      "type": "json"
+    }
+  }
+}

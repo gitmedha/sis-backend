@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "survey_answer_options",
+  "info": {
+    "name": "survey_answer_options"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "option_id": {
+      "type": "string"
+    },
+    "question_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "option_id_unique": {
+      "type": "string"
+    },
+    "diabled": {
+      "type": "boolean"
+    }
+  }
+}
