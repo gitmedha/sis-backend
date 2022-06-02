@@ -140,9 +140,6 @@
     "alumni_service_fee_submission_date": {
       "type": "date"
     },
-    "alumni_service_fee_amount": {
-      "type": "string"
-    },
     "alumni_service_location": {
       "type": "string"
     },
@@ -151,6 +148,9 @@
     },
     "alumni_service_comments": {
       "type": "text"
+    },
+    "alumni_service_fee_amount": {
+      "type": "integer"
     }
   }
 }
