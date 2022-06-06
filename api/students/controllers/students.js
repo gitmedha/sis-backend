@@ -120,7 +120,7 @@ module.exports = {
         ctx.throw(401, 'This record is not assigned to any user!');
       } else if (
         (ctx.state.user.role.name == "Basic" && record.assigned_to.id == ctx.state.user.id) ||
-        (ctx.state.user.role.name == "Advanced" && record.assigned_to.area == ctx.state.user.area) ||
+        (ctx.state.user.role.name == "Advanced" && record.medha_area == ctx.state.user.area) ||
         ctx.state.user.role.name == "Admin"
       ) {
         const entity = await strapi.services.students.delete({ id });
