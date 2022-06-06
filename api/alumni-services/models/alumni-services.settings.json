@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alumni_services",
+  "info": {
+    "name": "Alumni Services"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "fee_submission_date": {
+      "type": "date"
+    },
+    "location": {
+      "type": "string"
+    },
+    "receipt_number": {
+      "type": "string"
+    },
+    "comments": {
+      "type": "text"
+    },
+    "fee_amount": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/alumni-services",
+      "handler": "alumni-services.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-services/count",
+      "handler": "alumni-services.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-services/:id",
+      "handler": "alumni-services.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alumni-services",
+      "handler": "alumni-services.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/alumni-services/:id",
+      "handler": "alumni-services.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/alumni-services/:id",
+      "handler": "alumni-services.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
