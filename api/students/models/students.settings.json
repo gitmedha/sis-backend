@@ -123,34 +123,6 @@
     "registered_by": {
       "plugin": "users-permissions",
       "model": "user"
-    },
-    "alumni_service_type": {
-      "type": "string"
-    },
-    "alumni_service_end_date": {
-      "type": "date"
-    },
-    "alumni_service_start_date": {
-      "type": "date"
-    },
-    "alumni_service_assigned_to": {
-      "plugin": "users-permissions",
-      "model": "user"
-    },
-    "alumni_service_fee_submission_date": {
-      "type": "date"
-    },
-    "alumni_service_location": {
-      "type": "string"
-    },
-    "alumni_service_receipt_number": {
-      "type": "string"
-    },
-    "alumni_service_comments": {
-      "type": "text"
-    },
-    "alumni_service_fee_amount": {
-      "type": "integer"
     }
   }
 }
