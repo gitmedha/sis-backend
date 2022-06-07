@@ -57,6 +57,7 @@ module.exports = {
         student.category = data.category
         student.gender = data.gender
         student.assigned_to = institution.assigned_to.id
+        student.registered_by = institution.assigned_to.id
         student.income_level = data.income_level
         student.medha_champion = false
         student.interested_in_employment_opportunities = true

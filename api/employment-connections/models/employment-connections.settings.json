@@ -67,6 +67,10 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
