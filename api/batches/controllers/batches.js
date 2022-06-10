@@ -20,6 +20,11 @@ module.exports = {
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
     entity = await strapi.services.batches.update({ id }, data);
+
+    if (data.status === 'Certified') {
+      await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
+    }
+
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
 
