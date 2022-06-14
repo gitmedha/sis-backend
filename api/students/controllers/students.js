@@ -66,7 +66,7 @@ module.exports = {
         student.pin_code = data.pin_code
         student.state = data.state
         student.district = data.district
-        student.medha_area = data.area
+        student.medha_area = institution.medha_area
         student.created_by_frontend = logged_in_user;
         student.updated_by_frontend = logged_in_user;
 
