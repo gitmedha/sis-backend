@@ -24,7 +24,7 @@ module.exports = {
     if (data.status === 'Complete') {
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(entity);
     } else if (data.status === 'Certified') {
-      await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity, true);
+      await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
     }
 
     return sanitizeEntity(entity, { model: strapi.models.batches });

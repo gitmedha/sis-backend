@@ -7,7 +7,9 @@
 
 module.exports = {
   async handleProgramEnrollmentOnCompletion(batch, handleCertificationProcessing = false) {
+    console.log('handleProgramEnrollmentOnCompletionhandleProgramEnrollmentOnCompletion');
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    const considerAssignmentFile = batch.require_assignment_file_for_certification;
     programEnrollments.forEach(async programEnrollment => {
       let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
 
@@ -27,7 +29,7 @@ module.exports = {
         status = 'Student Dropped Out';
       }
 
-      dataToUpdate = {status: status};
+      let dataToUpdate = {status: status};
       if (handleCertificationProcessing) {
         dataToUpdate.medha_program_certificate_status = medha_program_certificate_status;
       }
@@ -38,12 +40,17 @@ module.exports = {
   },
 
   async handleProgramEnrollmentOnCertification(batch) {
-    await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch, true);
+    await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
     // update status for the batch
     let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
       status: 'Certified',
     });
     return updatedBatchRecord;
+  },
+
+  async generateProgramEnrollmentCertificates(batch) {
+    await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch, true);
+    return batch;
   },
 
   async emailProgramEnrollmentCertificates(batch) {
