@@ -50,7 +50,7 @@ module.exports = {
   async generateCertificates(ctx) {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
-    let updatedBatchRecord = await strapi.services['batches'].handleProgramEnrollmentOnCertification(batch);
+    let updatedBatchRecord = await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
     return ctx.send({batch: updatedBatchRecord});
   },
 
