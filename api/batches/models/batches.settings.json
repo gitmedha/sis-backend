@@ -96,11 +96,11 @@
     "require_assignment_file_for_certification": {
       "type": "boolean"
     },
-    "generated_certificates": {
-      "type": "boolean"
+    "certificates_generated_at": {
+      "type": "datetime"
     },
-    "emailed_certificates": {
-      "type": "boolean"
+    "certificates_emailed_at": {
+      "type": "datetime"
     }
   }
 }

@@ -41,7 +41,7 @@ module.exports = {
   async generateProgramEnrollmentCertificates(batch) {
     await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch, true);
     let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-      generated_certificates: true,
+      certificates_generated_at: new Date(),
     });
     return updatedBatch;
   },
@@ -76,7 +76,7 @@ module.exports = {
 
   async emailProgramEnrollmentCertificates(batch) {
     let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-      emailed_certificates: true,
+      certificates_emailed_at: new Date(),
     });
     // await strapi.services['batches'].sendCertificateEmailToSrm(batch);
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
