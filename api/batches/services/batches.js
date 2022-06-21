@@ -7,9 +7,7 @@
 
 module.exports = {
   async handleProgramEnrollmentOnCompletion(batch, handleCertificationProcessing = false) {
-    console.log('handleProgramEnrollmentOnCompletionhandleProgramEnrollmentOnCompletion');
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    const considerAssignmentFile = batch.require_assignment_file_for_certification;
     programEnrollments.forEach(async programEnrollment => {
       let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
 
@@ -34,15 +32,18 @@ module.exports = {
   async handleProgramEnrollmentOnCertification(batch) {
     await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
     // update status for the batch
-    let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
       status: 'Certified',
     });
-    return updatedBatchRecord;
+    return updatedBatch;
   },
 
   async generateProgramEnrollmentCertificates(batch) {
     await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch, true);
-    return batch;
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+      generated_certificates: true,
+    });
+    return updatedBatch;
   },
 
   async sendCertificateEmailToSrm(batch) {
@@ -74,11 +75,14 @@ module.exports = {
   },
 
   async emailProgramEnrollmentCertificates(batch) {
-    await strapi.services['batches'].sendCertificateEmailToSrm(batch);
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+      emailed_certificates: true,
+    });
+    // await strapi.services['batches'].sendCertificateEmailToSrm(batch);
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
       await strapi.services['program-enrollments'].emailCertificate(programEnrollment);
     });
-    return batch;
+    return updatedBatch;
   },
 };
