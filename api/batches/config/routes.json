@@ -57,11 +57,6 @@
       "method": "POST",
       "path": "/batch/:id/email-certificates",
       "handler": "batches.emailCertificates"
-    },
-    {
-      "method": "POST",
-      "path": "/batch/:id/complete",
-      "handler": "batches.markAsComplete"
     }
   ]
 }

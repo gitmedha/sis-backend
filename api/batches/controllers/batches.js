@@ -23,6 +23,8 @@ module.exports = {
 
     if (data.status === 'Complete') {
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(entity);
+    } else if (data.status === 'Certified') {
+      await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity, true);
     }
 
     return sanitizeEntity(entity, { model: strapi.models.batches });
@@ -47,106 +49,15 @@ module.exports = {
 
   async generateCertificates(ctx) {
     const { id } = ctx.params;
-    // fetch batch details
     const batch = await strapi.services['batches'].findOne({ id });
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    const considerAssignmentFile = batch.require_assignment_file_for_certification;
-    programEnrollments.forEach(async programEnrollment => {
-      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
-
-      // check attendance is high enough or not
-      if (attendance < 75) {
-        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-          medha_program_certificate_status: 'low-attendance',
-          status: 'Student Dropped Out'
-        });
-        return;
-      }
-
-      // check if assignment file is required or not
-      // if assignment file is required, then it should be present
-      if (considerAssignmentFile && !programEnrollment.assignment_file) {
-        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-          medha_program_certificate_status: 'low-attendance',
-          status: 'Student Dropped Out'
-        });
-        return;
-      }
-
-      // attendance is high enough and assignment file is present when required
-      // mark certificate status as processing so that cron job can generate certificate
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-        medha_program_certificate_status: 'processing',
-        status: 'Batch Complete',
-      });
-    });
-
-    // update status for the batch
-    let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
-      status: 'Certified',
-    });
-
+    let updatedBatchRecord = await strapi.services['batches'].handleProgramEnrollmentOnCertification(batch);
     return ctx.send({batch: updatedBatchRecord});
   },
 
   async emailCertificates(ctx) {
     const { id } = ctx.params;
-    // fetch batch details
     const batch = await strapi.services['batches'].findOne({ id });
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    programEnrollments.forEach(async programEnrollment => {
-      await strapi.services['program-enrollments'].emailCertificate(programEnrollment);
-    });
+    await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
     return ctx.send({batch: batch});
-  },
-
-  async markAsComplete(ctx) {
-
-    const { id } = ctx.params;
-
-    // fetch batch details
-    const batch = await strapi.services['batches'].findOne({ id });
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    programEnrollments.forEach(async programEnrollment => {
-      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
-      let status = attendance >= 75 ? "Batch Complete" : "Student Dropped Out";
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-        medha_program_certificate_status: 'processing',
-        status,
-      });
-    });
-
-    // update status for the batch
-    let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
-      status: 'Certified',
-    });
-
-    // // send email to batch SRM
-    // let email = batch.assigned_to.email;
-    // let username = batch.assigned_to.username;
-    // let batchName = batch.name;
-    // let batchUrl = strapi.config.get('server.url') + `/batch/${batch.id}`; // to be replaced by batch URL
-    // const emailTemplate = {
-    //   subject: 'Batch has been marked as certified by SIS Admin',
-    //   text: `Dear ${username},\n\n
-    //   Your batch ${batchName} has been marked as certified by the SIS admin.\n
-    //   ${batchUrl}\n\n
-    //   Please expect certificates to be distributed to the students in the next hour or so via email.\n\n
-    //   Regards,\n
-    //   Medha SIS
-    //   `,
-    //   html: `<p>Dear ${username},</p>
-    //   <p>Your batch ${batchName} has been marked as certified by the SIS admin.<br>
-    //   <a href="${batchUrl}">See the batch details</a><br><br>
-    //   Please expect certificates to be distributed to the students in the next hour or so via email.
-    //   </p>
-    //   <p>Regards,<br>
-    //   Medha SIS</p>`,
-    // };
-    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-    //   to: email,
-    // }, emailTemplate);
-
-    return ctx.send({batch: updatedBatchRecord});
   },
 };
