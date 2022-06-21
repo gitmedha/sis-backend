@@ -106,29 +106,37 @@ module.exports = {
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 
-    // // send email
-    // let email = programEnrollment.student.email;
-    // let username = student_name;
-    // let certificateLink = updatedProgramEnrollment.medha_program_certificate.url;
-    // const emailTemplate = {
-    //   subject: 'Your program enrollment certificate from Medha SIS',
-    //   text: `Dear ${username},\n\n
-    //   Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-    //   ${certificateLink}\n\n
-    //   Regards,\n
-    //   Medha SIS
-    //   `,
-    //   html: `<p>Dear ${username},</p>
-    //   <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-    //   <a href="${certificateLink}">See your certificate</a></p>
-    //   <p>Regards,<br>
-    //   Medha SIS</p>`,
-    // };
-    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-    //   to: email,
-    // }, emailTemplate);
-
     return updatedProgramEnrollment;
+  },
+
+  async emailCertificate(programEnrollment) {
+    if (!programEnrollment.medha_program_certificate) {
+      return false;
+    }
+    // send email
+    let username = programEnrollment.student.full_name
+    let email = programEnrollment.student.email;
+    let certificateLink = programEnrollment.medha_program_certificate.url;
+
+    const emailTemplate = {
+      subject: 'Your program enrollment certificate from Medha SIS',
+      text: `Dear ${username},\n\n
+      Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
+      ${certificateLink}\n\n
+      Regards,\n
+      Medha SIS
+      `,
+      html: `<p>Dear ${username},</p>
+      <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
+      <a href="${certificateLink}">See your certificate</a></p>
+      <p>Regards,<br>
+      Medha SIS</p>`,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+
+    return true;
   },
 
   // calculates attendance for a program enrollment in it's batch

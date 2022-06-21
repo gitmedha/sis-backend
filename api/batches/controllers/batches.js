@@ -45,6 +45,61 @@ module.exports = {
     }
   },
 
+  async generateCertificates(ctx) {
+    const { id } = ctx.params;
+    // fetch batch details
+    const batch = await strapi.services['batches'].findOne({ id });
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    const considerAssignmentFile = batch.require_assignment_file_for_certification;
+    programEnrollments.forEach(async programEnrollment => {
+      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+
+      // check attendance is high enough or not
+      if (attendance < 75) {
+        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+          medha_program_certificate_status: 'low-attendance',
+          status: 'Student Dropped Out'
+        });
+        return;
+      }
+
+      // check if assignment file is required or not
+      // if assignment file is required, then it should be present
+      if (considerAssignmentFile && !programEnrollment.assignment_file) {
+        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+          medha_program_certificate_status: 'low-attendance',
+          status: 'Student Dropped Out'
+        });
+        return;
+      }
+
+      // attendance is high enough and assignment file is present when required
+      // mark certificate status as processing so that cron job can generate certificate
+      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+        medha_program_certificate_status: 'processing',
+        status: 'Batch Complete',
+      });
+    });
+
+    // update status for the batch
+    let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
+      status: 'Certified',
+    });
+
+    return ctx.send({batch: updatedBatchRecord});
+  },
+
+  async emailCertificates(ctx) {
+    const { id } = ctx.params;
+    // fetch batch details
+    const batch = await strapi.services['batches'].findOne({ id });
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+      await strapi.services['program-enrollments'].emailCertificate(programEnrollment);
+    });
+    return ctx.send({batch: batch});
+  },
+
   async markAsComplete(ctx) {
 
     const { id } = ctx.params;
