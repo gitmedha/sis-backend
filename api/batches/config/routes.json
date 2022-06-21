@@ -50,8 +50,13 @@
     },
     {
       "method": "POST",
-      "path": "/batch/:id/complete",
-      "handler": "batches.markAsComplete"
+      "path": "/batch/:id/generate-certificates",
+      "handler": "batches.generateCertificates"
+    },
+    {
+      "method": "POST",
+      "path": "/batch/:id/email-certificates",
+      "handler": "batches.emailCertificates"
     }
   ]
 }

@@ -95,6 +95,12 @@
     },
     "require_assignment_file_for_certification": {
       "type": "boolean"
+    },
+    "certificates_generated_at": {
+      "type": "datetime"
+    },
+    "certificates_emailed_at": {
+      "type": "datetime"
     }
   }
 }

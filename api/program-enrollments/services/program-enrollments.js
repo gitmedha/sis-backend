@@ -106,29 +106,61 @@ module.exports = {
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 
-    // // send email
-    // let email = programEnrollment.student.email;
-    // let username = student_name;
-    // let certificateLink = updatedProgramEnrollment.medha_program_certificate.url;
-    // const emailTemplate = {
-    //   subject: 'Your program enrollment certificate from Medha SIS',
-    //   text: `Dear ${username},\n\n
-    //   Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-    //   ${certificateLink}\n\n
-    //   Regards,\n
-    //   Medha SIS
-    //   `,
-    //   html: `<p>Dear ${username},</p>
-    //   <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-    //   <a href="${certificateLink}">See your certificate</a></p>
-    //   <p>Regards,<br>
-    //   Medha SIS</p>`,
-    // };
-    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-    //   to: email,
-    // }, emailTemplate);
-
     return updatedProgramEnrollment;
+  },
+
+  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
+    let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+
+    // check attendance is high enough or not
+    if (isNaN(attendance) || attendance < 75) {
+      return false;
+    }
+
+    // check if assignment file is required or not
+    // if assignment file is required, then it should be present
+    const considerAssignmentFile = programEnrollment.batch.require_assignment_file_for_certification;
+    if (considerAssignmentFile && !programEnrollment.assignment_file) {
+      return false;
+    }
+
+    return true;
+  },
+
+  async emailCertificate(programEnrollment) {
+    if (!programEnrollment.medha_program_certificate) {
+      return false;
+    }
+
+    let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+    if (!isEligibleForCertification) {
+      return false;
+    }
+
+    // send email
+    let username = programEnrollment.student.full_name
+    let email = programEnrollment.student.email;
+    let certificateLink = programEnrollment.medha_program_certificate.url;
+
+    const emailTemplate = {
+      subject: 'Your program enrollment certificate from Medha SIS',
+      text: `Dear ${username},\n\n
+      Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
+      ${certificateLink}\n\n
+      Regards,\n
+      Medha SIS
+      `,
+      html: `<p>Dear ${username},</p>
+      <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
+      <a href="${certificateLink}">See your certificate</a></p>
+      <p>Regards,<br>
+      Medha SIS</p>`,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+
+    return true;
   },
 
   // calculates attendance for a program enrollment in it's batch
