@@ -109,10 +109,34 @@ module.exports = {
     return updatedProgramEnrollment;
   },
 
+  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
+    let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+
+    // check attendance is high enough or not
+    if (isNaN(attendance) || attendance < 75) {
+      return false;
+    }
+
+    // check if assignment file is required or not
+    // if assignment file is required, then it should be present
+    const considerAssignmentFile = programEnrollment.batch.require_assignment_file_for_certification;
+    if (considerAssignmentFile && !programEnrollment.assignment_file) {
+      return false;
+    }
+
+    return true;
+  },
+
   async emailCertificate(programEnrollment) {
     if (!programEnrollment.medha_program_certificate) {
       return false;
     }
+
+    let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+    if (!isEligibleForCertification) {
+      return false;
+    }
+
     // send email
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;

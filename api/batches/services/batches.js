@@ -11,22 +11,14 @@ module.exports = {
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     const considerAssignmentFile = batch.require_assignment_file_for_certification;
     programEnrollments.forEach(async programEnrollment => {
-      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
 
-      let medha_program_certificate_status = 'processing';
-      let status = 'Batch Complete';
+      let medha_program_certificate_status = 'low-attendance';
+      let status = 'Student Dropped Out';
 
-      // check attendance is high enough or not
-      if (isNaN(attendance) || attendance < 75) {
-        medha_program_certificate_status = 'low-attendance';
-        status = 'Student Dropped Out';
-      }
-
-      // check if assignment file is required or not
-      // if assignment file is required, then it should be present
-      if (considerAssignmentFile && !programEnrollment.assignment_file) {
-        medha_program_certificate_status = 'low-attendance';
-        status = 'Student Dropped Out';
+      if (isEligibleForCertification) {
+        medha_program_certificate_status = 'processing';
+        status = 'Batch Complete';
       }
 
       let dataToUpdate = {status: status};
