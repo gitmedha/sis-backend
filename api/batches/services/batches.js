@@ -78,7 +78,7 @@ module.exports = {
     let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
       certificates_emailed_at: new Date(),
     });
-    // await strapi.services['batches'].sendCertificateEmailToSrm(batch);
+    await strapi.services['batches'].sendCertificateEmailToSrm(batch);
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
       await strapi.services['program-enrollments'].emailCertificate(programEnrollment);
