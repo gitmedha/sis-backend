@@ -140,21 +140,47 @@ module.exports = {
     // send email
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
+    let batchName = programEnrollment.batch.name;
+    let assignedToName = programEnrollment.batch.assigned_to.username;
     let certificateLink = programEnrollment.medha_program_certificate.url;
+    let strapiUrl = strapi.config.get('server.url');
+    let fbIconLink = `${strapiUrl}/uploads/icon-facebook.png`;
+    let igIconLink = `${strapiUrl}/uploads/icon-instagram.png`;
+    let liIconLink = `${strapiUrl}/uploads/icon-linkedin.png`;
+    let gplayIconLink = `${strapiUrl}/uploads/icon-googleplay.png`;
+    let emailImageLink = `${strapiUrl}/uploads/student-certification-email-image.jpg`;
 
     const emailTemplate = {
       subject: 'Your program enrollment certificate from Medha SIS',
-      text: `Dear ${username},\n\n
-      Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-      ${certificateLink}\n\n
-      Regards,\n
-      Medha SIS
+      text: ``,
+      html: `
+        <p>Dear ${username},</p>
+        <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please find your e-certificate attached to this mail.</p><br>
+        ${certificateLink}<br><br>
+        <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p><br>
+        <p>You are now a proud member of our Medhavi Association with over 15,000 young and diverse people like you! Our team will continue to support you in your career dreams through our distinct alumni engagement programs.</p><br>
+        <img src="${emailImageLink}" height="350" /><br><br>
+        <p>To know more, join our channels:</p><br>
+        <div>
+          <a style="display: inline;text-decoration: none;" href="https://facebook.com">
+            <img src="${fbIconLink}" height="45" />
+          </a>
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://instagram.com">
+            <img src="${igIconLink}" height="45" />
+          </a>
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://linkedin.com">
+            <img src="${liIconLink}" height="45" />
+          </a>
+        </div><br><br>
+        <p>And download the Medhavi app to stay updated on upcoming events and opportunities!</p><br>
+        <a style="display: inline;text-decoration: none;" href="https://google.com">
+          <img src="${gplayIconLink}" height="55" />
+        </a><br>
+        <p>For any queries/concerns regarding your e-certificate, please call: 9454354135.</p><br>
+        <p style="font-style: italic;">Medha force be with you!</p><br>
+        <p>Best wishes<br>
+        ${assignedToName}</p>
       `,
-      html: `<p>Dear ${username},</p>
-      <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-      <a href="${certificateLink}">See your certificate</a></p>
-      <p>Regards,<br>
-      Medha SIS</p>`,
     };
     await strapi.plugins['email'].services.email.sendTemplatedEmail({
       to: email,
