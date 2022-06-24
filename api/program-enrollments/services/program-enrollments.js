@@ -151,12 +151,12 @@ module.exports = {
     let emailImageLink = `${strapiUrl}/images/email/student-certification-email-image.jpg`;
 
     const emailTemplate = {
-      subject: 'Your program enrollment certificate from Medha SIS',
+      subject: `Congratulations! You have successfully completed ${batchName}`,
       text: ``,
       html: `
         <p>Dear ${username},</p>
-        <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please find your e-certificate attached to this mail.</p><br>
-        ${certificateLink}<br><br>
+        <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please download your e-certificate using the link below.</p><br>
+        <a href="${certificateLink}">Download Medha e-certificate</a><br><br>
         <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p><br>
         <p>You are now a proud member of our Medhavi Association with over 15,000 young and diverse people like you! Our team will continue to support you in your career dreams through our distinct alumni engagement programs.</p><br>
         <img src="${emailImageLink}" height="350" /><br><br>
