@@ -144,11 +144,11 @@ module.exports = {
     let assignedToName = programEnrollment.batch.assigned_to.username;
     let certificateLink = programEnrollment.medha_program_certificate.url;
     let strapiUrl = strapi.config.get('server.url');
-    let fbIconLink = `${strapiUrl}/uploads/icon-facebook.png`;
-    let igIconLink = `${strapiUrl}/uploads/icon-instagram.png`;
-    let liIconLink = `${strapiUrl}/uploads/icon-linkedin.png`;
-    let gplayIconLink = `${strapiUrl}/uploads/icon-googleplay.png`;
-    let emailImageLink = `${strapiUrl}/uploads/student-certification-email-image.jpg`;
+    let fbIconLink = `${strapiUrl}/images/email/icon-facebook.png`;
+    let igIconLink = `${strapiUrl}/images/email/icon-instagram.png`;
+    let liIconLink = `${strapiUrl}/images/email/icon-linkedin.png`;
+    let gplayIconLink = `${strapiUrl}/images/email/icon-googleplay.png`;
+    let emailImageLink = `${strapiUrl}/images/email/student-certification-email-image.jpg`;
 
     const emailTemplate = {
       subject: 'Your program enrollment certificate from Medha SIS',
