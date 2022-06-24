@@ -72,23 +72,23 @@ module.exports = {
     let email = batch.assigned_to.email;
     let username = batch.assigned_to.username;
     let batchName = batch.name;
-    let batchUrl = strapi.config.get('server.url') + `/batch/${batch.id}`; // to be replaced by batch URL
+    let batchUrl = strapi.config.get('server.frontend_url') + `/batch/${batch.id}`; // to be replaced by batch URL
     const emailTemplate = {
-      subject: 'Batch has been marked as certified by SIS Admin',
+      subject: 'Batch has been marked as certified by Data Management Team',
       text: `Dear ${username},\n\n
-      Your batch ${batchName} has been marked as certified by the SIS admin.\n
+      Your batch ${batchName} has been marked as certified by the Data Management Team.\n
       ${batchUrl}\n\n
       Please expect certificates to be distributed to the students in the next hour or so via email.\n\n
       Regards,\n
-      Medha SIS
+      Data Management Team
       `,
       html: `<p>Dear ${username},</p>
-      <p>Your batch ${batchName} has been marked as certified by the SIS admin.<br>
+      <p>Your batch ${batchName} has been marked as certified by the Data Management Team.<br>
       <a href="${batchUrl}">See the batch details</a><br><br>
       Please expect certificates to be distributed to the students in the next hour or so via email.
       </p>
       <p>Regards,<br>
-      Medha SIS</p>`,
+      Data Management Team</p>`,
     };
     await strapi.plugins['email'].services.email.sendTemplatedEmail({
       to: email,
