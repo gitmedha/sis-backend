@@ -141,7 +141,10 @@ module.exports = {
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     let batchName = programEnrollment.batch.name;
-    let assignedToName = programEnrollment.batch.assigned_to.username || 'Medha Team';
+    let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+      id: programEnrollment.batch.assigned_to
+    });
+    let assignedToName = assignedTo.username || 'Medha Team';
     let certificateLink = programEnrollment.medha_program_certificate.url;
     let strapiUrl = strapi.config.get('server.url');
     let fbIconLink = `${strapiUrl}/images/email/icon-facebook.png`;
@@ -165,7 +168,7 @@ module.exports = {
           <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
             <img src="${fbIconLink}" height="45" />
           </a>
-          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/alums_of_medha/">
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/medhavi_community/">
             <img src="${igIconLink}" height="45" />
           </a>
           <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.linkedin.com/company/medhavi-association/">
