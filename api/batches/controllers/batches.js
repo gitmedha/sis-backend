@@ -23,6 +23,8 @@ module.exports = {
 
     if (data.status === 'Complete') {
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(entity);
+    } else if (data.status === 'Certified') {
+      await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
     }
 
     return sanitizeEntity(entity, { model: strapi.models.batches });
@@ -45,53 +47,17 @@ module.exports = {
     }
   },
 
-  async markAsComplete(ctx) {
-
+  async generateCertificates(ctx) {
     const { id } = ctx.params;
-
-    // fetch batch details
     const batch = await strapi.services['batches'].findOne({ id });
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    programEnrollments.forEach(async programEnrollment => {
-      let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
-      let status = attendance >= 75 ? "Batch Complete" : "Student Dropped Out";
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-        medha_program_certificate_status: 'processing',
-        status,
-      });
-    });
+    let updatedBatch = await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
+    return ctx.send({batch: updatedBatch});
+  },
 
-    // update status for the batch
-    let updatedBatchRecord = await strapi.services['batches'].update({ id }, {
-      status: 'Certified',
-    });
-
-    // // send email to batch SRM
-    // let email = batch.assigned_to.email;
-    // let username = batch.assigned_to.username;
-    // let batchName = batch.name;
-    // let batchUrl = strapi.config.get('server.url') + `/batch/${batch.id}`; // to be replaced by batch URL
-    // const emailTemplate = {
-    //   subject: 'Batch has been marked as certified by SIS Admin',
-    //   text: `Dear ${username},\n\n
-    //   Your batch ${batchName} has been marked as certified by the SIS admin.\n
-    //   ${batchUrl}\n\n
-    //   Please expect certificates to be distributed to the students in the next hour or so via email.\n\n
-    //   Regards,\n
-    //   Medha SIS
-    //   `,
-    //   html: `<p>Dear ${username},</p>
-    //   <p>Your batch ${batchName} has been marked as certified by the SIS admin.<br>
-    //   <a href="${batchUrl}">See the batch details</a><br><br>
-    //   Please expect certificates to be distributed to the students in the next hour or so via email.
-    //   </p>
-    //   <p>Regards,<br>
-    //   Medha SIS</p>`,
-    // };
-    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-    //   to: email,
-    // }, emailTemplate);
-
-    return ctx.send({batch: updatedBatchRecord});
+  async emailCertificates(ctx) {
+    const { id } = ctx.params;
+    const batch = await strapi.services['batches'].findOne({ id });
+    await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
+    return ctx.send({batch: batch});
   },
 };

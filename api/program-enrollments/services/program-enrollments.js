@@ -106,29 +106,90 @@ module.exports = {
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 
-    // // send email
-    // let email = programEnrollment.student.email;
-    // let username = student_name;
-    // let certificateLink = updatedProgramEnrollment.medha_program_certificate.url;
-    // const emailTemplate = {
-    //   subject: 'Your program enrollment certificate from Medha SIS',
-    //   text: `Dear ${username},\n\n
-    //   Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.\n
-    //   ${certificateLink}\n\n
-    //   Regards,\n
-    //   Medha SIS
-    //   `,
-    //   html: `<p>Dear ${username},</p>
-    //   <p>Thank you for enrolling in our program. Please click on the below link to see your program enrollment certificate.<br>
-    //   <a href="${certificateLink}">See your certificate</a></p>
-    //   <p>Regards,<br>
-    //   Medha SIS</p>`,
-    // };
-    // await strapi.plugins['email'].services.email.sendTemplatedEmail({
-    //   to: email,
-    // }, emailTemplate);
-
     return updatedProgramEnrollment;
+  },
+
+  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
+    let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+
+    // check attendance is high enough or not
+    if (isNaN(attendance) || attendance < 75) {
+      return false;
+    }
+
+    // check if assignment file is required or not
+    // if assignment file is required, then it should be present
+    const considerAssignmentFile = programEnrollment.batch.require_assignment_file_for_certification;
+    if (considerAssignmentFile && !programEnrollment.assignment_file) {
+      return false;
+    }
+
+    return true;
+  },
+
+  async emailCertificate(programEnrollment) {
+    if (!programEnrollment.medha_program_certificate) {
+      return false;
+    }
+
+    let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+    if (!isEligibleForCertification) {
+      return false;
+    }
+
+    // send email
+    let username = programEnrollment.student.full_name
+    let email = programEnrollment.student.email;
+    let batchName = programEnrollment.batch.name;
+    let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+      id: programEnrollment.batch.assigned_to
+    });
+    let assignedToName = assignedTo.username || 'Medha Team';
+    let certificateLink = programEnrollment.medha_program_certificate.url;
+    let strapiUrl = strapi.config.get('server.url');
+    let fbIconLink = `${strapiUrl}/images/email/icon-facebook.png`;
+    let igIconLink = `${strapiUrl}/images/email/icon-instagram.png`;
+    let liIconLink = `${strapiUrl}/images/email/icon-linkedin.png`;
+    let gplayIconLink = `${strapiUrl}/images/email/icon-googleplay.png`;
+    let emailImageLink = `${strapiUrl}/images/email/student-certification-email-image.jpg`;
+
+    const emailTemplate = {
+      subject: `Congratulations! You have successfully completed ${batchName}`,
+      text: ``,
+      html: `
+        <p>Dear ${username},</p>
+        <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please download your e-certificate using the link below.</p><br>
+        <a href="${certificateLink}">Download Medha e-certificate</a><br><br>
+        <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p><br>
+        <p>You are now a proud member of our Medhavi Association with over 15,000 young and diverse people like you! Our team will continue to support you in your career dreams through our distinct alumni engagement programs.</p><br>
+        <img src="${emailImageLink}" height="350" /><br><br>
+        <p>To know more, join our channels:</p><br>
+        <div>
+          <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
+            <img src="${fbIconLink}" height="45" />
+          </a>
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/medhavi_community/">
+            <img src="${igIconLink}" height="45" />
+          </a>
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.linkedin.com/company/medhavi-association/">
+            <img src="${liIconLink}" height="45" />
+          </a>
+        </div><br><br>
+        <p>And download the Medhavi app to stay updated on upcoming events and opportunities!</p><br>
+        <a style="display: inline;text-decoration: none;" href="https://play.google.com/store/apps/details?id=org.medha">
+          <img src="${gplayIconLink}" height="55" />
+        </a><br>
+        <p>For any queries/concerns regarding your e-certificate, please call: 9454354135.</p><br>
+        <p style="font-style: italic;">Medha force be with you!</p><br>
+        <p>Best wishes<br>
+        ${assignedToName}</p>
+      `,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+
+    return true;
   },
 
   // calculates attendance for a program enrollment in it's batch
