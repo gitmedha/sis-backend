@@ -7,6 +7,14 @@
 
 module.exports = {
   lifecycles: {
+    // Called after an entry is updated
+    async afterCreate(result, data) {
+      await strapi.services['students'].handleRegistrationDateLatest( result.student);
+    },
+    // Called after an entry is updated
+    async afterUpdate(result, params, data) {
+      await strapi.services['students'].handleRegistrationDateLatest( result.student);
+    },
     // Called after an entry is deleted
     async beforeDelete(params) {
       const { id } = params;
