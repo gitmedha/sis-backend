@@ -141,7 +141,10 @@ module.exports = {
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     let batchName = programEnrollment.batch.name;
-    let assignedToName = programEnrollment.batch.assigned_to.username;
+    let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+      id: programEnrollment.batch.assigned_to
+    });
+    let assignedToName = assignedTo.username || 'Medha Team';
     let certificateLink = programEnrollment.medha_program_certificate.url;
     let strapiUrl = strapi.config.get('server.url');
     let fbIconLink = `${strapiUrl}/images/email/icon-facebook.png`;
@@ -162,18 +165,18 @@ module.exports = {
         <img src="${emailImageLink}" height="350" /><br><br>
         <p>To know more, join our channels:</p><br>
         <div>
-          <a style="display: inline;text-decoration: none;" href="https://facebook.com">
+          <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
             <img src="${fbIconLink}" height="45" />
           </a>
-          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://instagram.com">
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/medhavi_community/">
             <img src="${igIconLink}" height="45" />
           </a>
-          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://linkedin.com">
+          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.linkedin.com/company/medhavi-association/">
             <img src="${liIconLink}" height="45" />
           </a>
         </div><br><br>
         <p>And download the Medhavi app to stay updated on upcoming events and opportunities!</p><br>
-        <a style="display: inline;text-decoration: none;" href="https://google.com">
+        <a style="display: inline;text-decoration: none;" href="https://play.google.com/store/apps/details?id=org.medha">
           <img src="${gplayIconLink}" height="55" />
         </a><br>
         <p>For any queries/concerns regarding your e-certificate, please call: 9454354135.</p><br>
