@@ -31,7 +31,7 @@ module.exports = {
 
     // read html file content and save it in a variable
     let content = fs.readFileSync(
-      path.resolve('./public/program-enrollment-certificate-template/certificate.html'),
+      path.resolve('./public/program-enrollment-certificate-template/default/certificate.html'),
       'utf8'
     );
 
