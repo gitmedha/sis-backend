@@ -7,12 +7,10 @@
     <style>
       @font-face {
         font-family: 'BebasNeuePro-Book';
-        /* src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Book.ttf')  format('truetype'); */
-        src: url('http://localhost:1339/program-enrollment-certificate-template/fonts/BebasNeuePro-Book.ttf')  format('truetype');
+        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Book.ttf')  format('truetype');
       }
       body {
-        /* background-image: url('{{app_url}}/program-enrollment-certificate-template/svapoorna/certificate-bg.png'); */
-        background-image: url('http://localhost:1339/program-enrollment-certificate-template/svapoorna/certificate-bg.jpg');
+        background-image: url('{{app_url}}/program-enrollment-certificate-template/svapoorna/certificate-bg.jpg');
         background-size: 100%;
         background-repeat: no-repeat;
         font-family: 'Lato', sans-serif;
@@ -20,7 +18,7 @@
         margin: 0;
         padding: 150px;
         position: relative;
-        min-height: 830px;
+        min-height: 815px;
       }
       h2, p {
         margin: 0;
@@ -63,7 +61,7 @@
       }
       .footer {
         position: absolute;
-        bottom: 180px;
+        bottom: 160px;
         width: calc(100% - 300px);
       }
       .footer-content {
@@ -97,27 +95,20 @@
     </style>
   </head>
   <body>
-    <!-- <img src="{{app_url}}/program-enrollment-certificate-template/svapoorna/medha-logo.png" class="medha-logo" alt="Medha"> -->
-    <img src="http://localhost:1339/program-enrollment-certificate-template/svapoorna/medha-logo.png" class="medha-logo mb-16" alt="Medha">
+    <img src="{{app_url}}/program-enrollment-certificate-template/svapoorna/medha-logo.png" class="medha-logo" alt="Medha">
     <h2 class="heading">COMPLETION CERTIFICATE</h2>
     <p class="content">Medha in association with</p>
-    <!-- <p class="content mb-16">{{institution_name}} hereby confirms that</p> -->
-    <p class="content mb-16">Techno Academic Senior Secondary School, Lucknow hereby confirms that</p>
-    <!-- <p class="sub-heading mb-16">{{student_name}}</p> -->
-    <p class="sub-heading mb-16">Name of the student</p>
-    <!-- <p class="content">student of {{course_name}} has successfully completed</p> -->
-    <p class="content mb-16">student of Class 9th has successfully completed</p>
-    <!-- <p class="sub-heading">{{program_name}}</p> -->
-    <p class="sub-heading">Svapoorna</p>
+    <p class="content mb-16">{{institution_name}} hereby confirms that</p>
+    <p class="sub-heading mb-16">{{student_name}}</p>
+    <p class="content">student of {{course_name}} has successfully completed</p>
+    <p class="sub-heading">{{program_name}}</p>
     <div class="footer">
       <div class="footer-content">
         <div>
-          <!-- <p><span class="label">Student ID:</span> <span class="label-content">{{student_id}}</span></p> -->
-          <p><span class="label">Student ID:</span> <span class="label-content">STU12345</span></p>
+          <p><span class="label">Student ID:</span> <span class="label-content">{{student_id}}</span></p>
         </div>
         <div class="footer-right">
-          <!-- <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p> -->
-          <p><span class="label">Certificate no:</span> <span class="label-content">123456</span></p>
+          <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p>
         </div>
       </div>
     </div>
