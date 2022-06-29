@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+      @font-face {
+        font-family: 'BebasNeuePro-Book';
+        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Book.ttf')  format('truetype');
+      }
+      body {
+        background-image: url('{{app_url}}/program-enrollment-certificate-template/svapoorna/certificate-bg.jpg');
+        background-size: 100%;
+        background-repeat: no-repeat;
+        font-family: 'Lato', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 150px;
+        position: relative;
+        min-height: 815px;
+      }
+      h2, p {
+        margin: 0;
+      }
+      .mb-16 {
+        margin-bottom: 16px;
+      }
+      .medha-logo {
+        margin-top: 150px;
+        width: 80px;
+        height: auto;
+      }
+      .heading {
+        font-family: 'BebasNeuePro-Book', cursive;
+        font-size: 72px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 115px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #FFFFFF;
+      }
+      .content {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 38px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #EAEBEE;
+      }
+      .sub-heading {
+        font-size: 38px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 53px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #FFFFFF;
+      }
+      .footer {
+        position: absolute;
+        bottom: 160px;
+        width: calc(100% - 300px);
+      }
+      .footer-content {
+        padding-left: 35px;
+        padding-right: 35px;
+        display: flex;
+        justify-content: space-between;
+        width: -webkit-fill-available;
+      }
+      .footer-right {
+        text-align: right;
+      }
+      .label {
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 26px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #FFFFFF;
+      }
+      .label-content {
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 26px;
+        letter-spacing: 0em;
+        text-align: right;
+        color: #FFFFFF;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="{{app_url}}/program-enrollment-certificate-template/svapoorna/medha-logo.png" class="medha-logo" alt="Medha">
+    <h2 class="heading">COMPLETION CERTIFICATE</h2>
+    <p class="content">Medha in association with</p>
+    <p class="content mb-16">{{institution_name}} hereby confirms that</p>
+    <p class="sub-heading mb-16">{{student_name}}</p>
+    <p class="content">student of {{course_name}} has successfully completed</p>
+    <p class="sub-heading">{{program_name}}</p>
+    <div class="footer">
+      <div class="footer-content">
+        <div>
+          <p><span class="label">Student ID:</span> <span class="label-content">{{student_id}}</span></p>
+        </div>
+        <div class="footer-right">
+          <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

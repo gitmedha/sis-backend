@@ -28,6 +28,14 @@
     },
     "default_enrollment_batch": {
       "model": "batches"
+    },
+    "certificate": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "svapoorna"
+      ],
+      "default": "default"
     }
   }
 }
