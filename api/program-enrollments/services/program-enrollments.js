@@ -111,11 +111,6 @@ module.exports = {
       certification_date: today,
     });
 
-    // update status for the student record
-    await strapi.services['students'].update({ id: programEnrollment.student.id }, {
-      status: 'Certified',
-    });
-
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
 
