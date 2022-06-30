@@ -32,6 +32,7 @@ const processRegistrationDateLatestForStudents = async () => {
     `select DISTINCT(program_enrollments.student) from program_enrollments
     join students on students.id = program_enrollments.student
     where students.registration_date_latest is null
+    and program_enrollments.registration_date is not null
     order by program_enrollments.student
     limit 1000`
   );
