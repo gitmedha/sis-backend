@@ -38,6 +38,11 @@ module.exports = {
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         certification_date: today,
       });
+
+      // update status for the student record
+      await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+        status: 'Certified',
+      });
     });
 
     // update status for the batch
