@@ -13,7 +13,6 @@
 module.exports = {
   '* * * * *': async () => {
     await generateProgramEnrollmentCertificates();
-    await processRegistrationDateLatestForStudents();
   },
 };
 
@@ -28,6 +27,7 @@ const generateProgramEnrollmentCertificates = async () => {
 
 const processRegistrationDateLatestForStudents = async () => {
   // cron to parse all students and fill registration_date_latest for them
+  // disabled as of 2022-07-06 based on this task: https://github.com/gitmedha/medha-react-ui/issues/477
   let studentIds = await strapi.connections.default.raw(
     `select DISTINCT(program_enrollments.student) from program_enrollments
     join students on students.id = program_enrollments.student
