@@ -29,9 +29,22 @@ module.exports = {
     const path = require('path');
     const puppeteer = require('puppeteer');
 
+    let certifcateFilePath = '';
+
+    switch (program.certificate) {
+      case 'svapoorna':
+        certifcateFilePath = './public/program-enrollment-certificate-template/svapoorna/certificate.html';
+        break;
+
+      case 'default':
+      default:
+        certifcateFilePath = './public/program-enrollment-certificate-template/default/certificate.html';
+        break;
+    }
+
     // read html file content and save it in a variable
     let content = fs.readFileSync(
-      path.resolve('./public/program-enrollment-certificate-template/certificate.html'),
+      path.resolve(certifcateFilePath),
       'utf8'
     );
 
@@ -96,11 +109,6 @@ module.exports = {
       status: 'Certified by Medha',
       medha_program_certificate_status: 'complete',
       certification_date: today,
-    });
-
-    // update status for the student record
-    await strapi.services['students'].update({ id: programEnrollment.student.id }, {
-      status: 'Certified',
     });
 
     // delete the generated certificate file
