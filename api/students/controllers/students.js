@@ -51,6 +51,7 @@ module.exports = {
         student.full_name = data.full_name
         student.email = data.email
         student.phone = data.phone
+        student.alternate_phone = data.alternate_phone || null
         student.status = 'New Request' // default status is Registered
         student.date_of_birth = dateString
         student.name_of_parent_or_guardian = data.parent_or_guardian_name
