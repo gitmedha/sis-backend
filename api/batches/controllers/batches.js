@@ -25,6 +25,12 @@ module.exports = {
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(entity);
     } else if (data.status === 'Certified') {
       await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
+      // AuditLog: batch certification triggered by user
+      await strapi.services['audit-logs'].create({
+        user: ctx.state?.user?.id,
+        action: 'batch_mark_as_certified',
+        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+      });
     }
 
     return sanitizeEntity(entity, { model: strapi.models.batches });
