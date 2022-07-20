@@ -66,7 +66,7 @@ module.exports = {
     });
 
     // AuditLog: total pending certificates
-    const pendingProgramEnrollmentsCount = await strapi.query('program-enrollments').count({ medha_program_certificate_status: 'processing' });
+    const pendingProgramEnrollmentsCount = await strapi.services['program-enrollments'].count({ medha_program_certificate_status: 'processing' });
     await strapi.services['audit-logs'].create({
       action: 'batch_certificate_pending_count',
       content: `Total pending certificates for generation: ${pendingProgramEnrollmentsCount}`,
