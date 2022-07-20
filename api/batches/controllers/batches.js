@@ -59,10 +59,11 @@ module.exports = {
     let updatedBatch = await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
 
     // AuditLog: batch generate certificates triggered by user
+    const pendingProgramEnrollmentsCount = await strapi.services['program-enrollments'].count({ medha_program_certificate_status: 'processing' });
     await strapi.services['audit-logs'].create({
       user: ctx.state?.user?.id,
       action: 'batch_certificate_generation',
-      content: `Certificates generation triggered by user "${ctx.state.user.username}" having ID ${ctx.state.user.id} for batch "${batch.name}" having ID ${batch.id}`,
+      content: `Certificates generation triggered by user "${ctx.state.user.username}" having ID ${ctx.state.user.id} for batch "${batch.name}" having ID ${batch.id}.\n\nTotal pending certificates: ${pendingProgramEnrollmentsCount}`,
     });
     return ctx.send({batch: updatedBatch});
   },
