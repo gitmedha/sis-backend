@@ -25,6 +25,12 @@ module.exports = {
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(entity);
     } else if (data.status === 'Certified') {
       await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
+      // AuditLog: batch certification triggered by user
+      await strapi.services['audit-logs'].create({
+        user: ctx.state?.user?.id,
+        action: 'batch_mark_as_certified',
+        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+      });
     }
 
     return sanitizeEntity(entity, { model: strapi.models.batches });
@@ -51,6 +57,21 @@ module.exports = {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
     let updatedBatch = await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
+
+    // AuditLog: batch generate certificates triggered by user
+    await strapi.services['audit-logs'].create({
+      user: ctx.state.user.id,
+      action: 'batch_certificate_generation',
+      content: `Certificates generation triggered by user "${ctx.state.user.username}" having ID ${ctx.state.user.id} for batch "${batch.name}" having ID ${batch.id}.`,
+    });
+
+    // AuditLog: total pending certificates
+    const pendingProgramEnrollmentsCount = await strapi.services['program-enrollments'].count({ medha_program_certificate_status: 'processing' });
+    await strapi.services['audit-logs'].create({
+      action: 'batch_certificate_pending_count',
+      content: `Total pending certificates for generation: ${pendingProgramEnrollmentsCount}`,
+    });
+
     return ctx.send({batch: updatedBatch});
   },
 
@@ -58,6 +79,13 @@ module.exports = {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
     await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
+
+    // AuditLog: batch email certificates triggered by user
+    await strapi.services['audit-logs'].create({
+      user: ctx.state?.user?.id,
+      action: 'batch_certificate_email',
+      content: `Certificates emails triggered by user "${ctx.state.user.username}" having ID ${ctx.state.user.id} for batch "${batch.name}" having ID ${batch.id}`,
+    });
     return ctx.send({batch: batch});
   },
 };

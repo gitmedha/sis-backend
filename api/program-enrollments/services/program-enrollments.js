@@ -7,6 +7,13 @@
 
 module.exports = {
   async generateCertificate(programEnrollment) {
+
+    // AuditLog: certificate generation started
+    await strapi.services['audit-logs'].create({
+      action: 'certificate_generation_started',
+      content: `Certificate generation started for program enrollment ID ${programEnrollment.id}`,
+    });
+
     const program = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
     let student_name = programEnrollment.student.full_name
     let student_id  = programEnrollment.student.student_id
@@ -113,6 +120,12 @@ module.exports = {
 
     // delete the generated certificate file
     fs.unlinkSync(certificatePath);
+
+    // AuditLog: certificate generation finished
+    await strapi.services['audit-logs'].create({
+      action: 'certificate_generation_finished',
+      content: `Certificate generation finished for program enrollment ID ${programEnrollment.id}. Certificate file upload ID: ${fileUpload[0].id}`,
+    });
 
     return updatedProgramEnrollment;
   },

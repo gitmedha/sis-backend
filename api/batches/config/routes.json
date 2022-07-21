@@ -51,12 +51,18 @@
     {
       "method": "POST",
       "path": "/batch/:id/generate-certificates",
-      "handler": "batches.generateCertificates"
+      "handler": "batches.generateCertificates",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "POST",
       "path": "/batch/:id/email-certificates",
-      "handler": "batches.emailCertificates"
+      "handler": "batches.emailCertificates",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
