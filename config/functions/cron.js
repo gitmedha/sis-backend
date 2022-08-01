@@ -17,7 +17,7 @@ module.exports = {
 };
 
 const generateProgramEnrollmentCertificates = async () => {
-  const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 4 });
+  const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 3 });
   console.log('programEnrollments', programEnrollments.length);
   programEnrollments.forEach(async programEnrollment => {
     // create the certificate
