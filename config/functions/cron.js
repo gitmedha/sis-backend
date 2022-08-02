@@ -17,12 +17,12 @@ module.exports = {
 };
 
 const generateProgramEnrollmentCertificates = async () => {
-  const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 4 });
+  const programEnrollments = await strapi.services['program-enrollments'].find({ medha_program_certificate_status: 'processing', _limit: 3 });
   console.log('programEnrollments', programEnrollments.length);
-  programEnrollments.forEach(async programEnrollment => {
+  for (const programEnrollment of programEnrollments) {
     // create the certificate
     await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
-  });
+  }
 }
 
 const processRegistrationDateLatestForStudents = async () => {
