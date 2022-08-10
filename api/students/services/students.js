@@ -19,7 +19,7 @@ module.exports = {
     return await strapi.services['program-enrollments'].findOne({ student: student.id, _sort: 'id:desc' });
   },
   async bulkUpdateRegisteredBy() {
-    let students = await strapi.services['students'].find({ registered_by_null: true, _limit: 5000 });
+    let students = await strapi.services['students'].find({ registered_by_null: true, _limit: 3000 });
     if (students.length) {
       console.log('total students to process: ', students.length);
       let count = 0;
