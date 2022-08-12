@@ -13,7 +13,7 @@
 module.exports = {
   '* * * * *': async () => {
     await generateProgramEnrollmentCertificates();
-    await bulkUpdateRegisteredBy();
+    // await bulkUpdateRegisteredBy();
   },
 };
 
