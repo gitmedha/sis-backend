@@ -71,6 +71,12 @@
     "assigned_to": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "work_engagement": {
+      "type": "string"
+    },
+    "number_of_internship_hours": {
+      "type": "integer"
     }
   }
 }
