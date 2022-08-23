@@ -15,7 +15,7 @@ module.exports = {
     async afterUpdate(result, params, data) {
       await strapi.services['students'].handleRegistrationDateLatest( result.student);
     },
-    // Called after an entry is deleted
+    // Called before an entry is deleted
     async beforeDelete(params) {
       const { id } = params;
       if (!id) return
