@@ -13,7 +13,6 @@ module.exports = {
     },
     // Called before an entry is updated
     async beforeUpdate(params, data) {
-      console.log('beforeUpdate.......');
       const { id } = params
       const programEnrollment = await strapi.services['program-enrollments'].findOne({ id })
 
