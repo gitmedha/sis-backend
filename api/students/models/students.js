@@ -7,7 +7,7 @@
 
 module.exports = {
   lifecycles: {
-    // Called after an entry is deleted
+    // Called before an entry is deleted
     async beforeDelete(params) {
       const { id } = params;
       if (!id) return
