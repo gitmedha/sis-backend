@@ -30,8 +30,9 @@ module.exports = {
     // AuditLog: user triggered certificate generation
     const logged_in_user = ctx.state.user;
     await strapi.services['audit-logs'].create({
+      user: ctx.state?.user?.id,
       action: 'user_triggered_certificate_generation',
-      content: `Certificate generation started for program enrollment ID ${programEnrollment.id} by user ID ${logged_in_user.id}`,
+      content: `Certificate generation started for program enrollment ID ${programEnrollment.id} by user "${ctx.state.user.username}" having ID ${logged_in_user.id}`,
     });
 
     const updatedProgramEnrollment = await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
