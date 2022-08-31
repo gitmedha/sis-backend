@@ -11,7 +11,10 @@
     {
       "method": "POST",
       "path": "/program-enrollments/:id/generateCertificate",
-      "handler": "program-enrollments.generateCertificate"
+      "handler": "program-enrollments.generateCertificate",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
