@@ -39,6 +39,23 @@ module.exports = {
     return ctx.send({programEnrollment: updatedProgramEnrollment});
   },
 
+  async deleteCertificate(ctx) {
+    const { id } = ctx.params;
+    // fetch program enrollment details
+    const programEnrollment = await strapi.services['program-enrollments'].findOne({ id });
+
+    // AuditLog: user triggered certificate generation
+    const logged_in_user = ctx.state.user;
+    await strapi.services['audit-logs'].create({
+      user: ctx.state?.user?.id,
+      action: 'user_triggered_certificate_deletion',
+      content: `Certificate deleted for program enrollment ID ${programEnrollment.id} by user "${ctx.state.user.username}" having ID ${logged_in_user.id}`,
+    });
+
+    const updatedProgramEnrollment = await strapi.services['program-enrollments'].deleteCertificate(programEnrollment);
+    return ctx.send({programEnrollment: updatedProgramEnrollment});
+  },
+
   async delete(ctx) {
     const { id } = ctx.params;
     const record = await strapi.services['program-enrollments'].findOne({ id });

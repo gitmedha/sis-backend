@@ -17,6 +17,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/program-enrollments/:id/deleteCertificate",
+      "handler": "program-enrollments.deleteCertificate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "GET",
       "path": "/program-enrollments",
       "handler": "program-enrollments.find",
