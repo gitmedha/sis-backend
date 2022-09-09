@@ -19,6 +19,7 @@ module.exports = {
       // check if batch is present in the data to update and the batch id does not match the old batch id
       if (
         data.batch &&
+        programEnrollment.batch &&
         programEnrollment.batch.id !== parseInt(data.batch) &&
         ['Certified by Medha', 'Batch Complete'].includes(programEnrollment.status) === false
       ) {
