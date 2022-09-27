@@ -7,7 +7,7 @@
 
 module.exports = {
   async markDiscountCodeAsExpired(couponCode) {
-    return await strapi.services['program-enrollments'].update({
+    return await strapi.services['discount-codes'].update({
       coupon_code: couponCode
     }, {
       expired: true
