@@ -112,6 +112,10 @@ module.exports = {
         CREATED AT: ${sanitizedProgramEnrollmentEntity.created_at}
     `)
 
+    if (data.discount_code) {
+      await strapi.services['discount-codes'].markDiscountCodeAsExpired(data.discount_code);
+    }
+
     ctx.send(sanitizedProgramEnrollmentEntity)
     return sanitizedProgramEnrollmentEntity
   },
