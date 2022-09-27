@@ -37,6 +37,7 @@ module.exports = {
       }
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         certification_date: today,
+        status: 'Certified by Medha'
       });
 
       // update status for the student record

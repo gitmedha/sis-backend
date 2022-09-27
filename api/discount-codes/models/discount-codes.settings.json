@@ -26,6 +26,10 @@
     },
     "reason_for_discount_or_waiver": {
       "type": "string"
+    },
+    "expired": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

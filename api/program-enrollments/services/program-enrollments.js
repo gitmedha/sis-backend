@@ -130,6 +130,16 @@ module.exports = {
     return updatedProgramEnrollment;
   },
 
+  async deleteCertificate(programEnrollment) {
+    if (programEnrollment.medha_program_certificate) {
+      await strapi.plugins['upload'].services.upload.remove({
+        id: programEnrollment.medha_program_certificate.id
+      });
+      programEnrollment.medha_program_certificate = null;
+    }
+    return programEnrollment;
+  },
+
   async isProgramEnrollmentEligibleForCertification(programEnrollment) {
     let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
 

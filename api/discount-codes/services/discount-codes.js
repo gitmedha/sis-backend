@@ -5,4 +5,12 @@
  * to customize this service
  */
 
-module.exports = {};
+module.exports = {
+  async markDiscountCodeAsExpired(couponCode) {
+    return await strapi.services['discount-codes'].update({
+      coupon_code: couponCode
+    }, {
+      expired: true
+    });
+  },
+};
