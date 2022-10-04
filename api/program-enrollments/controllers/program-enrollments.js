@@ -36,11 +36,11 @@ module.exports = {
     });
 
     let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
-    if (isEligibleForCertification) {
-      const updatedProgramEnrollment = await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
-      return ctx.send({programEnrollment: updatedProgramEnrollment});
+    if (!isEligibleForCertification) {
+      return ctx.send({ programEnrollment });
     }
-    return ctx.send({ programEnrollment });
+    const updatedProgramEnrollment = await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+    return ctx.send({programEnrollment: updatedProgramEnrollment});
   },
 
   async deleteCertificate(ctx) {
