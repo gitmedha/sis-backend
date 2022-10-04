@@ -35,8 +35,12 @@ module.exports = {
       content: `Certificate generation started for program enrollment ID ${programEnrollment.id} by user "${ctx.state.user.username}" having ID ${logged_in_user.id}`,
     });
 
-    const updatedProgramEnrollment = await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
-    return ctx.send({programEnrollment: updatedProgramEnrollment});
+    let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+    if (isEligibleForCertification) {
+      const updatedProgramEnrollment = await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+      return ctx.send({programEnrollment: updatedProgramEnrollment});
+    }
+    return ctx.send({ programEnrollment });
   },
 
   async deleteCertificate(ctx) {
