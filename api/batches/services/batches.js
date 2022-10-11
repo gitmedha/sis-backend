@@ -29,6 +29,9 @@ module.exports = {
       let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
 
       if (!isEligibleForCertification) {
+        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+          status: 'Not Certified by Medha -- <75% Attendance'
+        });
         return;
       }
       let today = new Date().toISOString().split('T')[0]
