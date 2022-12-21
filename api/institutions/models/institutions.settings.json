@@ -83,23 +83,10 @@
       "plugin": "users-permissions",
       "model": "user"
     },
-    "start_date": {
-      "type": "datetime"
-    },
-    "end_date": {
-      "type": "datetime"
-    },
-    "mou": {
-      "model": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
-      "plugin": "upload",
-      "required": false,
-      "pluginOptions": {}
+    "mou_list": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.mou-list"
     }
   }
 }

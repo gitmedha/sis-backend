@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_common_mou_lists",
+  "info": {
+    "name": "mou_list",
+    "icon": "images",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "mou": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    }
+  }
+}
