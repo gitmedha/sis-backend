@@ -7,7 +7,7 @@
   },
   "options": {},
   "attributes": {
-    "mou": {
+    "mou_file": {
       "model": "file",
       "via": "related",
       "allowedTypes": [

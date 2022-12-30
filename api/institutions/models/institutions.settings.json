@@ -83,7 +83,7 @@
       "plugin": "users-permissions",
       "model": "user"
     },
-    "mou_list": {
+    "mou": {
       "type": "component",
       "repeatable": true,
       "component": "common.mou-list"
