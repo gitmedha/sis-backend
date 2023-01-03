@@ -1,7 +1,7 @@
 {
-  "collectionName": "components_common_mou_lists",
+  "collectionName": "components_common_mou_files",
   "info": {
-    "name": "mou_list",
+    "name": "mou_file",
     "icon": "images",
     "description": ""
   },
@@ -20,10 +20,10 @@
       "pluginOptions": {}
     },
     "start_date": {
-      "type": "datetime"
+      "type": "date"
     },
     "end_date": {
-      "type": "datetime"
+      "type": "date"
     }
   }
 }
