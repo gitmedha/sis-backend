@@ -20,10 +20,10 @@
       "pluginOptions": {}
     },
     "start_date": {
-      "type": "date"
+      "type": "datetime"
     },
     "end_date": {
-      "type": "date"
+      "type": "datetime"
     }
   }
 }
