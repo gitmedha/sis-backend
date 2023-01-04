@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_common_mou_files",
+  "info": {
+    "name": "mou_file",
+    "icon": "images",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "mou_file": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    }
+  }
+}
