@@ -25,7 +25,7 @@ module.exports = ({ env }) => ({
       // tls: { ciphers: 'SSLv3'},
       auth: {
         user: env('SMTP_USER', 'sis.admin@medha.org.in'),
-        pass: env('SMTP_PASSWORD', 'sisadmin123A'),
+        pass: env('SMTP_PASSWORD', 'Admin.SIS407'),
       },
       // ... any custom nodemailer options
     },
