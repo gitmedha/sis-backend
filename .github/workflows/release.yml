@@ -29,15 +29,15 @@ jobs:
       uses: cross-the-world/ssh-pipeline@v1.2.0
       with:
         # ssh remote host
-        host: 52.148.64.201
+        host: ${{ secrets.PRODUCTION_SSH_HOST }}
         # ssh remote port
         # port: # optional, default is 22
         # ssh remote user
-        user: ${{ secrets.SSH_USER }}
+        user: ${{ secrets.PRODUCTION_SSH_USER }}
         # content of ssh private key. ex raw content of ~/.ssh/id_rsa
         # key: # optional
         # ssh remote password
-        pass: ${{ secrets.SSH_USER_PASSWORD }}
+        pass: ${{ secrets.PRODUCTION_USER_PASSWORD }}
         # connection timeout to remote host
         # connect_timeout: # optional, default is 30s
         # execute commands on ssh
