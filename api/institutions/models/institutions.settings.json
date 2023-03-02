@@ -82,6 +82,11 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "mou": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.mou-list"
     }
   }
 }
