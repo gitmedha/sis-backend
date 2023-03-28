@@ -29,7 +29,7 @@
     "paid_leaves": {
       "type": "boolean"
     },
-    "emplyment_benefits": {
+    "employee_benefits": {
       "type": "boolean"
     },
     "offer_letter": {
