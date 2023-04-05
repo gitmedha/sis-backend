@@ -70,6 +70,8 @@ module.exports = {
         student.medha_area = institution.medha_area
         student.created_by_frontend = logged_in_user;
         student.updated_by_frontend = logged_in_user;
+        student.how_did_you_hear_about_us = data.how_did_you_hear_about_us;
+        student.how_did_you_hear_about_us_other = data.how_did_you_hear_about_us_other;
 
         let studentEntity = await strapi.services.students.create(student)
         let sanitizedStudentEntity = sanitizeEntity(studentEntity, { model: strapi.models.students })
