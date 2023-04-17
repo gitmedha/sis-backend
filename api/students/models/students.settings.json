@@ -123,6 +123,12 @@
     "registered_by": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "how_did_you_hear_about_us": {
+      "type": "string"
+    },
+    "how_did_you_hear_about_us_other": {
+      "type": "string"
     }
   }
 }
