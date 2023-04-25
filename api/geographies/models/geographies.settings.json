@@ -22,6 +22,9 @@
     },
     "cluster": {
       "type": "string"
+    },
+    "tier": {
+      "type": "string"
     }
   }
 }
