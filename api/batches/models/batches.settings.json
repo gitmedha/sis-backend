@@ -101,6 +101,9 @@
     },
     "certificates_emailed_at": {
       "type": "datetime"
+    },
+    "mode_of_payment": {
+      "type": "string"
     }
   }
 }
