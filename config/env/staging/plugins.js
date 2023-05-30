@@ -37,15 +37,14 @@ module.exports = ({ env }) => ({
 
 
   upload: {
-    provider: 'azure-storage',
+    provider: 'aws-s3',
     providerOptions: {
-      account: env('STORAGE_ACCOUNT', 'medhasisfiles'),
-      accountKey: env('STORAGE_ACCOUNT_KEY', '2HM6xrhwEOmm8ciRRIB8f2VjZ62DoXbR03mRgZWblHmnt0UzNnrVNTthG3+UpHWazw1EmdLPX5HkvGAyBvb44A=='),
-      serviceBaseURL: env('STORAGE_URL', 'https://medhasisfiles.blob.core.windows.net/'),
-      containerName: env('STORAGE_CONTAINER_NAME', 'staging-server-files'),
-      // cdnBaseURL: env('STORAGE_CDN_URL'),
-      defaultPath: 'staging-files',
-      maxConcurrent: 10
+      accessKeyId: env('AWS_S3_ACCESS_KEY_ID'),
+      secretAccessKey: env('AWS_S3_SECRET_ACCESS_KEY'),
+      region: env('AWS_S3_REGION'),
+      params: {
+        Bucket: env('AWS_S3_BUCKET'),
+      },
     }
   },
 });
