@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "users-ops-activities",
+  "info": {
+    "name": "users_ops_activities",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false,
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "activity_type": {
+      "type": "string",
+      "required": true
+    },
+    "area": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "string",
+      "required": true
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "topic": {
+      "type": "text",
+      "required": true
+    },
+    "donor": {
+      "type": "boolean"
+    },
+    "guest": {
+      "type": "string"
+    },
+    "designation": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "students_attended": {
+      "type": "integer"
+    },
+    "other_links": {
+      "type": "string"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "institution": {
+      "model": "institutions"
+    },
+    "batch": {
+      "model": "batches"
+    },
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}
