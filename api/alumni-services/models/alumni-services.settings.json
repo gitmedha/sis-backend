@@ -47,18 +47,6 @@
     },
     "category": {
       "type": "string"
-    },
-    "youth_leadership": {
-      "type": "string"
-    },
-    "peer_learning": {
-      "type": "string"
-    },
-    "ideation_club": {
-      "type": "string"
-    },
-    "giveback": {
-      "type": "string"
     }
   }
 }
