@@ -1,20 +1,18 @@
 {
   "kind": "collectionType",
-  "collectionName": "users-ops-activities",
+  "collectionName": "users_ops_activities",
   "info": {
     "name": "users_ops_activities",
     "description": ""
   },
   "options": {
-    "draftAndPublish": false,
     "increments": true,
     "timestamps": true,
-    "comment": ""
+    "draftAndPublish": true
   },
   "attributes": {
     "activity_type": {
-      "type": "string",
-      "required": true
+      "type": "text"
     },
     "area": {
       "type": "string",
@@ -24,33 +22,31 @@
       "type": "string",
       "required": true
     },
-    "start_date": {
-      "type": "date"
-    },
-    "end_date": {
-      "type": "date"
-    },
     "topic": {
-      "type": "text",
+      "type": "string",
       "required": true
     },
-    "donor": {
-      "type": "boolean"
-    },
     "guest": {
-      "type": "string"
+      "type": "string",
+      "required": false
     },
     "designation": {
       "type": "string"
     },
     "organization": {
-      "type": "string"
-    },
-    "students_attended": {
-      "type": "integer"
+      "type": "string",
+      "required": true
     },
     "other_links": {
       "type": "string"
+    },
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
     },
     "assigned_to": {
       "plugin": "users-permissions",
@@ -62,13 +58,19 @@
     "batch": {
       "model": "batches"
     },
-    "Created_by": {
-      "plugin": "users-permissions",
-      "model": "user"
+    "students_attended": {
+      "type": "integer"
     },
-    "Updated_by": {
-      "plugin": "users-permissions",
-      "model": "user"
+    "donor": {
+      "type": "boolean"
+    },
+    "start_date": {
+      "type": "date",
+      "required": true
+    },
+    "end_date": {
+      "type": "date",
+      "required": true
     }
   }
 }
