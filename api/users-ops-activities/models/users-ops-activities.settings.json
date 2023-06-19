@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "users_ops_activities",
+  "info": {
+    "name": "users_ops_activities",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "activity_type": {
+      "type": "text"
+    },
+    "area": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "string",
+      "required": true
+    },
+    "topic": {
+      "type": "string",
+      "required": true
+    },
+    "guest": {
+      "type": "string",
+      "required": false
+    },
+    "designation": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string",
+      "required": true
+    },
+    "other_links": {
+      "type": "string"
+    },
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "institution": {
+      "model": "institutions"
+    },
+    "batch": {
+      "model": "batches"
+    },
+    "students_attended": {
+      "type": "integer"
+    },
+    "donor": {
+      "type": "boolean"
+    },
+    "start_date": {
+      "type": "date",
+      "required": true
+    },
+    "end_date": {
+      "type": "date",
+      "required": true
+    }
+  }
+}
