@@ -50,8 +50,8 @@
     },
     {
       "method":"POST",
-      "path":"/users-ops-activities/createMany",
-      "handler":"users-ops-activities.createMany",
+      "path":"/users-ops-activities/createBulkOperations",
+      "handler":"users-ops-activities.createBulkOperations",
       "config": {
         "policies": []
       }

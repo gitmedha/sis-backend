@@ -6,17 +6,16 @@
  */
 
 module.exports = {
-    async createMany(ctx) {
-        const { request } = ctx;
-        const { body } = request;
-    
+    async createBulkOperations(ctx) {
+        const { body } = ctx.request;
+        
         try {
-          // Assuming your model name is "mydata"
-          const createdData = await strapi.services.mydata.createMany(body);
+          const createdData = await strapi.services['users-ops-activities'].createMany(body);
           return createdData;
+       
         } catch (error) {
           console.error(error);
           throw error;
         }
-      },
+      }
 };

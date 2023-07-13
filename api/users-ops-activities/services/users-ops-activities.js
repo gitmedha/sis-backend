@@ -5,4 +5,14 @@
  * to customize this service
  */
 
-module.exports = {};
+module.exports = {
+    createMany: async (data) => {
+        try {
+          const createdData = await strapi.query('users-ops-activities').createMany(data);
+          return createdData;
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
+      },
+};
