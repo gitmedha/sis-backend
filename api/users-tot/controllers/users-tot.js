@@ -10,7 +10,7 @@ module.exports = {
         const { body } = ctx.request;
         
         try {
-          const createdData = await strapi.services['users-tots'].createMany(body);
+          const createdData = await strapi.services['users-tot'].createMany(body);
           return createdData;
        
         } catch (error) {
