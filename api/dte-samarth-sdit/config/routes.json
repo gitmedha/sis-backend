@@ -47,6 +47,15 @@
       "config": {
         "policies": []
       }
+    },
+
+    {
+      "method":"POST",
+      "path":"/dte-samarth-sdits/createBulkSamarths",
+      "handler":"dte-samarth-sdit.createBulkSamarths",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }

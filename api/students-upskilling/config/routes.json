@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/students-upskillings/createBulkSamarths",
+      "handler":"students-upskilling.createBulkupskills",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }
