@@ -6,11 +6,11 @@
  */
 
 module.exports = {
-    async createBulkOperations(ctx) {
+    async createBulkTots(ctx) {
         const { body } = ctx.request;
         
         try {
-          const createdData = await strapi.services['users-ops-activities'].createMany(body);
+          const createdData = await strapi.services['users-tot'].createMany(body);
           return createdData;
        
         } catch (error) {

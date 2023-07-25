@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/users-ops-activities/createBulkOperations",
+      "handler":"users-ops-activities.createBulkOperations",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

@@ -8,7 +8,7 @@
 module.exports = {
     createMany: async (data) => {
         try {
-          const createdData = await strapi.query('users-ops-activities').createMany(data);
+          const createdData = await strapi.query('users-tot').createMany(data);
           return createdData;
         } catch (error) {
           console.error(error);
