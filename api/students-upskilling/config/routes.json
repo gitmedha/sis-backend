@@ -50,7 +50,7 @@
     },
     {
       "method":"POST",
-      "path":"/students-upskillings/createBulkSamarths",
+      "path":"/students-upskillings/createBulkUpSkills",
       "handler":"students-upskilling.createBulkupskills",
       "config":{
         "policies": []

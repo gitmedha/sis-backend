@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "college_pitch",
+  "info": {
+    "name": "college_pitch"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "pitch_date": {
+      "type": "date"
+    },
+    "student_name": {
+      "type": "string"
+    },
+    "course_name": {
+      "type": "string"
+    },
+    "course_year": {
+      "type": "string"
+    },
+    "college_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "whatsapp": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "srm_name": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    }
+  }
+}
