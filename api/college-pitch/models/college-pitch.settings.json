@@ -1,9 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "alumni_queries",
+  "collectionName": "college_pitch",
   "info": {
-    "name": "alumni_queries",
-    "description": ""
+    "name": "college_pitch"
   },
   "options": {
     "increments": true,
@@ -19,41 +18,38 @@
       "plugin": "users-permissions",
       "model": "user"
     },
-    "student_id": {
-      "model": "students"
-    },
-    "query_start": {
+    "pitch_date": {
       "type": "date"
     },
     "student_name": {
       "type": "string"
     },
-    "father_name": {
+    "course_name": {
       "type": "string"
     },
-    "email": {
+    "course_year": {
+      "type": "string"
+    },
+    "college_name": {
       "type": "string"
     },
     "phone": {
       "type": "string"
     },
-    "location": {
+    "whatsapp": {
       "type": "string"
     },
-    "query_type": {
+    "email": {
       "type": "string"
     },
-    "query_desc": {
+    "remarks": {
       "type": "string"
     },
-    "conclusion": {
+    "srm_name": {
       "type": "string"
     },
-    "status": {
+    "area": {
       "type": "string"
-    },
-    "query_end": {
-      "type": "date"
     }
   }
 }
