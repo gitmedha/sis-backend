@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alumni_queries",
+  "info": {
+    "name": "alumni_queries",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "student_id": {
+      "model": "students"
+    },
+    "query_start": {
+      "type": "date"
+    },
+    "student_name": {
+      "type": "string"
+    },
+    "father_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "query_type": {
+      "type": "string"
+    },
+    "query_desc": {
+      "type": "string"
+    },
+    "conclusion": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "query_end": {
+      "type": "date"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/college-pitches",
+      "handler": "college-pitch.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/college-pitches/count",
+      "handler": "college-pitch.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/college-pitches/:id",
+      "handler": "college-pitch.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/college-pitches",
+      "handler": "college-pitch.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/college-pitches/:id",
+      "handler": "college-pitch.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/college-pitches/:id",
+      "handler": "college-pitch.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/college-pitches/create-bulk-college-pitch",
+      "handler":"college-pitch.createBulkCollegePitch",
+      "config":{
+        "policies": []
+      }
+    }
+  ]
+}
