@@ -18,5 +18,4 @@
 ### Compiles strapi for for production
 ```
 yarn build
-
 ```
