@@ -1,11 +1,11 @@
-# Pre-Requisites
+### Pre-Requisites
 
 ```
     1. Node :  ">=10.16.0 <=14.x.x",
     2. Postgres : version 14
 ```
 
-After compeleting installation of above mentioned pre-requisites, follow these steps :
+### After compeleting installation of above mentioned pre-requisites, follow these steps :
 
 1. Run `yarn install`
 2. After the project is installed next step will be database setup.
