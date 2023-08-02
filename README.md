@@ -9,7 +9,14 @@
 
 1. Run `yarn install`
 2. After the project is installed next step will be database setup.
-* Create a postgres database `medha_sis`.
-* Download this database dump fro provided link here: https://drive.google.com/drive/folders/1lSvMJr8AMiD68zqcpr2w0BnZ5N80EzE5
+* Create a PostgreSQL database named `medha_sis`.
+* Download this database dump from the provided link here: https://drive.google.com/drive/folders/1lSvMJr8AMiD68zqcpr2w0BnZ5N80EzE5
 * Restore this database.
-3. Once database is restored run `yarn develop` and you will be able to access backend at `http://localhost:1337/`
+3. Once the database is restored, run `yarn develop`, and you will be able to access the backend at `http://localhost:1337/`.
+
+
+### Compiles strapi for for production
+```
+yarn build
+
+```
