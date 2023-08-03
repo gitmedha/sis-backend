@@ -124,7 +124,7 @@
       "required": false,
       "pluginOptions": {}
     },
-    "course_name_if_other": {
+    "course_name_other": {
       "type": "string"
     }
   }
