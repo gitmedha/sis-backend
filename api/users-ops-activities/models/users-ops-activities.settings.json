@@ -71,6 +71,10 @@
     "end_date": {
       "type": "date",
       "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

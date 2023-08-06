@@ -54,6 +54,10 @@
     },
     "query_end": {
       "type": "date"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

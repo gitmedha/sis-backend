@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "college_pitch",
   "info": {
-    "name": "college_pitch"
+    "name": "college_pitch",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -50,6 +51,10 @@
     },
     "area": {
       "type": "string"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

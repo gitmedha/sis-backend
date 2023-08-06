@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "students_upskilling",
   "info": {
-    "name": "students_upskilling"
+    "name": "students_upskilling",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -47,6 +48,10 @@
     "issued_org": {
       "type": "string",
       "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
