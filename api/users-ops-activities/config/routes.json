@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "PUT",
+      "path": "/users-ops-activities/deactivate-ops/:id",
+      "handler": "users-ops-activities.deactiveOps",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
