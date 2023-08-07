@@ -55,6 +55,14 @@
       "config":{
         "policies": []
       }
+    },
+    {
+      "method": "PUT",
+      "path": "/college-pitches/deactivate-college-pitch/:id",
+      "handler": "college-pitch.deactiveCollegePitch",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

@@ -103,6 +103,7 @@ module.exports = {
     programEnrollment.program_selected_by_student = program.name
     programEnrollment.year_of_course_completion = data.year_of_course_completion
     programEnrollment.course_name_in_current_sis = data.course_name_in_current_sis
+    programEnrollment.course_name_other = data.course_name_other
     programEnrollment.discount_code_id = data.discount_code ? data.discount_code : null
     programEnrollment.fee_payment_date = money_id == 0 ? null : new Date()
     programEnrollment.created_by_frontend = logged_in_user;
