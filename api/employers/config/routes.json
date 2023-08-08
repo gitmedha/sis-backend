@@ -47,6 +47,13 @@
       "config": {
         "policies": []
       }
+    },{
+      "method":"POST",
+      "path":"/employers/findDuplicate",
+      "handler":"employers.findDuplicate",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }
