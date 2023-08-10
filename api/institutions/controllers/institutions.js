@@ -39,4 +39,25 @@ module.exports = {
         ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
     }
   },
+  async findDuplicate(ctx) {
+    const {name} = ctx.request.body;
+
+    try{
+
+      // find duplicate record
+
+      const employer = await strapi.query('institutions').findOne({name});
+
+      if(employer){
+        return ctx.send('Record Found')
+      }
+
+      return ctx.send("Record Not Found")
+      
+    }
+    catch(err){
+    
+      ctx.throw(500, 'Internal Server Error')
+    }
+  }
 };

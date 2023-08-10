@@ -55,14 +55,6 @@
       "config": {
         "policies": []
       }
-    },
-    {
-      "method": "PUT",
-      "path": "/users-tots/deactivate-tot/:id",
-      "handler": "users-tot.deactiveTots",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }

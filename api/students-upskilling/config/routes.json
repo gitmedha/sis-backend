@@ -55,14 +55,6 @@
       "config":{
         "policies": []
       }
-    },
-    {
-      "method": "PUT",
-      "path": "/students-upskillings/deactivate-students-upskills/:id",
-      "handler": "students-upskilling.deactiveStudentsUpSkills",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }

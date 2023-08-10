@@ -55,14 +55,6 @@
       "config": {
         "policies": []
       }
-    },
-    {
-      "method": "PUT",
-      "path": "/alumni-queries/deactivate-alumni-query/:id",
-      "handler": "alumni-queries.deactiveAlumniQuery",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }
