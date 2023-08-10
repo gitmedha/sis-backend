@@ -56,14 +56,6 @@
       "config":{
         "policies": []
       }
-    },
-    {
-      "method": "PUT",
-      "path": "/dte-samarth-sdits/deactivate-samarth/:id",
-      "handler": "dte-samarth-sdit.deactiveDteSamarthSdit",
-      "config": {
-        "policies": []
-      }
     }
   ]
 }

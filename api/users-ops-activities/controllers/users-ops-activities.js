@@ -16,29 +16,5 @@ module.exports = {
       console.error(error);
       throw error;
     }
-  },
-
-  async deactiveOps(ctx) {
-    const { id } = ctx.params;
-    const { fieldToUpdate, newValue } = ctx.request.body;
-
-    try {
-      // Get the existing record
-      const existingRecord = await strapi.query('users-ops-activities').findOne({ id });
-
-      if (!existingRecord) {
-        return ctx.throw(404, 'Record not found');
-      }
-
-      // Update the specified field
-      existingRecord[fieldToUpdate] = newValue;
-
-      // Save the updated record
-      const updatedRecord = await strapi.query('users-ops-activities').update({ id }, existingRecord);
-
-      ctx.send(updatedRecord);
-    } catch (err) {
-      ctx.throw(500, 'Internal Server Error');
-    }
-  },
+  }  
 };
