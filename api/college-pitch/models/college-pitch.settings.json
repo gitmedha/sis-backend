@@ -52,7 +52,7 @@
     "area": {
       "type": "string"
     },
-    "isActive": {
+    "isactive": {
       "type": "boolean",
       "default": true
     }

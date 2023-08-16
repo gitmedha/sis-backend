@@ -55,7 +55,7 @@
     "query_end": {
       "type": "date"
     },
-    "isActive": {
+    "isactive": {
       "type": "boolean",
       "default": true
     }

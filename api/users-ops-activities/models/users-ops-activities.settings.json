@@ -72,7 +72,7 @@
       "type": "date",
       "required": true
     },
-    "isActive": {
+    "isactive": {
       "type": "boolean",
       "default": true
     }
