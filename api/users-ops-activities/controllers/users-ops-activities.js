@@ -16,5 +16,26 @@ module.exports = {
       console.error(error);
       throw error;
     }
-  }  
+  },
+
+  async searchOps (ctx){
+
+    const {searchField,searchValue}=ctx.request.body
+  
+    try{
+      // if (!searchField || !searchValue) {
+      //   return ctx.badRequest('Field and value are required.');
+      // }
+      const result = await strapi.query('users-ops-activities').find({
+        [searchField]: searchValue,
+      });
+  
+      return ctx.send(result);
+
+    }
+    catch(error){
+      console.log(error)
+      throw error;
+    }
+  }
 };
