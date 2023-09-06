@@ -18,24 +18,26 @@ module.exports = {
     }
   },
 
-  async searchOps (ctx){
-
-    const {searchField,searchValue}=ctx.request.body
+  async searchOps(ctx) {
+    const { searchField, searchValue } = ctx.request.body;
   
-    try{
-      // if (!searchField || !searchValue) {
-      //   return ctx.badRequest('Field and value are required.');
-      // }
-      const result = await strapi.query('users-ops-activities').find({
-        [searchField]: searchValue,
+    try {
+      if (!searchField || !searchValue) {
+        return ctx.badRequest('Field and value are required.');
+      }
+      
+      const records = await strapi.query('users-ops-activities').find({
+        [`${searchField}_contains`]: searchValue,
+        _limit:1000000,
+        _start: 0
       });
-  
-      return ctx.send(result);
+      
 
-    }
-    catch(error){
-      console.log(error)
+      return ctx.send(records);
+    } catch (error) {
+      console.log(error);
       throw error;
     }
-  }
+  },
+    
 };
