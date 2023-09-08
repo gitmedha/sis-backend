@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-queries/search",
+      "handler":"alumni-queries.searchOps",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

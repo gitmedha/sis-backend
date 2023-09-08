@@ -38,6 +38,6 @@ module.exports = {
       console.log(error);
       throw error;
     }
-  },
+  }
     
 };
