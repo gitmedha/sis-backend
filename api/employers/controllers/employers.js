@@ -41,10 +41,15 @@ module.exports = {
   },
 
   async findDuplicate(ctx) {
-    const {name} = ctx.request.body;
+
+    let {name} = ctx.request.body;
 
     try{
 
+    name = name.replace(/\s+/g, ' ').trim().split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+    
       // find duplicate record
 
       const employer = await strapi.query('employers').findOne({name});
