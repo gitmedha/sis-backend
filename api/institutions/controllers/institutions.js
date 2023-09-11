@@ -44,13 +44,12 @@ module.exports = {
 
     try{
 
-      name = name.replace(/\s+/g, ' ').trim().split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ')
+      if(!name.length){
+        return ctx.send("Record Not Found")
+      }
 
-      // find duplicate record
 
-      const employer = await strapi.query('institutions').findOne({name});
+      const employer = await strapi.query('institutions').findOne({name_contains: name});
 
       if(employer){
         return ctx.send('Record Found')
