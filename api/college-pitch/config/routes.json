@@ -55,6 +55,14 @@
       "config":{
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/college-pitches/search",
+      "handler":"college-pitch.searchOps",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }

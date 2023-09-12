@@ -55,6 +55,14 @@
       "config":{
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/students-upskillings/search",
+      "handler":"students-upskilling.searchOps",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }

@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/users-tots/search",
+      "handler":"users-tot.searchOps",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

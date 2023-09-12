@@ -56,6 +56,14 @@
       "config":{
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/dte-samarth-sdits/search",
+      "handler":"dte-samarth-sdit.searchOps",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }
