@@ -63,6 +63,14 @@
       "config": {
         "policies":[]
       }
+    },
+    {
+      "method": "GET",
+      "path": "/users-ops-activities/distinct/:field",
+      "handler": "users-ops-activities.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
   
   ]
