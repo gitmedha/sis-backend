@@ -40,13 +40,16 @@ module.exports = {
     }
   },
   async findDuplicate(ctx) {
-    const {name} = ctx.request.body;
+    let {name} = ctx.request.body;
 
     try{
 
-      // find duplicate record
+      if(!name.length){
+        return ctx.send("Record Not Found")
+      }
 
-      const employer = await strapi.query('institutions').findOne({name});
+
+      const employer = await strapi.query('institutions').findOne({name_contains: name});
 
       if(employer){
         return ctx.send('Record Found')

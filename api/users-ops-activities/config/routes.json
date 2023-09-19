@@ -55,6 +55,23 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path": "/users-ops-activities/search",
+      "handler":"users-ops-activities.searchOps",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users-ops-activities/distinct/:field",
+      "handler": "users-ops-activities.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
+  
   ]
 }
