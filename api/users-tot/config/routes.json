@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/users-tots",
+      "handler": "users-tot.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users-tots/count",
+      "handler": "users-tot.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users-tots/:id",
+      "handler": "users-tot.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users-tots/distinct/:field",
+      "handler": "users-tot.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/users-tots",
+      "handler": "users-tot.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/users-tots/:id",
+      "handler": "users-tot.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/users-tots/:id",
+      "handler": "users-tot.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/users-tots/createBulkTots",
+      "handler":"users-tot.createBulkTots",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/users-tots/search",
+      "handler":"users-tot.searchOps",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

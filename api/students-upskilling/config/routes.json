@@ -1,0 +1,75 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/students-upskillings",
+      "handler": "students-upskilling.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/students-upskillings/count",
+      "handler": "students-upskilling.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/students-upskillings/:id",
+      "handler": "students-upskilling.findOne",
+      "config": {
+        "policies": []
+      }
+    },{
+      "method": "GET",
+      "path": "/students-upskillings/distinct/:field",
+      "handler": "students-upskilling.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/students-upskillings",
+      "handler": "students-upskilling.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/students-upskillings/:id",
+      "handler": "students-upskilling.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/students-upskillings/:id",
+      "handler": "students-upskilling.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/students-upskillings/createBulkUpSkills",
+      "handler":"students-upskilling.createBulkupskills",
+      "config":{
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/students-upskillings/search",
+      "handler":"students-upskilling.searchOps",
+      "config":{
+        "policies": []
+      }
+    }
+  ]
+}

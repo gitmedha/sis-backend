@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/alumni-queries",
+      "handler": "alumni-queries.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-queries/count",
+      "handler": "alumni-queries.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-queries/:id",
+      "handler": "alumni-queries.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-queries/distinct/:field",
+      "handler": "alumni-queries.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alumni-queries",
+      "handler": "alumni-queries.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/alumni-queries/:id",
+      "handler": "alumni-queries.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/alumni-queries/:id",
+      "handler": "alumni-queries.delete",
+      "config": {
+        "policies": []
+      }
+    }, 
+    {
+      "method":"POST",
+      "path":"/alumni-queries/create-bulk-alumni-queries",
+      "handler":"alumni-queries.createBulkAlumniQueries",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-queries/search",
+      "handler":"alumni-queries.searchOps",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

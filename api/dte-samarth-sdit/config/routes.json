@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/dte-samarth-sdits",
+      "handler": "dte-samarth-sdit.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/dte-samarth-sdits/count",
+      "handler": "dte-samarth-sdit.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/dte-samarth-sdits/:id",
+      "handler": "dte-samarth-sdit.findOne",
+      "config": {
+        "policies": []
+      }
+    },{
+      "method": "GET",
+      "path": "/dte-samarth-sdits/distinct/:field",
+      "handler": "dte-samarth-sdit.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/dte-samarth-sdits",
+      "handler": "dte-samarth-sdit.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/dte-samarth-sdits/:id",
+      "handler": "dte-samarth-sdit.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/dte-samarth-sdits/:id",
+      "handler": "dte-samarth-sdit.delete",
+      "config": {
+        "policies": []
+      }
+    },
+
+    {
+      "method":"POST",
+      "path":"/dte-samarth-sdits/createBulkSamarths",
+      "handler":"dte-samarth-sdit.createBulkSamarths",
+      "config":{
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/dte-samarth-sdits/search",
+      "handler":"dte-samarth-sdit.searchOps",
+      "config":{
+        "policies": []
+      }
+    }
+  ]
+}

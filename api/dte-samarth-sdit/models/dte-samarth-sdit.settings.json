@@ -1,0 +1,110 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dte_samarth_sdit",
+  "info": {
+    "name": "dte_samarth_sdit",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "registration_id": {
+      "type": "string"
+    },
+    "registration_date": {
+      "type": "string"
+    },
+    "batch_name": {
+      "type": "string"
+    },
+    "student_name": {
+      "type": "string"
+    },
+    "course_name": {
+      "type": "string"
+    },
+    "institution_name": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "dob": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "father_guardian": {
+      "type": "string"
+    },
+    "mobile": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "annual_income": {
+      "type": "string"
+    },
+    "full_address": {
+      "type": "string"
+    },
+    "self_employed": {
+      "type": "string"
+    },
+    "higher_studies": {
+      "type": "string"
+    },
+    "placed": {
+      "type": "string"
+    },
+    "apprenticeship": {
+      "type": "string"
+    },
+    "doj": {
+      "type": "string"
+    },
+    "company_placed": {
+      "type": "string"
+    },
+    "monthly_salary": {
+      "type": "string"
+    },
+    "data_flag": {
+      "type": "string",
+      "required": true
+    },
+    "position": {
+      "type": "string"
+    },
+    "trade": {
+      "type": "string"
+    },
+    "company_apprenticed": {
+      "type": "string"
+    },
+    "company_self": {
+      "type": "string"
+    },
+    "institute_admitted": {
+      "type": "string"
+    },
+    "acad_year": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

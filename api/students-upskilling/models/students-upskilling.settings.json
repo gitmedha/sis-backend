@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "students_upskilling",
+  "info": {
+    "name": "students_upskilling",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "student_id": {
+      "model": "students"
+    },
+    "institution": {
+      "model": "institutions"
+    },
+    "batch": {
+      "model": "batches"
+    },
+    "start_date": {
+      "type": "date",
+      "required": true
+    },
+    "end_date": {
+      "type": "date",
+      "required": true
+    },
+    "course_name": {
+      "type": "string",
+      "required": true
+    },
+    "certificate_received": {
+      "type": "boolean"
+    },
+    "category": {
+      "type": "string"
+    },
+    "sub_category": {
+      "type": "string"
+    },
+    "issued_org": {
+      "type": "string",
+      "required": true
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    },
+    "program_name": {
+      "type": "string"
+    }
+  }
+}

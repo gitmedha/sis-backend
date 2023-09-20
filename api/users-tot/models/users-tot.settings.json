@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "users_tot",
+  "info": {
+    "name": "users_tot",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "user_name": {
+      "type": "string"
+    },
+    "Created_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "Updated_by": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "trainer_1": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "certificate_given": {
+      "type": "string"
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "project_type": {
+      "type": "string"
+    },
+    "new_entry": {
+      "type": "string"
+    },
+    "trainer_2": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "partner_dept": {
+      "type": "string"
+    },
+    "college": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "age": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "string"
+    },
+    "designation": {
+      "type": "string"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
