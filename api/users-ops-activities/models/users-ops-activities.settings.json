@@ -75,6 +75,9 @@
     "isactive": {
       "type": "boolean",
       "default": true
+    },
+    "program_name": {
+      "type": "string"
     }
   }
 }
