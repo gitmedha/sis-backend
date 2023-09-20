@@ -23,6 +23,13 @@
       "config": {
         "policies": []
       }
+    },{
+      "method": "GET",
+      "path": "/dte-samarth-sdits/distinct/:field",
+      "handler": "dte-samarth-sdit.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     },
     {
       "method": "POST",

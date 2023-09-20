@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/users-tots/distinct/:field",
+      "handler": "users-tot.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
       "method": "POST",
       "path": "/users-tots",
       "handler": "users-tot.create",

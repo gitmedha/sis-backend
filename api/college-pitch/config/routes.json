@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/college-pitches/distinct/:field",
+      "handler": "college-pitch.findDistinctField",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "POST",
       "path": "/college-pitches",
       "handler": "college-pitch.create",

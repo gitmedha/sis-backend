@@ -38,5 +38,40 @@ module.exports = {
           console.log(error);
           throw error;
         }
+      },
+      async findDistinctField(ctx) {
+        const { field } = ctx.params; // Extract the field name from the query parameters
+        let optionsArray = [];
+      
+        try {
+          const values = await strapi.query('college-pitch').find({
+            _limit: 1000000,
+            _start: 0
+          });
+      
+          const uniqueValuesSet = new Set();
+      
+          for (let row = 0; row < values.length; row++) {
+            let valueToAdd;
+      
+            if(field){
+              valueToAdd = values[row][field];
+            }
+            
+            if (!uniqueValuesSet.has(valueToAdd)) {
+              optionsArray.push({
+                key: row,
+                label: valueToAdd,
+                value: valueToAdd,
+              });
+              uniqueValuesSet.add(valueToAdd);
+            }
+          }
+      
+          return ctx.send(optionsArray);
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest('An error occurred while fetching distinct values.');
+        }
       }
 };

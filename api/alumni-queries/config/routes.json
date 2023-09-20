@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/alumni-queries/distinct/:field",
+      "handler": "alumni-queries.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
       "method": "POST",
       "path": "/alumni-queries",
       "handler": "alumni-queries.create",

@@ -23,6 +23,13 @@
       "config": {
         "policies": []
       }
+    },{
+      "method": "GET",
+      "path": "/students-upskillings/distinct/:field",
+      "handler": "students-upskilling.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     },
     {
       "method": "POST",
