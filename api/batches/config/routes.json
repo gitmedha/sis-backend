@@ -63,6 +63,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/batch/:id/send-link",
+      "handler": "batches.sendLinks",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

@@ -223,6 +223,31 @@ module.exports = {
     return true;
   },
 
+  async sendLink(programEnrollment) {
+    let username = programEnrollment.student.full_name
+    let email = programEnrollment.student.email;
+    const emailTemplate = {
+      subject: `Congratulations! You have successfully completed`,
+      text: ``,
+      html: `
+        <p>Dear ${username},</p>
+        <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p><br>
+        <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p><br>
+
+        <p>Please fill in your response in the feedback form -</p><a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a><br><br>
+
+        <p>All the best for your future!</p><br>
+
+        <p>Regards,<br>
+        Medha</p>
+      `,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+    return true;
+  },
+
   // calculates attendance for a program enrollment in it's batch
   async calculateBatchAttendance(programEnrollment) {
     // get batch for the program enrollment
