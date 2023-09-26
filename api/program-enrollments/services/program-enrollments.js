@@ -231,13 +231,10 @@ module.exports = {
       text: ``,
       html: `
         <p>Dear ${username},</p>
-        <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p><br>
-        <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p><br>
-
-        <p>Please fill in your response in the feedback form -</p><a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a><br><br>
-
-        <p>All the best for your future!</p><br>
-
+        <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p>
+        <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p>
+        <p>Please fill in your response in the feedback form - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>All the best for your future!</p>
         <p>Regards,<br>
         Medha</p>
       `,
