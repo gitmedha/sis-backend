@@ -227,7 +227,7 @@ module.exports = {
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     const emailTemplate = {
-      subject: `Congratulations! You have successfully completed`,
+      subject: `Medha Program Feedback Form`,
       text: ``,
       html: `
         <p>Dear ${username},</p>
