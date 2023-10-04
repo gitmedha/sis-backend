@@ -224,9 +224,25 @@ module.exports = {
   },
 
   async sendLink(programEnrollment) {
+    console.log(programEnrollment.batch.program,"programEnrollment");
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
-    const emailTemplate = {
+    let batchId = programEnrollment.batch.program;
+
+    const emailTemplate =
+    batchId === 21 ?
+    {
+      subject: `Medha Program Feedback Form`,
+      text: ``,
+      html: `
+        <p>प्रिय ${username},</p>
+        <p>आपने हाल ही में स्वारंभ (मेधा) यात्रा पूरा किया है, जिसके तीन चरण थे: ज्ञान, कौशल और क्षमता। इस यात्रा के दौरान सीखे गए हर पहलू को अपने व्यक्तिगत/व्यावसायिक जीवन में लागू करने के लिए आप तैयार हैं।</p>
+        <p>इससे पहले कि आप मेधा से आगे अपनी यात्रा शुरू करें, हमें अच्छा लगेगा कि आप अपने इस स्वरंभ (मेधा) यात्रा का अनुभव हमारे साथ साझा करें। आज हम आपके साथ एक feedback form का लिंक शेयर कर रहें हैं, जिसमें आप हमें बताएंगे की इस स्वारम्भ के यात्रा में आपने क्या क्या सीखा? - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>हम आपके अच्छे भविष्य की कामना करते है।</p>
+        <p>धन्यवाद।</p>
+      `,
+    }:
+    {
       subject: `Medha Program Feedback Form`,
       text: ``,
       html: `
