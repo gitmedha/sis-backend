@@ -224,7 +224,6 @@ module.exports = {
   },
 
   async sendLink(programEnrollment) {
-    console.log(programEnrollment.batch.program,"programEnrollment");
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     let batchId = programEnrollment.batch.program;
