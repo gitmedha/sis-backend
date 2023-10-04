@@ -88,4 +88,10 @@ module.exports = {
     });
     return ctx.send({batch: batch});
   },
+  async sendLinks(ctx) {
+    const { id } = ctx.params;
+    const batch = await strapi.services['batches'].findOne({ id });
+    await strapi.services['batches'].emailProgramEnrollmentLinks(batch);
+    return ctx.send({batch: batch});
+  }
 };
