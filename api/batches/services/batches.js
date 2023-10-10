@@ -121,6 +121,9 @@ module.exports = {
     programEnrollments.forEach(async programEnrollment => {
       await strapi.services['program-enrollments'].sendLink(programEnrollment);
     });
-    return batch;
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id } ,{
+      link_sent_at: new Date(),
+    });
+    return updatedBatch;
   },
 };
