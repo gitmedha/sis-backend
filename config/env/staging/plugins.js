@@ -30,8 +30,8 @@ module.exports = ({ env }) => ({
       // ... any custom nodemailer options
     },
     settings: {
-      defaultFrom: env('SMTP_USER', 'sis.admin@medha.org.in'),
-      defaultReplyTo: env('SMTP_USER', 'sis.admin@medha.org.in'),
+      defaultFrom: env('SMTP_USER', 'data@medha.org.in'),
+      defaultReplyTo: env('SMTP_USER', 'data@medha.org.in'),
     },
   },
 
