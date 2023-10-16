@@ -223,6 +223,60 @@ module.exports = {
     return true;
   },
 
+  async sendLink(programEnrollment) {
+    let username = programEnrollment.student.full_name
+    let email = programEnrollment.student.email;
+    let batchId = programEnrollment.batch.program;
+
+    const emailTemplate =
+    batchId === 21 ?
+    {
+      subject: `Medha Program Feedback Form`,
+      text: ``,
+      html: `
+        <p>प्रिय ${username},</p>
+        <p>आपने हाल ही में स्वारंभ (मेधा) यात्रा पूरा किया है, जिसके तीन चरण थे: ज्ञान, कौशल और क्षमता। इस यात्रा के दौरान सीखे गए हर पहलू को अपने व्यक्तिगत/व्यावसायिक जीवन में लागू करने के लिए आप तैयार हैं।</p>
+        <p>इससे पहले कि आप मेधा से आगे अपनी यात्रा शुरू करें, हमें अच्छा लगेगा कि आप अपने इस स्वरंभ (मेधा) यात्रा का अनुभव हमारे साथ साझा करें। आज हम आपके साथ एक feedback form का लिंक शेयर कर रहें हैं, जिसमें आप हमें बताएंगे की इस स्वारम्भ के यात्रा में आपने क्या क्या सीखा? - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>हम आपके अच्छे भविष्य की कामना करते है।</p>
+        <p>धन्यवाद।</p><br>
+
+        <p>Dear ${username},</p>
+        <p>You have recently completed the Swarambha (Medha) journey, which had three stages: Knowledge, Skills and Competence. You are ready to apply everything you learned during this journey to your personal/professional life.</p>
+        <p>Before you begin your journey beyond Medha, we would love for you to share with us your experience of your Swarambh (Medha) journey. We are sharing with you the link to a feedback form in which you will tell us what you have learned in this initial journey. - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>All the best for your future!</p>
+        <p>Regards,<br>
+        Medha</p>
+      `,
+    }:
+    {
+      subject: `Medha Program Feedback Form`,
+      text: ``,
+      html: `
+
+        <p>Dear ${username},</p>
+        <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p>
+        <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p>
+        <p>Please fill in your response in the feedback form - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>All the best for your future!</p>
+        <p>Regards,<br>
+        Medha</p><br>
+
+        <p>प्रिय ${username}</p>
+        <p>हमें खुशी है की हाल ही में आपने मेधा कार्यक्रम पूरा किया है। अब आप इस कार्यक्रम के दौरान सीखी गयी जानकारी को अपनी निजी एवं पेशेवर ज़िंदगी में लागू करने के लिए पूरी तरह से तैयार हैं।</p>
+        <p>मेधा से आगे की यात्रा शुरू करने से पहले हम यह जानना चाहेंगे कि आपने मेधा कार्यक्रम के दौरान क्या सीखा और जाना है? </p>
+        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>शुभकामनाओं सहित आभार !</p>
+        <p>भवदीय, <br>
+        मेधा </p>
+
+      `,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+    return true;
+  },
+
   // calculates attendance for a program enrollment in it's batch
   async calculateBatchAttendance(programEnrollment) {
     // get batch for the program enrollment
