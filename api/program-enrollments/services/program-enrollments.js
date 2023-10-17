@@ -241,7 +241,7 @@ module.exports = {
         <p>धन्यवाद।</p><br>
 
         <p>Dear ${username},</p>
-        <p>You have recently completed the Swarambha (Medha) journey, which had three stages: Knowledge, Skills and Competence. You are ready to apply everything you learned during this journey to your personal/professional life.</p>
+        <p>You have recently completed the Swarambh (Medha) journey, which had three stages: Knowledge, Skills and Competence. You are ready to apply everything you learned during this journey to your personal/professional life.</p>
         <p>Before you begin your journey beyond Medha, we would love for you to share with us your experience of your Swarambh (Medha) journey. We are sharing with you the link to a feedback form in which you will tell us what you have learned in this initial journey. - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
         <p>All the best for your future!</p>
         <p>Regards,<br>
