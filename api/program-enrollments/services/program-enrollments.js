@@ -140,13 +140,23 @@ module.exports = {
     return programEnrollment;
   },
 
-  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
+  async isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance) {
+
     let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
 
     // check attendance is high enough or not
-    if (isNaN(attendance) || attendance < 75) {
-      return false;
+
+    if (changeAttandance){
+      if(isNaN(attendance) || attendance< 100){
+        return false
+      }
     }
+    else {
+      if (isNaN(attendance) || attendance < 75) {
+        return false;
+      }
+    }
+    
 
     // check if assignment file is required or not
     // if assignment file is required, then it should be present
