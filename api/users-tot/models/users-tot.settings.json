@@ -14,11 +14,11 @@
     "user_name": {
       "type": "string"
     },
-    "createdBy": {
+    "createdby": {
       "plugin": "users-permissions",
       "model": "user"
     },
-    "updatedBy": {
+    "updatedby": {
       "plugin": "users-permissions",
       "model": "user"
     },
