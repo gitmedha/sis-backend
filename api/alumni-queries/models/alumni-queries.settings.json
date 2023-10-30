@@ -11,11 +11,11 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "Created_by": {
+    "createdBy": {
       "plugin": "users-permissions",
       "model": "user"
     },
-    "Updated_by": {
+    "updatedBy": {
       "plugin": "users-permissions",
       "model": "user"
     },

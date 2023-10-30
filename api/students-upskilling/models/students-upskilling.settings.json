@@ -55,6 +55,14 @@
     },
     "program_name": {
       "type": "string"
+    },
+    "createdBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
