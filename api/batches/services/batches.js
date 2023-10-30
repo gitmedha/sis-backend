@@ -115,4 +115,15 @@ module.exports = {
     });
     return updatedBatch;
   },
+
+  async emailProgramEnrollmentLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+      await strapi.services['program-enrollments'].sendLink(programEnrollment);
+    });
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id } ,{
+      link_sent_at: new Date(),
+    });
+    return updatedBatch;
+  },
 };

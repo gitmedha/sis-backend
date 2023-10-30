@@ -43,7 +43,6 @@ module.exports = {
     const { field } = ctx.params; // Extract the field name from the query parameters
     let optionsArray = [];
   
-    console.log("field", field);
     try {
       const values = await strapi.query('users-ops-activities').find({
         _limit: 1000000,

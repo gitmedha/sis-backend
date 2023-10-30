@@ -38,5 +38,51 @@ module.exports = {
           console.log(error);
           throw error;
         }
+      },
+      async findDistinctField(ctx) {
+        const { field } = ctx.params; // Extract the field name from the query parameters
+        let optionsArray = [];
+      
+        try {
+          const values = await strapi.query('students-upskilling').find({
+            _limit: 1000000,
+            _start: 0
+          });
+      
+          const uniqueValuesSet = new Set();
+      
+          for (let row = 0; row < values.length; row++) {
+            let valueToAdd;
+      
+            if (field === "student_id") {
+              valueToAdd = values[row][field].full_name;
+
+            }
+            else if (field === "assigned_to"){
+              valueToAdd = values[row][field].username;
+            }
+            else if (field === "institution"){
+              valueToAdd = values[row][field].name;
+            }
+            
+            else if (field) {
+              valueToAdd = values[row][field];
+            }
+      
+            if (!uniqueValuesSet.has(valueToAdd)) {
+              optionsArray.push({
+                key: row,
+                label: valueToAdd,
+                value: valueToAdd,
+              });
+              uniqueValuesSet.add(valueToAdd);
+            }
+          }
+      
+          return ctx.send(optionsArray);
+        } catch (error) {
+          console.log(error);
+          return ctx.badRequest('An error occurred while fetching distinct values.');
+        }
       }
 };
