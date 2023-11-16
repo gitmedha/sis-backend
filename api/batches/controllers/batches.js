@@ -27,7 +27,7 @@ module.exports = {
       await strapi.services['batches'].handleProgramEnrollmentOnCertification(entity);
       // AuditLog: batch certification triggered by user
       await strapi.services['audit-logs'].create({
-        // user: ctx.state?.user?.id,
+        user: ctx.state?.user?.id,
         action: 'batch_mark_as_certified',
         content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
       });
@@ -79,10 +79,9 @@ module.exports = {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
     await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
-    console.log("ctx",ctx)
     // AuditLog: batch email certificates triggered by user
     await strapi.services['audit-logs'].create({
-      // user: ctx.state?.user?.id,
+      user: ctx.state?.user?.id,
       action: 'batch_certificate_email',
       content: `Certificates emails triggered by user "${ctx.state.user.username}" having ID ${ctx.state.user.id} for batch "${batch.name}" having ID ${batch.id}`,
     });
