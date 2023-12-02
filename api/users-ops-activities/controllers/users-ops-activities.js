@@ -44,10 +44,25 @@ module.exports = {
     let optionsArray = [];
   
     try {
+      let sortValue;
+
+        if(field =='batch' ){
+          sortValue = "batch.name:asc";
+        }
+        else if (field == "assigned_to") {
+          sortValue = "assigned_to.username:asc";
+        } else {
+          sortValue = `${field}:asc`;
+        }
+        
+      
+      console.log('sortValue \n ',sortValue)
       const values = await strapi.query('users-ops-activities').find({
         _limit: 1000000,
-        _start: 0
+        _start: 0,
+        _sort:sortValue
       });
+      // console.log(values)
   
       const uniqueValuesSet = new Set();
   

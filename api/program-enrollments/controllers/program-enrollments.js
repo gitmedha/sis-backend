@@ -26,7 +26,6 @@ module.exports = {
     const { id } = ctx.params;
     // fetch program enrollment details
     const programEnrollment = await strapi.services['program-enrollments'].findOne({ id });
-
     // AuditLog: user triggered certificate generation
     const logged_in_user = ctx.state.user;
     await strapi.services['audit-logs'].create({

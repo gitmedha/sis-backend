@@ -22,17 +22,31 @@ module.exports = {
   async handleProgramEnrollmentOnCertification(batch) {
     await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
 
+    let changeAttandance= false ;
+    if(batch.program.name === "Pehli Udaan"){
+      changeAttandance = true
+    }
+
     // update certification date for the program enrollment record
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
 
-      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance);
 
       if (!isEligibleForCertification) {
-        await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-          status: 'Not Certified by Medha -- <75% Attendance'
-        });
-        return;
+        if(changeAttandance){
+          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+            status: 'Not Certified by Medha -- <100% Attendance'
+          });
+          return;
+
+        }
+        else {
+          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+            status: 'Not Certified by Medha -- <75% Attendance'
+          });
+          return;
+        }
       }
       let today = new Date().toISOString().split('T')[0]
       if (programEnrollment.certification_date !== null) {

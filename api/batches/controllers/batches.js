@@ -79,7 +79,6 @@ module.exports = {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
     await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
-
     // AuditLog: batch email certificates triggered by user
     await strapi.services['audit-logs'].create({
       user: ctx.state?.user?.id,

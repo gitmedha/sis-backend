@@ -40,11 +40,11 @@
     "other_links": {
       "type": "string"
     },
-    "Created_by": {
+    "createdby": {
       "plugin": "users-permissions",
       "model": "user"
     },
-    "Updated_by": {
+    "updatedby": {
       "plugin": "users-permissions",
       "model": "user"
     },

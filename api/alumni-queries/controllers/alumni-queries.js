@@ -20,20 +20,50 @@ module.exports = {
       },
       async searchOps(ctx) {
         const { searchField, searchValue } = ctx.request.body;
+
       
         try {
           if (!searchField || !searchValue) {
             return ctx.badRequest('Field and value are required.');
           }
           
-          const records = await strapi.query('alumni-queries').find({
-            [`${searchField}_contains`]: searchValue,
-            _limit:1000000,
-            _start: 0
-          });
+          if(searchValue.hasOwnProperty('query_start')){
+
+            const records = await strapi.query('alumni-queries').find({
+              'query_start': searchValue.query_start,
+              'query_end': searchValue.query_end,
+              _limit: 1000000,
+              _start: 0
+            });
+            
+      
+            return ctx.send(records);
+
+           
+          }
+
+          else {
+            let sortValue;
+        if(field =='batch' ){
+          sortValue = "batch.name:asc";
+        }
+        else if (field == "assigned_to") {
+          sortValue = "assigned_to.username:asc";
+        } else {
+          sortValue = `${field}:asc`;
+        }
+            const records = await strapi.query('alumni-queries').find({
+              [`${searchField}_contains`]: searchValue,
+              _limit:1000000,
+              _start: 0,
+              _sort:`${searchField}:asc`
+            });
+            
+      
+            return ctx.send(records);
+
+          }
           
-    
-          return ctx.send(records);
         } catch (error) {
           console.log(error);
           throw error;
@@ -57,6 +87,7 @@ module.exports = {
             if (field === "student_id") {
               valueToAdd = values[row][field].student_id;
             }
+
             else if(field){
               valueToAdd = values[row][field];
             }

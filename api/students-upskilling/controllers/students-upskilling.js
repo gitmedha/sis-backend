@@ -26,14 +26,31 @@ module.exports = {
             return ctx.badRequest('Field and value are required.');
           }
           
-          const records = await strapi.query('students-upskilling').find({
-            [`${searchField}_contains`]: searchValue,
-            _limit:1000000,
-            _start: 0
-          });
-          
-    
-          return ctx.send(records);
+          if(searchValue.hasOwnProperty('start_date')){
+
+            const records = await strapi.query('students-upskilling').find({
+              'start_date': searchValue.start_date,
+              'end_date': searchValue.end_date,
+              _limit: 1000000,
+              _start: 0
+            });
+            
+      
+            return ctx.send(records);
+
+           
+          }
+          else {
+            const records = await strapi.query('students-upskilling').find({
+              [`${searchField}_contains`]: searchValue,
+              _limit:1000000,
+              _start: 0
+            });
+            
+      
+            return ctx.send(records);
+          }
+         
         } catch (error) {
           console.log(error);
           throw error;
@@ -44,11 +61,22 @@ module.exports = {
         let optionsArray = [];
       
         try {
+          let sortValue;
+
+        if(field =='institution' ){
+          sortValue = "institution.name:asc";
+        }
+       else if (field == "assigned_to") {
+          sortValue = "assigned_to.username:asc";
+        } else {
+          sortValue = `${field}:asc`;
+        }
           const values = await strapi.query('students-upskilling').find({
             _limit: 1000000,
-            _start: 0
+            _start: 0,
+            _sort:sortValue
           });
-      
+          // console.log(values);
           const uniqueValuesSet = new Set();
       
           for (let row = 0; row < values.length; row++) {
