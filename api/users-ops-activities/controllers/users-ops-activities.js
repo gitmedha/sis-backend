@@ -29,13 +29,14 @@ module.exports = {
       
       const records = await strapi.query('users-ops-activities').find({
         [`${searchField}_contains`]: searchValue,
+        isactive:true,
         _limit:1000000,
         _start: 0
       });
 
       return ctx.send(records);
     } catch (error) {
-      console.log(error);
+      
       throw error;
     }
   },
@@ -56,13 +57,13 @@ module.exports = {
         }
         
       
-      console.log('sortValue \n ',sortValue)
       const values = await strapi.query('users-ops-activities').find({
+        isactive:true,
         _limit: 1000000,
         _start: 0,
         _sort:sortValue
       });
-      // console.log(values)
+     
   
       const uniqueValuesSet = new Set();
   
@@ -89,7 +90,7 @@ module.exports = {
   
       return ctx.send(optionsArray);
     } catch (error) {
-      console.log(error);
+     
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }

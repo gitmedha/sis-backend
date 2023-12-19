@@ -31,8 +31,9 @@ module.exports = {
             const records = await strapi.query('students-upskilling').find({
               'start_date': searchValue.start_date,
               'end_date': searchValue.end_date,
+              isactive:true,
               _limit: 1000000,
-              _start: 0
+              _start: 0,
             });
             
       
@@ -43,11 +44,12 @@ module.exports = {
           else {
             const records = await strapi.query('students-upskilling').find({
               [`${searchField}_contains`]: searchValue,
+              isactive:true,
               _limit:1000000,
               _start: 0
             });
             
-      
+  
             return ctx.send(records);
           }
          
@@ -72,11 +74,12 @@ module.exports = {
           sortValue = `${field}:asc`;
         }
           const values = await strapi.query('students-upskilling').find({
+            isactive:true,
             _limit: 1000000,
             _start: 0,
             _sort:sortValue
           });
-          // console.log(values);
+        
           const uniqueValuesSet = new Set();
       
           for (let row = 0; row < values.length; row++) {
@@ -109,7 +112,7 @@ module.exports = {
       
           return ctx.send(optionsArray);
         } catch (error) {
-          console.log(error);
+        
           return ctx.badRequest('An error occurred while fetching distinct values.');
         }
       }
