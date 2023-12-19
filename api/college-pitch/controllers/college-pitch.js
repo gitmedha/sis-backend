@@ -28,6 +28,7 @@ module.exports = {
           
           const records = await strapi.query('college-pitch').find({
             [`${searchField}_contains`]: searchValue,
+            isactive:true,
             _limit:1000000,
             _start: 0
           });
@@ -35,7 +36,7 @@ module.exports = {
     
           return ctx.send(records);
         } catch (error) {
-          console.log(error);
+       
           throw error;
         }
       },
@@ -56,6 +57,7 @@ module.exports = {
         }
         
           const values = await strapi.query('college-pitch').find({
+            isactive:true,
             _limit: 1000000,
             _start: 0,
             _sort:sortValue
@@ -82,7 +84,7 @@ module.exports = {
       
           return ctx.send(optionsArray);
         } catch (error) {
-          console.log(error);
+         
           return ctx.badRequest('An error occurred while fetching distinct values.');
         }
       }
