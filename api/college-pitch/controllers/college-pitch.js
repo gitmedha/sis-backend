@@ -14,7 +14,7 @@ module.exports = {
           return createdData;
        
         } catch (error) {
-          console.error(error);
+        
           throw error;
         }
       },
@@ -51,7 +51,7 @@ module.exports = {
               _sort:'name:asc'
             })
     
-          console.log("prg", programs.length);
+         
       
           for (let row = 0; row < programs.length; row++) {
             let valueToAdd;

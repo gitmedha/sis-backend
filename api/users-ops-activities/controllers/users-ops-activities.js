@@ -53,7 +53,6 @@ module.exports = {
           _sort:'name:asc'
         })
 
-      console.log("prg", programs.length);
   
       for (let row = 0; row < programs.length; row++) {
         let valueToAdd;
@@ -65,8 +64,6 @@ module.exports = {
           value: valueToAdd,
         });
       }
-
-      console.log("optionsArray:",optionsArray);
   
       return ctx.send(optionsArray);
       }
@@ -121,7 +118,7 @@ module.exports = {
       }
       
     } catch (error) {
-     console.log("error",error);
+   
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }
