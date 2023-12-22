@@ -44,15 +44,7 @@ module.exports = {
           }
 
           else {
-            let sortValue;
-        if(field =='batch' ){
-          sortValue = "batch.name:asc";
-        }
-        else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
+         
             const records = await strapi.query('alumni-queries').find({
               [`${searchField}_contains`]: searchValue,
               isactive:true,
