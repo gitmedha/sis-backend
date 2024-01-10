@@ -58,7 +58,7 @@
     },
     {
       "method": "GET",
-      "path": "/students/distinct/:field",
+      "path": "/students/distinct/:field/:tab/:info",
       "handler": "students.findDistinctField",
       "config": {
         "policies":[]
