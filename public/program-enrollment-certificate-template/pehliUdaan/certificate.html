@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+      @font-face {
+        font-family: 'BebasNeuePro-Regular';
+        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf')  format('truetype');
+      }
+      body {
+        background-image: url('{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: 'Lato', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding-top: 60px;
+        padding-bottom: 345px;
+        position: relative;
+        color: #282828
+      }
+      h2, p {
+        margin: 0;
+      }
+      .mb-12 {
+        margin-bottom: 12px;
+      }
+      .mb-16 {
+        margin-bottom: 16px;
+      }
+      .medha-logo,
+      .institution-logo {
+        width: 237px;
+        height: 237px;
+      }
+      .institution-logo {
+        margin-left: 40px;
+      }
+      .heading {
+        font-family: 'BebasNeuePro-Regular', cursive;
+        font-size: 96px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 115px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #12314C;
+      }
+      .content {
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 42px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #282828;
+      }
+      .sub-heading {
+        font-size: 44px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 53px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #000000;
+      }
+      .mcc-logo {
+        width: 158px;
+        height: 158px;
+        margin-top: 45px;
+        margin-bottom: 50px;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        width: -webkit-fill-available;
+        margin-bottom: 10px;
+        padding-left: 35px;
+        padding-right: 35px;
+      }
+      .footer-right {
+        text-align: right;
+      }
+      .label {
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 26px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000;
+      }
+      .label-content {
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 26px;
+        letter-spacing: 0em;
+        text-align: right;
+        color: #000000;
+      }
+      .pehli-udaan-logo{
+        width: 200px !important;
+        height: 40px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="{{app_url}}/program-enrollment-certificate-template/default/medha-logo.png" class="medha-logo" alt="Medha">
+    {{institution_logo}}
+    <h2 class="heading">COMPLETION CERTIFICATE</h2>
+    <p class="content mb-12">Medha Career Center hereby confirms that</p>
+    <p class="sub-heading mb-12">{{student_name}}</p>
+    <p class="content">pursuing {{course_name}}</p>
+    <p class="content">from {{institution_name}}</p>
+    <p class="content mb-16">has successfully completed</p>
+    <img src="{{app_url}}/program-enrollment-certificate-template/pehliUdaan/Pehli Udaan_Certificate logo.png" class="pehli-udaan-logo" alt="PehliUdaan">
+    <p class="content">a 6-hour workshop on Career Readiness</p>
+    <div class="footer">
+      <div>
+        <p class="label">Date:</p>
+        <p class="label-content">{{certification_date}}</p>
+      </div>
+      <div class="footer-right">
+        <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p>
+        <p><span class="label">Student ID:</span> <span class="label-content">{{student_id}}</span></p>
+      </div>
+    </div>
+  </body>
+</html>

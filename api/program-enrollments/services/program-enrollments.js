@@ -37,10 +37,13 @@ module.exports = {
     const puppeteer = require('puppeteer');
 
     let certifcateFilePath = '';
-
     switch (program.certificate) {
       case 'svapoorna':
         certifcateFilePath = './public/program-enrollment-certificate-template/svapoorna/certificate.html';
+        break;
+
+      case 'pehliudaan':
+        certifcateFilePath = './public/program-enrollment-certificate-template/pehliUdaan/certificate.html';
         break;
 
       case 'default':
@@ -54,7 +57,7 @@ module.exports = {
       path.resolve(certifcateFilePath),
       'utf8'
     );
-
+    console.log(content, "content")
     // replace template variables with program enrollment data
     let institution_logo_html = '';
     if (programEnrollment.institution.logo) {
@@ -79,6 +82,7 @@ module.exports = {
     // set certificate file details
     let certificateFileName = `${programEnrollment.id}-` + (new Date()).getTime() + '.pdf';
     let certificatePath = `./public/${certificateFileName}`;
+
 
     // generate pdf
     await page.pdf({
@@ -156,7 +160,7 @@ module.exports = {
         return false;
       }
     }
-    
+
 
     // check if assignment file is required or not
     // if assignment file is required, then it should be present
@@ -192,7 +196,7 @@ module.exports = {
     let igIconLink = `${strapiUrl}/images/email/icon-instagram.png`;
     let liIconLink = `${strapiUrl}/images/email/icon-linkedin.png`;
     let gplayIconLink = `${strapiUrl}/images/email/icon-googleplay.png`;
-    let emailImageLink = `${strapiUrl}/images/email/student-certification-email-image.jpg`;
+    let emailImageLink = `${strapiUrl}/images/email/student-certificate-email-image.png`;
 
     const emailTemplate = {
       subject: `Congratulations! You have successfully completed ${batchName}`,
