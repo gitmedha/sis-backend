@@ -57,7 +57,6 @@ module.exports = {
       path.resolve(certifcateFilePath),
       'utf8'
     );
-    console.log(content, "content")
     // replace template variables with program enrollment data
     let institution_logo_html = '';
     if (programEnrollment.institution.logo) {

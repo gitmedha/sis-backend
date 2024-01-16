@@ -11,15 +11,15 @@ module.exports = ({ env }) => ({
     depthLimit: 7,
     amountLimit: 500,
     apolloServer: {
-      tracing: true,
+      tracing: false,
     },
   },
 
   email: {
     provider: 'nodemailer',
     providerOptions: {
-      host: env('SMTP_HOST'),
-      port: env('SMTP_PORT'),
+      host: env('SMTP_HOST', 'smtp.office365.com'),
+      port: env('SMTP_PORT', 587),
       // secure: true,
       // secureConnection: false,
       // tls: { ciphers: 'SSLv3'},
@@ -30,8 +30,8 @@ module.exports = ({ env }) => ({
       // ... any custom nodemailer options
     },
     settings: {
-      defaultFrom: env('SMTP_USER'),
-      defaultReplyTo: env('SMTP_USER'),
+      defaultFrom: env('SMTP_USER', 'sis.admin@medha.org.in'),
+      defaultReplyTo: env('SMTP_USER', 'sis.admin@medha.org.in'),
     },
   },
 
