@@ -164,35 +164,18 @@ module.exports = {
           _limit: 1000000,
           _start: 0,
           _sort:sortValue,
+          [`${field}_ne`]:'',
           ...((tab === "my_data" && {assigned_to:infoObject.id}) || (tab=== "my_state" && {state:infoObject.state}) || (tab === "my_area" && {medha_area:infoObject.area}))
 
         });
 
+        const uniqueObjects = [...new Set(values.map((value, index) => ({
+          value: value[field],
+          key: index+1,
+          label: value[field]
+        })))];
        
-        const uniqueValuesSet = new Set();
-    
-        for (let row = 0; row < values.length; row++) {
-          let valueToAdd;
-    
-          if (field === "assigned_to") {
-            valueToAdd = values[row][field].username;
-          }
-          else {
-            valueToAdd = values[row][field];
-          }
-    
-          if (!uniqueValuesSet.has(valueToAdd)) {
-            optionsArray.push({
-              key: row,
-              label: valueToAdd,
-              value: valueToAdd,
-            });
-            uniqueValuesSet.add(valueToAdd);
-          }
-        }
-    
-       
-        return ctx.send(optionsArray);
+        return ctx.send(uniqueObjects);
         
       } catch (error) {
 console.log(error);
