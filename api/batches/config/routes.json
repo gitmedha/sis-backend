@@ -71,6 +71,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/batch/distinct/:field/:tab/:info",
+      "handler": "batches.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }
