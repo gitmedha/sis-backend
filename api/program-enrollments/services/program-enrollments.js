@@ -202,29 +202,29 @@ module.exports = {
       text: ``,
       html: `
       <p>Dear ${username},</p>
-      <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please find your e-certificate attached to this mail.</p><br>
-      <a href="${certificateLink}">Download Medha e-certificate</a><br><br>
-      <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p><br>
-      <img src="${emailImageLink}" height="350" /><br><br>
+      <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please find your e-certificate attached to this mail.</p>
+      <p>Click to <a href="${certificateLink}">download Medha e-certificate</a><br><br></p>
+      <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p>
       <p>Did you know? You can now become a member of a vibrant community known as Medhavi Association that is for the Medhavis, by the Medhavis!<br><br>
-          For more information, reach out to our Medhavi Helpline +91-9454354135.</p><br>
-      <p>Follow our channels on:</p><br>
+      For more information, reach out to our Medhavi Helpline +91-9454354135.</p>
+      <img src="${emailImageLink}" height="500" /><br><br>
+      <p>Follow our channels on:</p>
       <div>
         <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
           <img src="${fbIconLink}" height="45" />
         </a>
-        <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/medhavi_association/">
+        <a style="display: inline;text-decoration: none;margin-left: 15px;" href="https://www.instagram.com/medhavi_association/">
           <img src="${igIconLink}" height="45" />
         </a>
-        <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.linkedin.com/company/medhavi-association/">
+        <a style="display: inline;text-decoration: none;margin-left: 15px;" href="https://www.linkedin.com/company/medhavi-association/">
           <img src="${liIconLink}" height="45" />
         </a>
-      </div><br><br>
-      <p>You can also download the Medhavi App to stay updated on upcoming events and opportunities!</p><br>
+      </div><br>
+      <p>You can also download the Medhavi App to stay updated on upcoming events and opportunities!</p>
       <a style="display: inline;text-decoration: none;" href="https://play.google.com/store/apps/details?id=org.medha">
         <img src="${gplayIconLink}" height="55" />
       </a><br>
-      <p style="font-style: italic;">Medha force be with you!</p><br>
+      <p style="font-style: italic;">Medha force be with you!</p>
       <p>Best wishes<br>
       ${assignedToName}</p>
     `,
