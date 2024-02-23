@@ -37,10 +37,13 @@ module.exports = {
     const puppeteer = require('puppeteer');
 
     let certifcateFilePath = '';
-
     switch (program.certificate) {
       case 'svapoorna':
         certifcateFilePath = './public/program-enrollment-certificate-template/svapoorna/certificate.html';
+        break;
+
+      case 'pehliudaan':
+        certifcateFilePath = './public/program-enrollment-certificate-template/pehliUdaan/certificate.html';
         break;
 
       case 'default':
@@ -54,7 +57,6 @@ module.exports = {
       path.resolve(certifcateFilePath),
       'utf8'
     );
-
     // replace template variables with program enrollment data
     let institution_logo_html = '';
     if (programEnrollment.institution.logo) {
@@ -79,6 +81,7 @@ module.exports = {
     // set certificate file details
     let certificateFileName = `${programEnrollment.id}-` + (new Date()).getTime() + '.pdf';
     let certificatePath = `./public/${certificateFileName}`;
+
 
     // generate pdf
     await page.pdf({
@@ -156,7 +159,7 @@ module.exports = {
         return false;
       }
     }
-    
+
 
     // check if assignment file is required or not
     // if assignment file is required, then it should be present
@@ -192,39 +195,39 @@ module.exports = {
     let igIconLink = `${strapiUrl}/images/email/icon-instagram.png`;
     let liIconLink = `${strapiUrl}/images/email/icon-linkedin.png`;
     let gplayIconLink = `${strapiUrl}/images/email/icon-googleplay.png`;
-    let emailImageLink = `${strapiUrl}/images/email/student-certification-email-image.jpg`;
+    let emailImageLink = `${strapiUrl}/images/email/student-certificate-email-image.png`;
 
     const emailTemplate = {
       subject: `Congratulations! You have successfully completed ${batchName}`,
       text: ``,
       html: `
-        <p>Dear ${username},</p>
-        <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please download your e-certificate using the link below.</p><br>
-        <a href="${certificateLink}">Download Medha e-certificate</a><br><br>
-        <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p><br>
-        <p>You are now a proud member of our Medhavi Association with over 15,000 young and diverse people like you! Our team will continue to support you in your career dreams through our distinct alumni engagement programs.</p><br>
-        <img src="${emailImageLink}" height="350" /><br><br>
-        <p>To know more, join our channels:</p><br>
-        <div>
-          <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
-            <img src="${fbIconLink}" height="45" />
-          </a>
-          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.instagram.com/medhavi_community/">
-            <img src="${igIconLink}" height="45" />
-          </a>
-          <a style="display: inline;text-decoration: none;margin-left: 30px;" href="https://www.linkedin.com/company/medhavi-association/">
-            <img src="${liIconLink}" height="45" />
-          </a>
-        </div><br><br>
-        <p>And download the Medhavi app to stay updated on upcoming events and opportunities!</p><br>
-        <a style="display: inline;text-decoration: none;" href="https://play.google.com/store/apps/details?id=org.medha">
-          <img src="${gplayIconLink}" height="55" />
-        </a><br>
-        <p>For any queries/concerns regarding your e-certificate, please call: 9454354135.</p><br>
-        <p style="font-style: italic;">Medha force be with you!</p><br>
-        <p>Best wishes<br>
-        ${assignedToName}</p>
-      `,
+      <p>Dear ${username},</p>
+      <p><strong>Congratulations!</strong> You have completed the <strong>${batchName}</strong>. Please find your e-certificate attached to this mail.</p>
+      <p>Click to <a href="${certificateLink}">download Medha e-certificate</a><br><br></p>
+      <p style="font-style: italic;">Your journey hasn't ended; it has just begun...</p>
+      <p>Did you know? You can now become a member of a vibrant community known as Medhavi Association that is for the Medhavis, by the Medhavis!<br><br>
+      For more information, reach out to our Medhavi Helpline +91-9454354135.</p>
+      <img src="${emailImageLink}" height="500" /><br><br>
+      <p>Follow our channels on:</p>
+      <div>
+        <a style="display: inline;text-decoration: none;" href="https://www.facebook.com/groups/548093505304442">
+          <img src="${fbIconLink}" height="45" />
+        </a>
+        <a style="display: inline;text-decoration: none;margin-left: 15px;" href="https://www.instagram.com/medhavi_association/">
+          <img src="${igIconLink}" height="45" />
+        </a>
+        <a style="display: inline;text-decoration: none;margin-left: 15px;" href="https://www.linkedin.com/company/medhavi-association/">
+          <img src="${liIconLink}" height="45" />
+        </a>
+      </div><br>
+      <p>You can also download the Medhavi App to stay updated on upcoming events and opportunities!</p>
+      <a style="display: inline;text-decoration: none;" href="https://play.google.com/store/apps/details?id=org.medha">
+        <img src="${gplayIconLink}" height="55" />
+      </a><br>
+      <p style="font-style: italic;">Medha force be with you!</p>
+      <p>Best wishes<br>
+      ${assignedToName}</p>
+    `,
     };
     await strapi.plugins['email'].services.email.sendTemplatedEmail({
       to: email,
