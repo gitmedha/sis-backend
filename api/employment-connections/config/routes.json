@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/employment-connections/bulk-update",
+      "handler": "employment-connections.bulkUpdate",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
