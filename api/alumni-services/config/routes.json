@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/alumni-services/bulk-update",
+      "handler": "alumni-services.bulkUpdate",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
