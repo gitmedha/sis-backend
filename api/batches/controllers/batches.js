@@ -107,6 +107,8 @@ module.exports = {
 
         if(field =='assigned_to' ){
           sortValue = "assigned_to.username:asc";
+        }else if (field === 'grant'){
+          sortValue = "grant.name:asc";
         }
          else {
           sortValue = `${field}:asc`;
@@ -133,6 +135,9 @@ module.exports = {
         }
         else if(field == "institution" && values[row].institution){
           valueToAdd = values[row][field].name;
+        }
+        else if (field === "grant"){
+          valueToAdd = values[row][field].name
         }
         else {
           valueToAdd = values[row][field];
