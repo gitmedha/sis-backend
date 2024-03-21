@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alumni_events",
+  "info": {
+    "name": "AlumniEvents"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "string",
+      "required": true
+    },
+    "assgined_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "last_emailed_date": {
+      "type": "datetime"
+    }
+  }
+}
