@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "alumni_events",
   "info": {
-    "name": "AlumniEvents"
+    "name": "AlumniEvents",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -15,10 +16,10 @@
       "required": true
     },
     "start_date": {
-      "type": "date"
+      "type": "datetime"
     },
     "end_date": {
-      "type": "date",
+      "type": "datetime",
       "required": true
     },
     "status": {
@@ -31,6 +32,10 @@
     },
     "last_emailed_date": {
       "type": "datetime"
+    },
+    "reporting_date": {
+      "type": "datetime",
+      "required": true
     }
   }
 }

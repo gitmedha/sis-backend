@@ -55,6 +55,14 @@
       "config":{
         "policies":[]
       }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-events/get-events",
+      "handler":"alumni-events.getEvents",
+      "config":{
+        "policies":[]
+      }
     }
   ]
 }
