@@ -35,16 +35,11 @@ module.exports = {
             };
 
         
-            const emailOptions = {
-                to:'deepak.sharma@medha.org.in',
-                headers: {
-                    'X-Priority': '1 (Highest)',
-                    'Priority': 'urgent',
-                    'Importance': 'high'
-                }
-            };
+            const recipents = ['sanskaar.pradhan@medha.org.in','kirti.gour@medha.org.in','maryam.raza@medha.org.in']
     
-            await strapi.plugins['email'].services.email.sendTemplatedEmail(emailOptions,emailTemplate)
+            await strapi.plugins['email'].services.email.sendTemplatedEmail({
+                to:recipents
+            },emailTemplate)
         } catch (error) {
             console.log(error);
         }
