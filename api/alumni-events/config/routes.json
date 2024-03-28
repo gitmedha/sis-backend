@@ -1,0 +1,68 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/alumni-events",
+      "handler": "alumni-events.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-events/count",
+      "handler": "alumni-events.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alumni-events/:id",
+      "handler": "alumni-events.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alumni-events",
+      "handler": "alumni-events.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/alumni-events/:id",
+      "handler": "alumni-events.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/alumni-events/:id",
+      "handler": "alumni-events.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-events/create-events",
+      "handler":"alumni-events.createEvent",
+      "config":{
+        "policies":[]
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-events/get-events",
+      "handler":"alumni-events.getEvents",
+      "config":{
+        "policies":[]
+      }
+    }
+  ]
+}
