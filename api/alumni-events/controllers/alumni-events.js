@@ -38,5 +38,18 @@ module.exports = {
             console.error(error);
             ctx.throw(500, 'An error occurred while fetching the events.');
         }
+    },
+    async updateEvent(ctx) {
+        const { params, request } = ctx;
+        const { id } = params;
+        const { body } = request;
+
+        try {
+            const updatedEvent = await strapi.services['alumni-events'].update({ id }, body);
+            ctx.send(updatedEvent);
+        } catch (error) {
+            console.error(error);
+            ctx.throw(500, 'An error occurred while updating the event.');
+        }
     }
 };

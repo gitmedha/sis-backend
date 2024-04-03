@@ -46,11 +46,7 @@ module.exports = {
     },
 
     async sendEventReminderMail(name,reportingDate){
-        try {
-            
-        } catch (error) {
-            
-        }
+        
       
         const emailTemplate = {
             subject:`Alumni Service Data Check`,

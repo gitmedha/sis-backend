@@ -63,6 +63,14 @@
       "config":{
         "policies":[]
       }
+    },
+    {
+      "method":"POST",
+      "path":"/alumni-events/update-event/:id" ,
+      "handler":"alumni-events.updateEvent",
+      "config":{
+        "policies":[]
+      }
     }
   ]
 }
