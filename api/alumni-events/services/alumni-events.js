@@ -30,7 +30,7 @@ module.exports = {
 
             const emailTemplate = {
                 subject: 'Alumni Service Reporting',
-                text: `Hi,\n\nAn event has been Reported by ${name} on ${formattedDate}. Please check SIS for more details.`,
+                text: `Hi,<br><br>An event has been Reported by ${name} on ${formattedDate}. Please check SIS for more details.<br><br><br><br>`,
                 html:''
             };
 
@@ -43,20 +43,5 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-    },
-
-    async sendEventReminderMail(name,reportingDate){
-        
-      
-        const emailTemplate = {
-            subject:`Alumni Service Data Check`,
-            text:`Hi, \n\n
-            An event ${name} was held on ${reportingDate}. Please check SIS for more details
-            `
-        };
-
-        await strapi.plugins['email'].services.email.sendTemplatedEmail({
-            to:'deepak.sharma@medha.org.in',
-        },emailTemplate)
     }
 };
