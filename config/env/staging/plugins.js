@@ -24,7 +24,7 @@ module.exports = ({ env }) => ({
       // secureConnection: false,
       // tls: { ciphers: 'SSLv3'},
       auth: {
-        user: env('SMTP_USER'),
+        user: env('SMTP_USER','sis.admin@medha.org.in'),
         pass: env('SMTP_PASSWORD'),
       },
       // ... any custom nodemailer options
