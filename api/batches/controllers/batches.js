@@ -127,7 +127,7 @@ module.exports = {
       for (let row = 0; row <values.length; row++) {
         let valueToAdd;
   
-        if (field == "assigned_to") {
+        if (values[row][field] && field == "assigned_to") {
           valueToAdd = values[row][field].username;
         }
         else if(field == "program"){
@@ -140,7 +140,9 @@ module.exports = {
           valueToAdd = values[row][field].name
         }
         else {
-          valueToAdd = values[row][field];
+          if(values[row][field]){
+            valueToAdd = values[row][field];
+          } 
         }
   
         if (!uniqueValuesSet.has(valueToAdd)) {
@@ -156,7 +158,7 @@ module.exports = {
       return ctx.send(optionsArray);
       
     } catch (error) {
-console.log(error);
+
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }

@@ -43,7 +43,6 @@ module.exports = {
   async findDistinctField(ctx) {
     const { field ,tab,info} = ctx.params; // Extract the field name from the query parameters
     let optionsArray = [];
-
   const queryString =  info.substring();
   const infoObject =  JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
 
@@ -75,30 +74,33 @@ module.exports = {
       for (let row = 0; row <values.length; row++) {
         let valueToAdd;
   
-        if (field == "assigned_to" && values[row].assigned_to) {
-          valueToAdd = values[row][field].username;
+        if (field == "assigned_to" && values[row][field]) {
+          valueToAdd = values[row][field].username
         }
         else if (field == "employer" && values[row].employer) {
-          valueToAdd = values[row][field].name;
+          valueToAdd = values[row][field].name
         }
         else {
-          valueToAdd = values[row][field];
+          valueToAdd = values[row][field]
         }
+
+        if(values[row][field]){
+          if (!uniqueValuesSet.has(valueToAdd)) {
+            optionsArray.push({
+              key: row,
+              label: valueToAdd,
+              value: valueToAdd,
+            });
+            uniqueValuesSet.add(valueToAdd);
+          }
+        } 
   
-        if (!uniqueValuesSet.has(valueToAdd)) {
-          optionsArray.push({
-            key: row,
-            label: valueToAdd,
-            value: valueToAdd,
-          });
-          uniqueValuesSet.add(valueToAdd);
-        }
+        
       }
      
       return ctx.send(optionsArray);
       
     } catch (error) {
-console.log(error);
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }
