@@ -103,7 +103,7 @@
       "type": "datetime"
     },
     "link_sent_at": {
-      "type" : "datetime"
+      "type": "datetime"
     },
     "mode_of_payment": {
       "type": "string"
