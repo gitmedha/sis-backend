@@ -98,20 +98,21 @@ module.exports = {
       for (let row = 0; row <values.length; row++) {
         let valueToAdd;
   
-        if (field == "assigned_to") {
+        if (values[row][field] && field == "assigned_to") {
           valueToAdd = values[row][field].username;
         }
         else {
-          valueToAdd = values[row][field];
-        }
-  
-        if (!uniqueValuesSet.has(valueToAdd)) {
-          optionsArray.push({
-            key: row,
-            label: valueToAdd,
-            value: valueToAdd,
-          });
-          uniqueValuesSet.add(valueToAdd);
+          if(values[row][field]){
+            valueToAdd = values[row][field].trim();
+            if (!uniqueValuesSet.has(valueToAdd)) {
+              optionsArray.push({
+                key: row,
+                label: valueToAdd,
+                value: valueToAdd,
+              });
+              uniqueValuesSet.add(valueToAdd);
+            }
+          } 
         }
       }
      

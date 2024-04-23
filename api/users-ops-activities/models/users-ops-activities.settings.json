@@ -79,7 +79,7 @@
     "program_name": {
       "type": "string"
     },
-    "student_type":{ 
+    "student_type": {
       "type": "string"
     }
   }
