@@ -139,4 +139,10 @@ module.exports = {
         ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
       }
     },
+
+    async sendEmail(ctx) {
+
+      await strapi.services['students'].sendEmailConfirmation(ctx);
+      return true;
+    }
 };
