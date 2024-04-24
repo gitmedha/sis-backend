@@ -57,6 +57,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/students/distinct/:field/:tab/:info",
+      "handler": "students.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
       "method": "POST",
       "path": "/students/sendEmail",
       "handler": "students.sendEmail",
