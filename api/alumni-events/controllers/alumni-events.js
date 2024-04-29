@@ -11,7 +11,7 @@ module.exports = {
                 name:body.alumni_service,
                 start_date: body.start_date,
                 end_date:body.end_date,
-                assigned_to:body.assigned_to,
+                assgined_to:body.assgined_to,
                 status:body.status,
                 last_emailed_date:body.start_date,
                 reporting_date:body.reporting_date

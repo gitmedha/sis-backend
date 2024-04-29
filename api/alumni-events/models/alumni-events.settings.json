@@ -26,7 +26,7 @@
       "type": "string",
       "required": true
     },
-    "assigned_to": {
+    "assgined_to": {
       "plugin": "users-permissions",
       "model": "user"
     },
