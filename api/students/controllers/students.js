@@ -146,7 +146,6 @@ module.exports = {
      const queryString =  info.substring();
     const infoObject =  JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
 
-
       try {
   
   
@@ -175,22 +174,24 @@ module.exports = {
           let valueToAdd;
     
           if (values[row][field] && field === "assigned_to") {
-            valueToAdd = values[row][field].username;
+            
+            valueToAdd = values[row][field].username
           }
           else {
-            if(values[row][field]){
-              valueToAdd = values[row][field];
-            } 
+            valueToAdd = values[row][field]
           }
     
-          if (!uniqueValuesSet.has(valueToAdd)) {
-            optionsArray.push({
-              key: row,
-              label: valueToAdd,
-              value: valueToAdd,
-            });
-            uniqueValuesSet.add(valueToAdd);
+          if(values[row][field]){
+            if (!uniqueValuesSet.has(valueToAdd)) {
+              optionsArray.push({
+                key: row,
+                label: valueToAdd,
+                value: valueToAdd,
+              });
+              uniqueValuesSet.add(valueToAdd);
+            } 
           }
+          
         }
     
        

@@ -84,7 +84,7 @@ module.exports = {
          else {
           sortValue = `${field}:asc`;
         }
-        
+     
       
       const values = await strapi.query('employers').find({
         _limit: 1000000,
@@ -98,22 +98,22 @@ module.exports = {
       for (let row = 0; row <values.length; row++) {
         let valueToAdd;
   
-        if (values[row][field] && field == "assigned_to") {
-          valueToAdd = values[row][field].username;
+        if (values[row][field] && field === "assigned_to") {
+          valueToAdd = values[row][field].username.trim();
         }
         else {
-          if(values[row][field]){
-            valueToAdd = values[row][field].trim();
-            if (!uniqueValuesSet.has(valueToAdd)) {
-              optionsArray.push({
-                key: row,
-                label: valueToAdd,
-                value: valueToAdd,
-              });
-              uniqueValuesSet.add(valueToAdd);
-            }
-          } 
+          valueToAdd = values[row][field].trim();
         }
+        if(values[row][field]){
+          if (!uniqueValuesSet.has(valueToAdd)) {
+            optionsArray.push({
+              key: row,
+              label: valueToAdd,
+              value: valueToAdd,
+            });
+            uniqueValuesSet.add(valueToAdd);
+          }
+        } 
       }
      
       return ctx.send(optionsArray);
