@@ -31,10 +31,11 @@ module.exports = {
 
             const records = await strapi.query('alumni-queries').find({
               isactive:true,
-              'query_start': searchValue.query_start,
-              'query_end': searchValue.query_end,
+              'query_start_gte': searchValue.query_start,
+              'query_end_lte': searchValue.query_end,
               _limit: 1000000,
-              _start: 0
+              _start: 0,
+              _sort:`${searchField}:asc`
             });
             
       
