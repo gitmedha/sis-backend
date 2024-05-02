@@ -30,6 +30,7 @@ module.exports = {
           if(searchValue.hasOwnProperty('query_start')){
 
             const records = await strapi.query('alumni-queries').find({
+              isactive:true,
               'query_start': searchValue.query_start,
               'query_end': searchValue.query_end,
               _limit: 1000000,
@@ -43,17 +44,10 @@ module.exports = {
           }
 
           else {
-            let sortValue;
-        if(field =='batch' ){
-          sortValue = "batch.name:asc";
-        }
-        else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
+         
             const records = await strapi.query('alumni-queries').find({
               [`${searchField}_contains`]: searchValue,
+              isactive:true,
               _limit:1000000,
               _start: 0,
               _sort:`${searchField}:asc`
@@ -65,7 +59,7 @@ module.exports = {
           }
           
         } catch (error) {
-          console.log(error);
+        
           throw error;
         }
       },
@@ -75,6 +69,7 @@ module.exports = {
       
         try {
           const values = await strapi.query('alumni-queries').find({
+            isactive:true,
             _limit: 1000000,
             _start: 0
           });
@@ -104,7 +99,7 @@ module.exports = {
       
           return ctx.send(optionsArray);
         } catch (error) {
-          console.log(error);
+          
           return ctx.badRequest('An error occurred while fetching distinct values.');
         }
       }

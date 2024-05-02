@@ -31,8 +31,9 @@ module.exports = {
             const records = await strapi.query('students-upskilling').find({
               'start_date': searchValue.start_date,
               'end_date': searchValue.end_date,
+              isactive:true,
               _limit: 1000000,
-              _start: 0
+              _start: 0,
             });
             
       
@@ -43,11 +44,12 @@ module.exports = {
           else {
             const records = await strapi.query('students-upskilling').find({
               [`${searchField}_contains`]: searchValue,
+              isactive:true,
               _limit:1000000,
               _start: 0
             });
             
-      
+  
             return ctx.send(records);
           }
          
@@ -61,55 +63,81 @@ module.exports = {
         let optionsArray = [];
       
         try {
-          let sortValue;
-
-        if(field =='institution' ){
-          sortValue = "institution.name:asc";
-        }
-       else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
-          const values = await strapi.query('students-upskilling').find({
-            _limit: 1000000,
-            _start: 0,
-            _sort:sortValue
-          });
-          // console.log(values);
-          const uniqueValuesSet = new Set();
+          if (field === 'program_name') {
+            const programs = await strapi.query('programs').find({
+              _start:0,
+              _sort:'name:asc'
+            })
+    
       
-          for (let row = 0; row < values.length; row++) {
+          for (let row = 0; row < programs.length; row++) {
             let valueToAdd;
-      
-            if (field === "student_id") {
-              valueToAdd = values[row][field].full_name;
-
-            }
-            else if (field === "assigned_to"){
-              valueToAdd = values[row][field].username;
-            }
-            else if (field === "institution"){
-              valueToAdd = values[row][field].name;
-            }
-            
-            else if (field) {
-              valueToAdd = values[row][field];
-            }
-      
-            if (!uniqueValuesSet.has(valueToAdd)) {
-              optionsArray.push({
-                key: row,
-                label: valueToAdd,
-                value: valueToAdd,
-              });
-              uniqueValuesSet.add(valueToAdd);
-            }
+            valueToAdd = programs[row]['name'];
+    
+            optionsArray.push({
+              key: row,
+              label: valueToAdd,
+              value: valueToAdd,
+            });
           }
+  
       
           return ctx.send(optionsArray);
+          }
+          else {
+            let sortValue;
+
+            if(field =='institution' ){
+              sortValue = "institution.name:asc";
+            }
+           else if (field == "assigned_to") {
+              sortValue = "assigned_to.username:asc";
+            } else {
+              sortValue = `${field}:asc`;
+            }
+              const values = await strapi.query('students-upskilling').find({
+                isactive:true,
+                _limit: 1000000,
+                _start: 0,
+                _sort:sortValue
+              });
+            
+              const uniqueValuesSet = new Set();
+          
+              for (let row = 0; row < values.length; row++) {
+                let valueToAdd;
+          
+                if (field === "student_id") {
+                  valueToAdd = values[row][field].full_name;
+    
+                }
+                else if (field === "assigned_to"){
+                  valueToAdd = values[row][field].username;
+                }
+                else if (field === "institution"){
+                  valueToAdd = values[row][field].name;
+                }
+                
+                else if (field) {
+                  valueToAdd = values[row][field];
+                }
+          
+                if (!uniqueValuesSet.has(valueToAdd)) {
+                  optionsArray.push({
+                    key: row,
+                    label: valueToAdd,
+                    value: valueToAdd,
+                  });
+                  uniqueValuesSet.add(valueToAdd);
+                }
+              }
+          
+              return ctx.send(optionsArray);
+
+          }
+        
         } catch (error) {
-          console.log(error);
+        
           return ctx.badRequest('An error occurred while fetching distinct values.');
         }
       }

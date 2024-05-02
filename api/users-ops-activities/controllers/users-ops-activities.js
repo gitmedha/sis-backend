@@ -29,13 +29,14 @@ module.exports = {
       
       const records = await strapi.query('users-ops-activities').find({
         [`${searchField}_contains`]: searchValue,
+        isactive:true,
         _limit:1000000,
         _start: 0
       });
 
       return ctx.send(records);
     } catch (error) {
-      console.log(error);
+      
       throw error;
     }
   },
@@ -44,7 +45,30 @@ module.exports = {
     let optionsArray = [];
   
     try {
-      let sortValue;
+
+
+      if (field === 'program_name') {
+        const programs = await strapi.query('programs').find({
+          _start:0,
+          _sort:'name:asc'
+        })
+
+  
+      for (let row = 0; row < programs.length; row++) {
+        let valueToAdd;
+        valueToAdd = programs[row]['name'];
+
+        optionsArray.push({
+          key: row,
+          label: valueToAdd,
+          value: valueToAdd,
+        });
+      }
+  
+      return ctx.send(optionsArray);
+      }
+      else {
+        let sortValue;
 
         if(field =='batch' ){
           sortValue = "batch.name:asc";
@@ -56,14 +80,13 @@ module.exports = {
         }
         
       
-      console.log('sortValue \n ',sortValue)
       const values = await strapi.query('users-ops-activities').find({
+        isactive:true,
         _limit: 1000000,
         _start: 0,
         _sort:sortValue
       });
-      // console.log(values)
-  
+     
       const uniqueValuesSet = new Set();
   
       for (let row = 0; row < values.length; row++) {
@@ -74,6 +97,9 @@ module.exports = {
         } else if (field === "batch") {
           valueToAdd = values[row][field].name;
         } else if (field === "area") {
+          valueToAdd = values[row][field];
+        }
+        else if (field === "program_name"){
           valueToAdd = values[row][field];
         }
   
@@ -88,8 +114,11 @@ module.exports = {
       }
   
       return ctx.send(optionsArray);
+
+      }
+      
     } catch (error) {
-      console.log(error);
+   
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }
