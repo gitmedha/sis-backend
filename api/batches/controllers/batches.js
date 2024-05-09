@@ -113,20 +113,20 @@ module.exports = {
          else {
           sortValue = `${field}:asc`;
         }
-        
-      
+
+
       const values = await strapi.query('batches').find({
         _limit: 1000000,
         _start: 0,
         _sort:sortValue,
         ...((tab === "my_data" && {assigned_to:infoObject.id}) || (tab=== "my_state" && {state:infoObject.state}) || (tab === "my_area" && {medha_area:infoObject.area}))
       });
-     
+
       const uniqueValuesSet = new Set();
-  
+
       for (let row = 0; row <values.length; row++) {
         let valueToAdd;
-  
+
         if (values[row][field] && field == "assigned_to") {
           valueToAdd = values[row][field].username;
         }
@@ -142,9 +142,9 @@ module.exports = {
         else {
           if(values[row][field]){
             valueToAdd = values[row][field];
-          } 
+          }
         }
-  
+
         if (!uniqueValuesSet.has(valueToAdd)) {
           optionsArray.push({
             key: row,
@@ -154,9 +154,9 @@ module.exports = {
           uniqueValuesSet.add(valueToAdd);
         }
       }
-     
+
       return ctx.send(optionsArray);
-      
+
     } catch (error) {
 
       return ctx.badRequest('An error occurred while fetching distinct values.');

@@ -147,18 +147,18 @@ module.exports = {
     const infoObject =  JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
 
       try {
-  
-  
+
+
         let sortValue;
-  
+
           if(field =='assigned_to' ){
             sortValue = "assigned_to.username:asc";
           }
            else {
             sortValue = `${field}:asc`;
           }
-          
-        
+
+
         const values = await strapi.query('students').find({
           _limit: 1000000,
           _start: 0,
@@ -167,20 +167,20 @@ module.exports = {
 
         });
 
-       
+
         const uniqueValuesSet = new Set();
-  
+
         for (let row = 0; row < values.length; row++) {
           let valueToAdd;
-    
+
           if (values[row][field] && field === "assigned_to") {
-            
+
             valueToAdd = values[row][field].username
           }
           else {
             valueToAdd = values[row][field]
           }
-    
+
           if(values[row][field]){
             if (!uniqueValuesSet.has(valueToAdd)) {
               optionsArray.push({
@@ -189,16 +189,21 @@ module.exports = {
                 value: valueToAdd,
               });
               uniqueValuesSet.add(valueToAdd);
-            } 
+            }
           }
-          
+
         }
-    
-       
+
+
         return ctx.send(optionsArray);
-        
+
       } catch (error) {
         return ctx.badRequest('An error occurred while fetching distinct values.');
       }
+    },
+    async sendEmail(ctx) {
+      const data = ctx.request.body
+      await strapi.services['students'].sendConfirmationEmail(data);
+      return true;
     }
 };
