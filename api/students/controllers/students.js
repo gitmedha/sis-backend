@@ -202,8 +202,8 @@ module.exports = {
       }
     },
     async sendEmail(ctx) {
-
-      await strapi.services['students'].sendEmailConfirmation(ctx);
+      const data = ctx.request.body
+      await strapi.services['students'].sendConfirmationEmail(data);
       return true;
     }
 };
