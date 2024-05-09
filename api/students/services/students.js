@@ -19,19 +19,17 @@ module.exports = {
     return await strapi.services['program-enrollments'].findOne({ student: student.id, _sort: 'id:desc' });
   },
   async sendConfirmationEmail(studentInformation){
-      let studentId = studentInformation.studentId;
-      let name = studentInformation.name;
-      let studentEmail = studentInformation.email;
-      let parentsName = studentInformation.parentsName;
-      let dateOfBirth = studentInformation.dateofBirth;
-      let educationalInstitution = studentInformation.educationalInstitution;
-      let course = studentInformation.course;
-      let courseLevel = studentInformation.courseLevel;
-      let yearOfStudy = studentInformation.yearOfStudy;
-      let yearOfCompletion = studentInformation.yearOfCompletion;
-      let courseName = studentInformation.courseName;
-      let otherCourseName = studentInformation.otherCourseName;
-
+    let studentId = studentInformation.studentId;
+    let name = studentInformation.name;
+    let studentEmail = studentInformation.email;
+    let parentsName = studentInformation.parentsName;
+    let dateOfBirth = studentInformation.dateofBirth;
+    let educationalInstitution = studentInformation.educationalInstitution;
+    let course = studentInformation.course;
+    let courseLevel = studentInformation.courseLevel;
+    let yearOfStudy = studentInformation.yearOfStudy;
+    let yearOfCompletion = studentInformation.yearOfCompletion;
+    let courseName = studentInformation.courseName;
     let email = studentEmail;
     const emailTemplate = {
       subject: `Registered Successfully!`,
@@ -51,8 +49,7 @@ module.exports = {
             <li><strong>Year of Study:</strong> ${yearOfStudy}</li>
             <li><strong>Educational Institution:</strong> ${educationalInstitution}</li>
             <li><strong>Year of Course Completion:</strong> ${yearOfCompletion}</li>
-            <li><strong>Course Name:</strong> ${courseName}" .
-            (${courseName} === "Other" ? "<br><li><strong>Other Course Name:</strong> ${otherCourseName} </li>" : "")
+            <li><strong>Course Name:</strong> ${courseName}"<li>
         </ul>
         <p>Please reach out to your trainer if any changes are required. </p>
         <p>Regards,<br>Medha</p>
