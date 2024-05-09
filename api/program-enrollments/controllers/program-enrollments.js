@@ -29,7 +29,7 @@ module.exports = {
     // AuditLog: user triggered certificate generation
     const logged_in_user = ctx.state.user;
     await strapi.services['audit-logs'].create({
-      // user: ctx.state?.user?.id,
+      user: ctx.state?.user?.id,
       action: 'user_triggered_certificate_generation',
       content: `Certificate generation started for program enrollment ID ${programEnrollment.id} by user "${ctx.state.user.username}" having ID ${logged_in_user.id}`,
     });
@@ -50,7 +50,7 @@ module.exports = {
     // AuditLog: user triggered certificate generation
     const logged_in_user = ctx.state.user;
     await strapi.services['audit-logs'].create({
-      // user: ctx.state?.user?.id,
+      user: ctx.state?.user?.id,
       action: 'user_triggered_certificate_deletion',
       content: `Certificate deleted for program enrollment ID ${programEnrollment.id} by user "${ctx.state.user.username}" having ID ${logged_in_user.id}`,
     });
