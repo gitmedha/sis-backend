@@ -79,7 +79,6 @@ module.exports = {
     const { id } = ctx.params;
     const batch = await strapi.services['batches'].findOne({ id });
     await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
-
     // AuditLog: batch email certificates triggered by user
     await strapi.services['audit-logs'].create({
       user: ctx.state&&ctx.state.user&&ctx.state.user.id,
@@ -93,5 +92,74 @@ module.exports = {
     const batch = await strapi.services['batches'].findOne({ id });
     await strapi.services['batches'].emailProgramEnrollmentLinks(batch);
     return ctx.send({batch: batch});
+  },
+  async findDistinctField(ctx) {
+    const { field ,tab,info} = ctx.params; // Extract the field name from the query parameters
+    let optionsArray = [];
+
+  const queryString =  info.substring();
+  const infoObject =  JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
+
+    try {
+
+
+      let sortValue;
+
+        if(field =='assigned_to' ){
+          sortValue = "assigned_to.username:asc";
+        }else if (field === 'grant'){
+          sortValue = "grant.name:asc";
+        }
+         else {
+          sortValue = `${field}:asc`;
+        }
+
+
+      const values = await strapi.query('batches').find({
+        _limit: 1000000,
+        _start: 0,
+        _sort:sortValue,
+        ...((tab === "my_data" && {assigned_to:infoObject.id}) || (tab=== "my_state" && {state:infoObject.state}) || (tab === "my_area" && {medha_area:infoObject.area}))
+      });
+
+      const uniqueValuesSet = new Set();
+
+      for (let row = 0; row <values.length; row++) {
+        let valueToAdd;
+
+        if (values[row][field] && field == "assigned_to") {
+          valueToAdd = values[row][field].username;
+        }
+        else if(field == "program"){
+          valueToAdd = values[row][field].name;
+        }
+        else if(field == "institution" && values[row].institution){
+          valueToAdd = values[row][field].name;
+        }
+        else if (field === "grant"){
+          valueToAdd = values[row][field].name
+        }
+        else {
+          if(values[row][field]){
+            valueToAdd = values[row][field];
+          }
+        }
+
+        if (!uniqueValuesSet.has(valueToAdd)) {
+          optionsArray.push({
+            key: row,
+            label: valueToAdd,
+            value: valueToAdd,
+          });
+          uniqueValuesSet.add(valueToAdd);
+        }
+      }
+
+      return ctx.send(optionsArray);
+
+    } catch (error) {
+
+      return ctx.badRequest('An error occurred while fetching distinct values.');
+    }
   }
 };

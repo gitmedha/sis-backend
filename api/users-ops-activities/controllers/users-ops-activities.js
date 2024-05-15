@@ -21,21 +21,43 @@ module.exports = {
 
   async searchOps(ctx) {
     const { searchField, searchValue } = ctx.request.body;
-  
+
     try {
       if (!searchField || !searchValue) {
         return ctx.badRequest('Field and value are required.');
       }
-      
-      const records = await strapi.query('users-ops-activities').find({
-        [`${searchField}_contains`]: searchValue,
-        _limit:1000000,
-        _start: 0
-      });
 
-      return ctx.send(records);
+      if(searchValue.hasOwnProperty('start_date')){
+
+        const records = await strapi.query('users-ops-activities').find({
+          'start_date_gte': searchValue.start_date,
+          'start_date_lte': searchValue.end_date,
+          isactive:true,
+          _limit: 1000000,
+          _start: 0,
+          _sort:`${searchField}:asc`
+        });
+        
+  
+        return ctx.send(records);
+
+       
+      }
+      else {
+        const records = await strapi.query('users-ops-activities').find({
+          [`${searchField}_contains`]: searchValue,
+          isactive:true,
+          _limit:1000000,
+          _start: 0
+        });
+  
+        return ctx.send(records);
+
+      }
+      
+   
     } catch (error) {
-      console.log(error);
+      
       throw error;
     }
   },
@@ -44,11 +66,48 @@ module.exports = {
     let optionsArray = [];
   
     try {
-      const values = await strapi.query('users-ops-activities').find({
-        _limit: 1000000,
-        _start: 0
-      });
+
+
+      if (field === 'program_name') {
+        const programs = await strapi.query('programs').find({
+          _start:0,
+          _sort:'name:asc'
+        })
+
   
+      for (let row = 0; row < programs.length; row++) {
+        let valueToAdd;
+        valueToAdd = programs[row]['name'];
+
+        optionsArray.push({
+          key: row,
+          label: valueToAdd,
+          value: valueToAdd,
+        });
+      }
+  
+      return ctx.send(optionsArray);
+      }
+      else {
+        let sortValue;
+
+        if(field =='batch' ){
+          sortValue = "batch.name:asc";
+        }
+        else if (field == "assigned_to") {
+          sortValue = "assigned_to.username:asc";
+        } else {
+          sortValue = `${field}:asc`;
+        }
+        
+      
+      const values = await strapi.query('users-ops-activities').find({
+        isactive:true,
+        _limit: 1000000,
+        _start: 0,
+        _sort:sortValue
+      });
+     
       const uniqueValuesSet = new Set();
   
       for (let row = 0; row < values.length; row++) {
@@ -59,6 +118,9 @@ module.exports = {
         } else if (field === "batch") {
           valueToAdd = values[row][field].name;
         } else if (field === "area") {
+          valueToAdd = values[row][field];
+        }
+        else if (field === "program_name"){
           valueToAdd = values[row][field];
         }
   
@@ -73,8 +135,11 @@ module.exports = {
       }
   
       return ctx.send(optionsArray);
+
+      }
+      
     } catch (error) {
-      console.log(error);
+   
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
   }

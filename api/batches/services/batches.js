@@ -129,7 +129,6 @@ module.exports = {
     });
     return updatedBatch;
   },
-
   async emailProgramEnrollmentLinks(batch) {
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
