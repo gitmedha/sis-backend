@@ -140,10 +140,10 @@ module.exports = {
       }
     },
     async findDistinctField(ctx) {
-      const { field ,tab,info} = ctx.params; // Extract the field name from the query parameters
+      const { field ,tab,info} = ctx.params;
       let optionsArray = [];
 
-     const queryString =  info.substring();
+    const queryString =  info.substring();
     const infoObject =  JSON.parse('{"' + queryString.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
 
       try {
@@ -160,13 +160,11 @@ module.exports = {
 
 
         const values = await strapi.query('students').find({
-          _limit: 1000000,
+          _limit: 100,
           _start: 0,
-          _sort:sortValue,
           ...((tab === "my_data" && {assigned_to:infoObject.id}) || (tab=== "my_state" && {state:infoObject.state}) || (tab === "my_area" && {medha_area:infoObject.area}))
 
         });
-
 
         const uniqueValuesSet = new Set();
 
@@ -198,6 +196,7 @@ module.exports = {
         return ctx.send(optionsArray);
 
       } catch (error) {
+        console.log(error);
         return ctx.badRequest('An error occurred while fetching distinct values.');
       }
     },
