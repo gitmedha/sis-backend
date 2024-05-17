@@ -47,9 +47,6 @@
     },
     "category": {
       "type": "string"
-    },
-    "status": {
-      "type": "string"
     }
   }
 }
