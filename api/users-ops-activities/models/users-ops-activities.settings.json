@@ -78,6 +78,9 @@
     },
     "program_name": {
       "type": "string"
+    },
+    "student_type": {
+      "type": "string"
     }
   }
 }

@@ -21,7 +21,7 @@ module.exports = {
       
       async searchOps(ctx) {
         const { searchField, searchValue } = ctx.request.body;
-      
+
         try {
           if (!searchField || !searchValue) {
             return ctx.badRequest('Field and value are required.');
@@ -33,6 +33,7 @@ module.exports = {
             _limit:1000000,
             _start: 0
           });
+          
           
     
           return ctx.send(records);
@@ -69,8 +70,8 @@ module.exports = {
           for (let row = 0; row < values.length; row++) {
             let valueToAdd;
       
-            if (field === "trainer_1" || field === "trainer_2") {
-              valueToAdd = values[row][field].username;
+            if (field === "trainer_1.username" || field === "trainer_2.username") {
+                valueToAdd = field === "trainer_1.username"?values[row]['trainer_1'].username:values[row]['trainer_2'].username
             } else if (field) {
               valueToAdd = values[row][field];
             }
@@ -84,7 +85,7 @@ module.exports = {
               uniqueValuesSet.add(valueToAdd);
             }
           }
-      
+          
           return ctx.send(optionsArray);
         } catch (error) {
           

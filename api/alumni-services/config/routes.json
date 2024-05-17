@@ -47,6 +47,22 @@
       "config": {
         "policies": []
       }
+    }, 
+    {
+      "method":"POST",
+      "path":"/alumni-services/createBulkAlumniServices",
+      "handler":"alumni-services.createBulkAlumni",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alumni-services/bulk-update",
+      "handler": "alumni-services.bulkUpdate",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

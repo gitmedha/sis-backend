@@ -38,4 +38,35 @@ module.exports = {
         ctx.throw(401, 'You are not allowed to delete this record!', { user: ctx.state.user.username});
     }
   },
+  async createBulkEmploymentConnection(ctx) {
+    const { body } = ctx.request;
+
+    try {
+      const createdData = await strapi.services['employment-connections'].createMany(body);
+      return createdData;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  async bulkUpdate(ctx) {
+    try {
+      const data = ctx.request.body;
+      const updatedData = await Promise.all(
+        data.map(async (item) => {
+          const updatedRecord = await strapi
+            .query("employment-connections")
+            .update({ id: item.id }, item);
+          return updatedRecord;
+        })
+      );
+
+      return updatedData;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
 };
+
+
