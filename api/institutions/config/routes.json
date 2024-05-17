@@ -61,6 +61,13 @@
       "config": {
         "policies":[]
       }
+    },{
+      "method": "POST",
+      "path": "/institutions/paymentRequired",
+      "handler": "institutions.paymentRequired",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }
