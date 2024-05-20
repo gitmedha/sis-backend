@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/opportunities/distinct/:field/:tab/:info",
+      "handler": "opportunities.findDistinctField",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

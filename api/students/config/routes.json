@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/students/distinct/:field/:tab/:info",
+      "handler": "students.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }

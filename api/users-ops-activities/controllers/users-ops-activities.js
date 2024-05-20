@@ -26,15 +26,35 @@ module.exports = {
       if (!searchField || !searchValue) {
         return ctx.badRequest('Field and value are required.');
       }
-      
-      const records = await strapi.query('users-ops-activities').find({
-        [`${searchField}_contains`]: searchValue,
-        isactive:true,
-        _limit:1000000,
-        _start: 0
-      });
 
-      return ctx.send(records);
+      if(searchValue.hasOwnProperty('start_date')){
+
+        const records = await strapi.query('users-ops-activities').find({
+          'start_date': searchValue.start_date,
+          'end_date': searchValue.end_date,
+          isactive:true,
+          _limit: 1000000,
+          _start: 0,
+        });
+        
+  
+        return ctx.send(records);
+
+       
+      }
+      else {
+        const records = await strapi.query('users-ops-activities').find({
+          [`${searchField}_contains`]: searchValue,
+          isactive:true,
+          _limit:1000000,
+          _start: 0
+        });
+  
+        return ctx.send(records);
+
+      }
+      
+   
     } catch (error) {
       
       throw error;
