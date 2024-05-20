@@ -25,6 +25,9 @@
     },
     "tier": {
       "type": "string"
+    },
+    "city":{
+      "type":"string"
     }
   }
 }
