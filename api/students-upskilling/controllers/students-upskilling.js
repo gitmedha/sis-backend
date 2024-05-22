@@ -67,7 +67,6 @@ module.exports = {
           if (field === 'program_name') {
             const programs = await strapi.query('programs').find({
               _start:0,
-              _sort:'name:asc'
             })
     
       
@@ -86,21 +85,11 @@ module.exports = {
           return ctx.send(optionsArray);
           }
           else {
-            let sortValue;
-
-            if(field =='institution' ){
-              sortValue = "institution.name:asc";
-            }
-           else if (field == "assigned_to") {
-              sortValue = "assigned_to.username:asc";
-            } else {
-              sortValue = `${field}:asc`;
-            }
+            
               const values = await strapi.query('students-upskilling').find({
                 isactive:true,
-                _limit: 1000000,
+                _limit: 100,
                 _start: 0,
-                _sort:sortValue
               });
             
               const uniqueValuesSet = new Set();

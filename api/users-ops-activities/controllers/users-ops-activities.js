@@ -70,8 +70,7 @@ module.exports = {
 
       if (field === 'program_name') {
         const programs = await strapi.query('programs').find({
-          _start:0,
-          _sort:'name:asc'
+          _start:0
         })
 
   
@@ -89,23 +88,10 @@ module.exports = {
       return ctx.send(optionsArray);
       }
       else {
-        let sortValue;
-
-        if(field =='batch' ){
-          sortValue = "batch.name:asc";
-        }
-        else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
-        
-      
       const values = await strapi.query('users-ops-activities').find({
         isactive:true,
-        _limit: 1000000,
+        _limit: 100,
         _start: 0,
-        _sort:sortValue
       });
      
       const uniqueValuesSet = new Set();
