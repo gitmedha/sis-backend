@@ -10,7 +10,6 @@ module.exports = {
         try{
             const knex = strapi.connections.default;
             const geographiesList = await knex("geographies").select("*");
-            console.log(geographiesList, "List")
             return ctx.send(geographiesList);
           } catch (error) {
             console.log(error);
