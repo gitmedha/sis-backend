@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course",
+  "info": {
+    "name": "course",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "createdby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updatedby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "course_type": {
+      "type": "string"
+    },
+    "course_level": {
+      "type": "string"
+    },
+    "course_name": {
+      "type": "string"
+    }
+    }
+}
