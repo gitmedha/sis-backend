@@ -29,11 +29,12 @@ module.exports = {
           if(searchValue.hasOwnProperty('start_date')){
 
             const records = await strapi.query('students-upskilling').find({
-              'start_date': searchValue.start_date,
-              'end_date': searchValue.end_date,
+              'start_date_gte': searchValue.start_date,
+              'end_date_lte': searchValue.end_date,
               isactive:true,
               _limit: 1000000,
               _start: 0,
+              _sort:`${searchField}:asc`
             });
             
       
@@ -66,7 +67,6 @@ module.exports = {
           if (field === 'program_name') {
             const programs = await strapi.query('programs').find({
               _start:0,
-              _sort:'name:asc'
             })
     
       
@@ -85,21 +85,11 @@ module.exports = {
           return ctx.send(optionsArray);
           }
           else {
-            let sortValue;
-
-            if(field =='institution' ){
-              sortValue = "institution.name:asc";
-            }
-           else if (field == "assigned_to") {
-              sortValue = "assigned_to.username:asc";
-            } else {
-              sortValue = `${field}:asc`;
-            }
+            
               const values = await strapi.query('students-upskilling').find({
                 isactive:true,
-                _limit: 1000000,
+                _limit: 100,
                 _start: 0,
-                _sort:sortValue
               });
             
               const uniqueValuesSet = new Set();

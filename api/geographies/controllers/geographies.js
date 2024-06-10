@@ -5,4 +5,17 @@
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+    async findAll(ctx) {
+        try{
+            const knex = strapi.connections.default;
+            const geographiesList = await knex("geographies").select("*");
+            return ctx.send(geographiesList);
+          } catch (error) {
+            console.log(error);
+            return ctx.badRequest(
+              "An error occurred while fetching distinct values."
+            );
+        }
+    },
+};

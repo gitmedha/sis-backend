@@ -22,7 +22,6 @@ module.exports = {
   async bulkUpdate(ctx) {
     try {
       const data = ctx.request.body;
-      console.log(ctx.request.body);
       const updatedData = await Promise.all(
         data.map(async (item) => {
           const updatedRecord = await strapi

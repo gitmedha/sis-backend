@@ -63,6 +63,14 @@
       "config": {
         "policies":[]
       }
+    },
+    {
+      "method": "POST",
+      "path": "/students/sendEmail",
+      "handler": "students.sendEmail",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

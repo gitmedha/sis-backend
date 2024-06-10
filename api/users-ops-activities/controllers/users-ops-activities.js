@@ -21,7 +21,7 @@ module.exports = {
 
   async searchOps(ctx) {
     const { searchField, searchValue } = ctx.request.body;
-  
+
     try {
       if (!searchField || !searchValue) {
         return ctx.badRequest('Field and value are required.');
@@ -30,11 +30,12 @@ module.exports = {
       if(searchValue.hasOwnProperty('start_date')){
 
         const records = await strapi.query('users-ops-activities').find({
-          'start_date': searchValue.start_date,
-          'end_date': searchValue.end_date,
+          'start_date_gte': searchValue.start_date,
+          'start_date_lte': searchValue.end_date,
           isactive:true,
           _limit: 1000000,
           _start: 0,
+          _sort:`${searchField}:asc`
         });
         
   
@@ -69,8 +70,7 @@ module.exports = {
 
       if (field === 'program_name') {
         const programs = await strapi.query('programs').find({
-          _start:0,
-          _sort:'name:asc'
+          _start:0
         })
 
   
@@ -88,23 +88,10 @@ module.exports = {
       return ctx.send(optionsArray);
       }
       else {
-        let sortValue;
-
-        if(field =='batch' ){
-          sortValue = "batch.name:asc";
-        }
-        else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
-        
-      
       const values = await strapi.query('users-ops-activities').find({
         isactive:true,
-        _limit: 1000000,
+        _limit: 100,
         _start: 0,
-        _sort:sortValue
       });
      
       const uniqueValuesSet = new Set();
