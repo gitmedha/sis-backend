@@ -1,0 +1,67 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/mentorship",
+      "handler": "mentorship.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/mentorship/count",
+      "handler": "mentorship.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/mentorship/:id",
+      "handler": "mentorship.findOne",
+      "config": {
+        "policies": []
+      }
+    },{
+      "method": "GET",
+      "path": "/mentorship/distinct/:field",
+      "handler": "mentorship.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/mentorships",
+      "handler": "mentorship.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/mentorships/:id",
+      "handler": "mentorship.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/mentorships/:id",
+      "handler": "mentorship.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/mentorships/createBulkmentorship",
+      "handler":"mentorship.createBulkmentorship",
+      "config":{
+        "policies": []
+      }
+    }
+  ]
+}
