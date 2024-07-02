@@ -130,6 +130,9 @@
     "how_did_you_hear_about_us_other": {
       "type": "string"
     },
+    "your_plan_after_your_current_course": {
+      "type": "string"
+    },
     "family_annual_income": {
       "type": "biginteger"
     }

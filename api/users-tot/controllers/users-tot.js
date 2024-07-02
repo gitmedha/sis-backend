@@ -47,21 +47,11 @@ module.exports = {
         let optionsArray = [];
       
         try {
-          let sortValue;
-
-        if(field =='batch' ){
-          sortValue = "batch.name:asc";
-        }
-        else if (field == "assigned_to") {
-          sortValue = "assigned_to.username:asc";
-        } else {
-          sortValue = `${field}:asc`;
-        }
+      
           const values = await strapi.query('users-tot').find({
             isactive:true,
-            _limit: 1000000,
+            _limit: 100,
             _start: 0,
-            _sort:sortValue,
           });
       
       
