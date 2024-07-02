@@ -75,7 +75,7 @@ module.exports = {
     const infoObject = JSON.parse(
       '{"' + queryString.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
       function (key, value) {
-        return key === "" ? value : decodeURIComponent(value);
+        return key === "" ? value : decodeURIComponent(value.replace(/\+/g, ' '));
       }
     );
 
