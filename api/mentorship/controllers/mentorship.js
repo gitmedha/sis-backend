@@ -64,29 +64,10 @@ module.exports = {
         let optionsArray = [];
       
         try {
-          if (field === 'program_name') {
-            const programs = await strapi.query('programs').find({
-              _start:0,
-            })
-    
-      
-          for (let row = 0; row < programs.length; row++) {
-            let valueToAdd;
-            valueToAdd = programs[row]['name'];
-    
-            optionsArray.push({
-              key: row,
-              label: valueToAdd,
-              value: valueToAdd,
-            });
-          }
-  
-      
-          return ctx.send(optionsArray);
-          }
-          else {
+          
+        
             
-              const values = await strapi.query('students-upskilling').find({
+              const values = await strapi.query('mentorship').find({
                 isactive:true,
                 _limit: 100,
                 _start: 0,
@@ -97,8 +78,9 @@ module.exports = {
               for (let row = 0; row < values.length; row++) {
                 let valueToAdd;
           
-                if (field === "student_id") {
-                  valueToAdd = values[row][field].full_name;
+                if (field === "mentor_state") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
     
                 }
                 else if (field === "assigned_to"){
@@ -121,10 +103,10 @@ module.exports = {
                   uniqueValuesSet.add(valueToAdd);
                 }
               }
-          
+              console.log(optionsArray);
               return ctx.send(optionsArray); 
 
-          }
+          
         
         } catch (error) {
         

@@ -35,7 +35,7 @@
       "required": true
     },
     "mentor_state": {
-      "type": "boolean"
+      "type": "string"
     },
     "outreach": {
       "type": "string"
