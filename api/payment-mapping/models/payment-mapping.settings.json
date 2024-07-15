@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_mapping",
+  "info": {
+    "name": "payment_mapping",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "program_name": {
+      "type": "string"
+    },
+    "sis_id": {
+      "model": "institutions"
+    },
+    "institution_name": {
+      "type": "string"
+    },
+    "payment": {
+      "type": "boolean"
+    },
+    "amount": {
+      "type": "biginteger"
+    },
+    "is_active": {
+      "type": "boolean"
+    }
+  }
+}
