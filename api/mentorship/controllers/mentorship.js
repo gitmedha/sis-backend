@@ -18,47 +18,31 @@ module.exports = {
           throw error;
         }
       },
-      // async searchOps(ctx) {
-      //   const { searchField, searchValue } = ctx.request.body;
-      
-      //   try {
-      //     if (!searchField || !searchValue) {
-      //       return ctx.badRequest('Field and value are required.');
-      //     }
+      async searchOps (ctx) { 
+        const { searchField, searchValue } = ctx.request.body;
+        console.log(ctx.request.body);
+        try {
+          if (!searchField || !searchValue) {
+            return ctx.badRequest('Field and value are required.');
+          }
+            console.log(ctx.request.body,"line28");
           
-      //     if(searchValue.hasOwnProperty('start_date')){
-
-      //       const records = await strapi.query('students-upskilling').find({
-      //         'start_date_gte': searchValue.start_date,
-      //         'end_date_lte': searchValue.end_date,
-      //         isactive:true,
-      //         _limit: 1000000,
-      //         _start: 0,
-      //         _sort:`${searchField}:asc`
-      //       });
+            const records = await strapi.query('mentorship').find({
+              [`${searchField}_contains`]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
             
-      
-      //       return ctx.send(records);
-
-           
-      //     }
-      //     else {
-      //       const records = await strapi.query('students-upskilling').find({
-      //         [`${searchField}_contains`]: searchValue,
-      //         isactive:true,
-      //         _limit:1000000,
-      //         _start: 0
-      //       });
-            
-  
-      //       return ctx.send(records);
-      //     }
+            console.log(records);
+            return ctx.send(records);
+          
          
-      //   } catch (error) {
-      //     console.log(error);
-      //     throw error;
-      //   }
-      // },
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
       async findDistinctField(ctx) {
         const { field } = ctx.params; // Extract the field name from the query parameters
         let optionsArray = [];
@@ -78,21 +62,51 @@ module.exports = {
               for (let row = 0; row < values.length; row++) {
                 let valueToAdd;
           
+                if (field === "mentor_name") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "mentor_domain") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "mentor_company_name") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "designation") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "mentor_area") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
                 if (field === "mentor_state") {
                   console.log(values[row][field]);
                   valueToAdd = values[row][field];
-    
                 }
-                else if (field === "assigned_to"){
-                  valueToAdd = values[row][field].username;
-                }
-                else if (field === "institution"){
-                  valueToAdd = values[row][field].name;
-                }
-                
-                else if (field) {
+                if (field === "outreach") {
+                  console.log(values[row][field]);
                   valueToAdd = values[row][field];
                 }
+                if (field === "onboarding_date") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "medha_area") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "program_name") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                if (field === "status") {
+                  console.log(values[row][field]);
+                  valueToAdd = values[row][field];
+                }
+                
           
                 if (!uniqueValuesSet.has(valueToAdd)) {
                   optionsArray.push({

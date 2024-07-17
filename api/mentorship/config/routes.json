@@ -62,6 +62,14 @@
       "config":{
         "policies": []
       }
+    },
+    {
+      "method":"POST",
+      "path":"/mentorships/search",
+      "handler":"mentorship.searchOps",
+      "config":{
+        "policies": []
+      }
     }
   ]
 }
