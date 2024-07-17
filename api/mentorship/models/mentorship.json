@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mentorship",
+  "info": {
+    "name": "mentorship",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "mentor_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "mentor_domain": {
+      "type": "string"
+    },
+    "mentor_company_name": {
+      "type": "string"
+    },
+    "deisgnation": {
+      "type": "string"
+    },
+    "mentor_area": {
+      "type": "string",
+      "required": true
+    },
+    "mentor_state": {
+      "type": "string"
+    },
+    "outreach": {
+      "type": "string"
+    },
+    "onboarding_date": {
+      "type": "date"
+    },
+    "social_media_profile_link": {
+      "type": "string"
+    },
+    "medha_area":{
+      "type":"string"
+    },
+    "status":{
+      "type":"string"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    },
+    "program_name": {
+      "type": "string"
+    },
+    "createdby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updatedby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

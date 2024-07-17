@@ -92,4 +92,23 @@ module.exports = {
       );
     }
   },
+  async bulkUpdate(ctx) {
+    try {
+      const data = ctx.request.body;
+      console.log("ctx",ctx.request.body);
+      const updatedData = await Promise.all(
+        data.map(async (item) => {
+          const updatedRecord = await strapi
+            .query("alumni-queries")
+            .update({ id: item.id }, item);
+          return updatedRecord;
+        })
+      );
+
+      return updatedData;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
 };
