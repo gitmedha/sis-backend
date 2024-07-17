@@ -40,7 +40,6 @@ module.exports = {
   },
   async createBulkEmploymentConnection(ctx) {
     const { body } = ctx.request;
-
     try {
       const createdData = await strapi.services['employment-connections'].createMany(body);
       return createdData;
