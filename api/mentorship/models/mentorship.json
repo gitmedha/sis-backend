@@ -27,7 +27,7 @@
     "mentor_company_name": {
       "type": "string"
     },
-    "deisgnation": {
+    "designation": {
       "type": "string"
     },
     "mentor_area": {
@@ -57,6 +57,9 @@
       "default": true
     },
     "program_name": {
+      "type": "string"
+    },
+    "contact": {
       "type": "string"
     },
     "createdby": {
