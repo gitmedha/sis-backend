@@ -162,4 +162,16 @@ module.exports = {
       );
     }
   },
+
+  	
+  async sendEmailOnCreationAndCompletion(ctx) {
+    try {
+      const {name} = ctx.request.body;
+      await strapi.services['batches'].sendEmailOnCreationAndCompletion({name:name,email: 'deepak.sharma@medha.org.in', status:'Testing'})
+      return ctx.send("successfully ! email sent");
+    } catch (error) {
+      return ctx.badRequest(error.message)
+    }
+  }
+  
 };

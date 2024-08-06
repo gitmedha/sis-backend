@@ -139,4 +139,21 @@ module.exports = {
     });
     return updatedBatch;
   },
+  
+  async sendEmailOnCreationAndCompletion(batch){
+    try {
+      const {email, status,name} = batch;
+      const emailTemplate = {
+        subject: `Batch ${name} - ${status}`,
+        text: `Batch ${name} has been created and ${status}.`,
+        html: `<p>Batch ${name} has been created and ${status}.</p>`,
+      };
+
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        to: email,
+      }, emailTemplate);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };
