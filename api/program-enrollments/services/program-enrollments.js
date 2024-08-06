@@ -249,13 +249,13 @@ module.exports = {
       html: `
         <p>प्रिय ${username},</p>
         <p>आपने हाल ही में स्वारंभ (मेधा) यात्रा पूरा किया है, जिसके तीन चरण थे: ज्ञान, कौशल और क्षमता। इस यात्रा के दौरान सीखे गए हर पहलू को अपने व्यक्तिगत/व्यावसायिक जीवन में लागू करने के लिए आप तैयार हैं।</p>
-        <p>इससे पहले कि आप मेधा से आगे अपनी यात्रा शुरू करें, हमें अच्छा लगेगा कि आप अपने इस स्वरंभ (मेधा) यात्रा का अनुभव हमारे साथ साझा करें। आज हम आपके साथ एक feedback form का लिंक शेयर कर रहें हैं, जिसमें आप हमें बताएंगे की इस स्वारम्भ के यात्रा में आपने क्या क्या सीखा? - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>इससे पहले कि आप मेधा से आगे अपनी यात्रा शुरू करें, हमें अच्छा लगेगा कि आप अपने इस स्वरंभ (मेधा) यात्रा का अनुभव हमारे साथ साझा करें। आज हम आपके साथ एक feedback form का लिंक शेयर कर रहें हैं, जिसमें आप हमें बताएंगे की इस स्वारम्भ के यात्रा में आपने क्या क्या सीखा? - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
         <p>हम आपके अच्छे भविष्य की कामना करते है।</p>
         <p>धन्यवाद।</p><br>
 
         <p>Dear ${username},</p>
         <p>You have recently completed the Swarambha (Medha) journey, which had three stages: Knowledge, Skills and Competence. You are ready to apply everything you learned during this journey to your personal/professional life.</p>
-        <p>Before you begin your journey beyond Medha, we would love for you to share with us your experience of your Swarambh (Medha) journey. We are sharing with you the link to a feedback form in which you will tell us what you have learned in this initial journey. - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>Before you begin your journey beyond Medha, we would love for you to share with us your experience of your Swarambh (Medha) journey. We are sharing with you the link to a feedback form in which you will tell us what you have learned in this initial journey. - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
         <p>All the best for your future!</p>
         <p>Regards,<br>
         Medha</p>
