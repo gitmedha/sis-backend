@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
     <style>
       @font-face {
-        font-family: 'BebasNeuePro-Regular';
-        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf')  format('truetype');
+        font-family: "BebasNeuePro-Regular";
+        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf') format("truetype");
       }
       body {
         background-image: url('{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        font-family: 'Lato', sans-serif;
+        font-family: "Lato", sans-serif;
         text-align: center;
         margin: 0;
         padding-top: 64px;
-        padding-bottom: 345px;
+        padding-bottom: 280px;
         position: relative;
-        color: #282828
+        color: #282828;
       }
-      h2, p {
+      h2,
+      p {
         margin: 0;
       }
       .mb-12 {
@@ -40,7 +44,7 @@
         margin-left: 40px;
       }
       .heading {
-        font-family: 'BebasNeuePro-Regular', cursive;
+        font-family: "BebasNeuePro-Regular", cursive;
         font-size: 96px;
         font-style: normal;
         font-weight: 400;
@@ -104,32 +108,59 @@
         text-align: right;
         color: #000000;
       }
-      .pehli-udaan-logo{
-        width: 200px !important;
-        height: 40px !important;
+      .pehli-udaan-logo {
+        max-width: 20%;
+        height:auto;
         margin-top: 10px;
+        margin-bottom: 10px;
       }
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .mb-2 {
+        margin-bottom: 2rem;
+      }
+
+
     </style>
   </head>
   <body>
-    <img src="{{app_url}}/program-enrollment-certificate-template/default/medha-logo.png" class="medha-logo" alt="Medha">
-    {{institution_logo}}
-    <h2 class="heading">COMPLETION CERTIFICATE</h2>
-    <p class="content mb-12">Medha Career Center hereby confirms that</p>
-    <p class="sub-heading mb-12">{{student_name}}</p>
-    <p class="content">pursuing {{course_name}}</p>
-    <p class="content">from {{institution_name}}</p>
-    <p class="content mb-16">has successfully completed</p>
-    <img src="{{app_url}}/program-enrollment-certificate-template/pehliUdaan/Pehli Udaan_Certificate logo.png" class="pehli-udaan-logo" alt="PehliUdaan">
-    <p class="content">a 6-hour workshop on Career Readiness</p>
+    <div class="row column">
+      <img src="{{app_url}}/program-enrollment-certificate-template/default/medha-logo.png" class="medha-logo" alt="Medha" />
+      {{institution_logo}}
+      <h2 class="heading mb-2">COMPLETION CERTIFICATE</h2>
+      <p class="content mb-12">Medha hereby confirms that</p>
+      <p class="sub-heading mb-12">Kirti Gaur</p>
+      <p class="content">pursuing B.tech cse</p>
+      <p class="content">from IIT delhi</p>
+      <p class="content mb-16">has successfully completed</p>
+      <img
+        src="{{app_url}}/program-enrollment-certificate-template/pehliUdaan/Pehli Udaan_Certificate logo.png"
+        class="pehli-udaan-logo"
+        alt="PehliUdaan"
+      />
+      <p class="content">a 6-hour workshop on Career Readiness</p>
+    </div>
     <div class="footer">
       <div>
         <p class="label">Date:</p>
         <p class="label-content">{{certification_date}}</p>
       </div>
       <div class="footer-right">
-        <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p>
-        <p><span class="label">Student ID:</span> <span class="label-content">{{student_id}}</span></p>
+        <p>
+          <span class="label">Certificate no:</span>
+          <span class="label-content">{{certificate_no}}</span>
+        </p>
+        <p>
+          <span class="label">Student ID:</span>
+          <span class="label-content">{{student_id}}</span>
+        </p>
       </div>
     </div>
   </body>

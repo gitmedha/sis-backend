@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/payment-mappings",
+      "handler": "payment-mapping.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/payment-mappings/count",
+      "handler": "payment-mapping.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/payment-mappings/:id",
+      "handler": "payment-mapping.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/payment-mappings",
+      "handler": "payment-mapping.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/payment-mappings/:id",
+      "handler": "payment-mapping.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/payment-mappings/:id",
+      "handler": "payment-mapping.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
