@@ -269,7 +269,7 @@ module.exports = {
         <p>Dear ${username},</p>
         <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p>
         <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p>
-        <p>Please fill in your response in the feedback form - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>Please fill in your response in the feedback form - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
         <p>All the best for your future!</p>
         <p>Regards,<br>
         Medha</p><br>
@@ -277,7 +277,7 @@ module.exports = {
         <p>प्रिय ${username}</p>
         <p>हमें खुशी है की हाल ही में आपने मेधा कार्यक्रम पूरा किया है। अब आप इस कार्यक्रम के दौरान सीखी गयी जानकारी को अपनी निजी एवं पेशेवर ज़िंदगी में लागू करने के लिए पूरी तरह से तैयार हैं।</p>
         <p>मेधा से आगे की यात्रा शुरू करने से पहले हम यह जानना चाहेंगे कि आपने मेधा कार्यक्रम के दौरान क्या सीखा और जाना है? </p>
-        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://s.alchemer.com/s3/67c799e2ec64">Medha Program Feedback Form</a></p>
+        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
         <p>शुभकामनाओं सहित आभार !</p>
         <p>भवदीय, <br>
         मेधा </p>
