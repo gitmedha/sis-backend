@@ -14,7 +14,7 @@
     "@azure/storage-blob": "^12.6.0",
     "knex": "<0.20.0",
     "pg": "latest",
-    "puppeteer": "^13.0.1",
+    "puppeteer": "^13.7.0",
     "strapi": "3.6.8",
     "strapi-admin": "3.6.8",
     "strapi-connector-bookshelf": "3.6.8",
