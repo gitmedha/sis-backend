@@ -18,109 +18,89 @@
         text-align: center;
         margin: 0;
         padding-top: 100px;
-        padding-bottom: 95px;
+        padding-bottom: 50px; 
         position: relative;
+        height: 100vh; 
+        box-sizing: border-box;
       }
       h2, p {
         margin: 0;
       }
       .mb-12 {
-        margin-bottom: 12px;
+        margin-bottom: 8px; /* Reduced margin */
       }
       .mb-16 {
-        margin-bottom: 16px;
+        margin-bottom: 12px; /* Reduced margin */
       }
       .medha-logo,
       .institution-logo {
-        width: 237px;
-        height: 237px;
-      }
-      .institution-logo {
-        margin-left: 40px;
+        width: 150px; /* Reduced logo size */
+        height: auto; /* Keep aspect ratio */
+        margin-bottom: 20px; /* Add some margin for spacing */
       }
       .heading {
         font-family: 'BebasNeuePro-Regular', cursive;
-        font-size: 96px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 115px;
-        letter-spacing: 0em;
-        text-align: center;
+        font-size: 80px; /* Reduced font size */
+        line-height: 100px; /* Reduced line height */
         color: #282828;
+        font-weight: 200;
       }
       .content {
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 300;
-        line-height: 42px;
-        letter-spacing: 0em;
-        text-align: center;
+        font-size: 28px; /* Reduced font size */
+        line-height: 36px; /* Reduced line height */
         color: #282828;
       }
       .sub-heading {
-        font-size: 44px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 53px;
-        letter-spacing: 0em;
-        text-align: center;
+        font-size: 38px; /* Reduced font size */
+        line-height: 46px; /* Reduced line height */
         color: #000000;
       }
-      
       .mcc-logo {
-        width: 158px;
-        height: 158px;
-        margin-top: 45px;
-        margin-bottom: 50px;
+        width: 130px;
+        height: auto; 
+        margin-top: 20px;
+        margin-bottom: 30px; 
         position: relative;
-        top: 80px;
+        top: 95px;
       }
-      .footer {
-        position: absolute;
-        bottom: 56px;
-        display: flex;
-        justify-content: space-between;
-        width: -webkit-fill-available;
-        margin-bottom: 10px;
-        padding-left: 35px;
-        padding-right: 35px;
-      }
-      .footer-right {
-        text-align: right;
-      }
-      .label {
-        font-size: 22px;
-        font-style: normal;
-        font-weight: 300;
-        line-height: 26px;
-        letter-spacing: 0em;
-        text-align: left;
-        color: #000000;
-      }
-      .label-content {
-        font-size: 22px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 26px;
-        letter-spacing: 0em;
-        text-align: right;
-        color: #000000;
-      }
-      .pehli-udaan-logo{
-        width: 200px !important;
-        height: 40px !important;
+      .pehli-udaan-logo {
+        width: 150px !important; 
+        height: auto !important;
         margin-top: 10px;
       }
       .date_sec {
         display: flex;
         justify-content: center;
         position: relative;
-        top: 45px;
+        top: 30px; 
       }
-      .date{
+      .date {
         display: flex;
         flex-direction: column;
         align-items: center;
+      }
+      .footer {
+        position: absolute;
+        bottom: 20px; /* Adjusted positioning to ensure it's within the page */
+        display: flex;
+        justify-content: space-between;
+        width: calc(100% - 70px);
+        padding-left: 35px;
+        padding-right: 35px;
+        box-sizing: border-box;
+      }
+      .footer-right {
+        text-align: right;
+      }
+      .label {
+        font-size: 18px; /* Reduced font size */
+        line-height: 22px; /* Adjusted line height */
+        color: #000000;
+      }
+      .label-content {
+        font-size: 18px; /* Reduced font size */
+        line-height: 22px; /* Adjusted line height */
+        color: #000000;
       }
     </style>
   </head>
@@ -139,8 +119,8 @@
           <p class="label">Date</p>
           <p class="label-content">{{certification_date}}</p>
       </div>
-  </div>
-    <img src="mcc-logo.jpg" class="mcc-logo" alt="Medha">
+    </div>
+    <img src="{{app_url}}/program-enrollment-certificate-template/pehliUdaan/mcc-logo.jpg" class="mcc-logo" alt="MCC">
     <div class="footer">
       <div>
         <p><span class="label">Certificate no:</span> <span class="label-content">{{certificate_no}}</span></p>
