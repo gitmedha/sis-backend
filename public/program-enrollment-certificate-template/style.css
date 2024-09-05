@@ -1,0 +1,161 @@
+
+
+@font-face {
+    font-family: 'BebasNeuePro-Regular';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf')  format('truetype');
+  }
+
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
+}
+
+body {
+    padding:0;
+    margin: 0;
+}
+
+.main-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+.certificate-container {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#cert_img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.heading-logo{
+    height: 6rem;
+    width: 6rem;
+    z-index: 1;
+}
+
+
+#Logo {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+.heading-logo {
+    z-index: 1;
+}
+
+.certificate-info-sec {
+    z-index: 1;
+    text-align: center;
+}
+
+.heading {
+    font-family: 'BebasNeuePro-Regular';
+    font-size:48px;
+    color:#11314C;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+
+.sub-heading {
+    font-family: 'Lato-Light';
+    color: #171717;
+    font: 18px;
+    font-weight: 400;
+}
+.name-sec{
+    font-family: 'Lato-Regular';
+    font-size: 24px;
+    color: #171717;
+    font-weight: 400;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.course_sec,.institution_sec, .success_msg,.desc{
+    font-size: 18px;
+    font-family: 'Lato-Light';
+    color: #171717;
+    font-weight: 400;
+    line-height: 26px;
+}
+.success_msg {
+    margin-bottom: 5px;
+}
+#pehli_udaan_logo {
+    height: 25px;
+    width: 205px;
+    object-fit: fill;
+}
+
+.desc, .date_sec {
+    margin-bottom: 1rem;
+}
+.date_label{
+    font-family: 'Lato-Light';
+    font-size: 14px;
+    color: #171717;
+    font-weight: 400;
+
+}
+
+.date {
+    font-family: 'Lato-Regular';
+    font-size: 14px;
+    color: #171717;
+    font-weight: 400;
+}
+
+.footer_sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 90%;
+    z-index: 1;
+}
+
+#mcc-logo {
+    height: 105px;
+    width: 105px;
+    object-fit: cover;
+}
+.cert_no_sec,.student_id_sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.label {
+    font-family: 'Lato-Light';
+    font-size: 12px;
+    color: #171717;
+    font-weight: 400;
+}
+
+.value {
+    font-family: 'Lato-Regular';
+    font-size: 12px;
+    color: #171717;
+    font-weight: 400;
+}
+
+
