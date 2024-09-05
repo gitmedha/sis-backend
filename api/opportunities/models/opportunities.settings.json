@@ -40,7 +40,8 @@
       "type": "string"
     },
     "compensation_type": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": ["Paid", "Unpaid"]
     },
     "skills_required": {
       "type": "string"
