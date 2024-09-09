@@ -3,7 +3,7 @@
   "collectionName": "donation",
   "info": {
     "name": "donation"
-  },
+  }, 
   "options": {
     "increments": true,
     "timestamps": true,
