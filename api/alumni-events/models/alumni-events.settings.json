@@ -36,6 +36,12 @@
     "reporting_date": {
       "type": "datetime",
       "required": true
+    },
+    "location": {
+      "type": "string"
+    },
+    "participants": {
+      "type": "integer"
     }
   }
 }
