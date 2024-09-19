@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "donation",
+  "info": {
+    "name": "donation"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "student_id": {
+      "type": "string",
+      "unique": false,
+      "required": true
+    },
+    "donation_id": {
+      "type": "string",
+      "required": true
+    },
+    "amount": {
+      "required": true,
+      "type": "biginteger"
+    },
+    "status": {
+      "type": "string",
+      "required": true
+    },
+    "createdby": {
+      "type": "integer",
+      "default": 2,
+      "required": true
+    }
+  }
+}
