@@ -15,16 +15,13 @@ module.exports = {
 
           const student = await strapi.services['students'].findOne({ id: students.student });
           if (student) {
-            console.log(`Found student ${students.student}:`, student);
-  
-            
             const updateResult = await strapi.services['students'].update(
               { id: students.student },
               { last_update_at: new Date() }  
             );
   
             if (updateResult) {
-              console.log(`Student ${students.student} updated successfully.`, updateResult);
+              console.warn(`Student ${students.student} updated successfully.`, updateResult);
             } else {
               console.warn(`Student ${students.student} update failed.`);
             }
@@ -52,7 +49,7 @@ module.exports = {
 
           const student = await strapi.services['students'].findOne({ id: students.student });
           if (student) {
-            console.log(`Found student ${students.student}:`, student);
+            // console.log(`Found student ${students.student}:`, student);
   
             
             const updateResult = await strapi.services['students'].update(
@@ -61,7 +58,7 @@ module.exports = {
             );
   
             if (updateResult) {
-              console.log(`Student ${students.student} updated successfully.`, updateResult);
+              console.warn(`Student ${students.student} updated successfully.`, updateResult);
             } else {
               console.warn(`Student ${students.student} update failed.`);
             }
