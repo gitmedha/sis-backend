@@ -14,7 +14,9 @@ module.exports = {
                 assgined_to:body.assgined_to,
                 status:body.status,
                 last_emailed_date:body.start_date,
-                reporting_date:body.reporting_date
+                reporting_date:body.reporting_date,
+                location:body.location,
+                participants:body.participants
             });
 
             await strapi.services['alumni-events'].sendEventReportingMail(body.name,body.reporting_date)
