@@ -10,6 +10,31 @@ module.exports = {
     const { body } = ctx.request;
 
     try {
+      const studentUpdates = await Promise.all(
+        body.map(async (students) => {
+
+          const student = await strapi.services['students'].findOne({ id: students.student });
+          if (student) {
+            console.log(`Found student ${students.student}:`, student);
+  
+            
+            const updateResult = await strapi.services['students'].update(
+              { id: students.student },
+              { last_update_at: new Date() }  
+            );
+  
+            if (updateResult) {
+              console.log(`Student ${students.student} updated successfully.`, updateResult);
+            } else {
+              console.warn(`Student ${students.student} update failed.`);
+            }
+            return updateResult;
+          } else {
+            console.warn(`Student with ID ${students.student} not found.`);
+            return null;  
+          }
+        })
+      );
       const createdData = await strapi.services["alumni-services"].createMany(
         body
       );
@@ -22,6 +47,31 @@ module.exports = {
   async bulkUpdate(ctx) {
     try {
       const data = ctx.request.body;
+      const studentUpdates = await Promise.all(
+        data.map(async (students) => {
+
+          const student = await strapi.services['students'].findOne({ id: students.student });
+          if (student) {
+            console.log(`Found student ${students.student}:`, student);
+  
+            
+            const updateResult = await strapi.services['students'].update(
+              { id: students.student },
+              { last_update_at: new Date() }  
+            );
+  
+            if (updateResult) {
+              console.log(`Student ${students.student} updated successfully.`, updateResult);
+            } else {
+              console.warn(`Student ${students.student} update failed.`);
+            }
+            return updateResult;
+          } else {
+            console.warn(`Student with ID ${students.student} not found.`);
+            return null;  
+          }
+        })
+      );
       const updatedData = await Promise.all(
         data.map(async (item) => {
           const updatedRecord = await strapi
