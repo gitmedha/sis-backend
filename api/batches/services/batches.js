@@ -139,4 +139,50 @@ module.exports = {
     });
     return updatedBatch;
   },
+  async sendEmailOnCreationAndCompletion(batch){
+    try {
+      const {name,start_date,enrollment_type,institution,srmName,certifiedStudents,droppedOutStudents,enrolledStudents,end_date,status,srmEmail,managerEmail} = batch;
+      let formationMessageId;
+      const formationBatchEmail = {
+        subject: `Formation Mail – ${name}`,
+        text: `Batch ${name} has been created.`,
+        html: `<p>A new batch has been successfully created by ${srmName}. Below are the details:</p>
+              <ul>
+                <li><strong>Batch Name:</strong> ${name}</li>
+                <li><strong>Batch Start Date:</strong> ${start_date}</li>
+                <li><strong>Number of Students Registered:</strong> ${enrolledStudents}</li>
+                <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+                <li><strong>College Name:</strong> ${institution}</li>
+              </ul>
+              <p>Best,<br>${srmName}</p>`,
+      };
+      
+      const closureBatchEmail = {
+        subject: `Closure Mail – ${name}`,
+        text: `Batch ${name} has been completed.`,
+        html: `<p>A batch has been successfully marked as complete by ${srmName}. Below are the details:</p>
+            <ul>
+              <li><strong>Batch Name:</strong> ${name}</li>
+              <li><strong>Batch End Date:</strong> ${end_date}</li>
+              <li><strong>Number of Certifying Students:</strong> ${certifiedStudents}</li>
+              <li><strong>Number of Dropout Students:</strong> ${droppedOutStudents}</li>
+              <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+              <li><strong>College Name:</strong> ${institution}</li>
+            </ul>
+            <p>Best,<br>${srmName}</p>`,
+      };
+      
+
+      const emailTemplate = status === "Enrollment Complete -- To Be Started"?formationBatchEmail:closureBatchEmail;
+      const email = "sis-batchinfo@medha.org.in";
+      const ccEmail = [srmEmail,managerEmail];
+    
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        to: email,
+        cc: ccEmail
+      }, emailTemplate);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };
