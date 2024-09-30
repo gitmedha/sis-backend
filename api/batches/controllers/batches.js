@@ -161,17 +161,43 @@ module.exports = {
         "An error occurred while fetching distinct values."
       );
     }
-  },
-
-  	
+  },  
+  
   async sendEmailOnCreationAndCompletion(ctx) {
     try {
-      const {name} = ctx.request.body;
-      await strapi.services['batches'].sendEmailOnCreationAndCompletion({name:name,email: 'deepak.sharma@medha.org.in', status:'Testing'})
+      const {data} = ctx.request.body;
+      const programEnrollments = await strapi.services['program-enrollments'].find({
+        batch: data.id
+      });
+      const institution = await strapi.services['institutions'].findOne({id:data.institution});
+      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+        id:Number(data.assigned_to)
+      });
+      data.srmName = assignedTo.username;
+      data.srmEmail = assignedTo.email;
+      data.managerEmail = assignedTo.reports_to.email;
+      data.institution = institution.name;
+      data.enrolledStudents = programEnrollments.length;
+      let droppedOutStudents = 0;
+      let completedStudent = 0;
+
+      programEnrollments.map((student)=>{
+        if(student.status === "Batch Complete"){
+          completedStudent++;
+        }
+        else if (student.status === "Student Dropped Out"){
+          droppedOutStudents++;
+        }
+      })
+
+      data.certifiedStudents = completedStudent;
+      data.droppedOutStudents = droppedOutStudents;
+
+      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
       return ctx.send("successfully ! email sent");
     } catch (error) {
+      console.log("Error: " + error)
       return ctx.badRequest(error.message)
     }
   }
-  
 };
