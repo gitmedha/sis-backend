@@ -6,8 +6,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
       @font-face {
-        font-family: 'BebasNeuePro-Book';
-        src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Book.ttf')  format('truetype');
+          font-family: 'BebasNeuePro-Regular';
+          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf')  format('truetype');
+        }
+
+      @font-face {
+          font-family: 'Lato-Regular';
+          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
+      }
+
+      @font-face {
+          font-family: 'Lato-Light';
+          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
       }
       body {
         background-image: url('{{app_url}}/program-enrollment-certificate-template/svapoorna/certificate-bg.jpg');
@@ -27,13 +37,13 @@
         margin-bottom: 16px;
       }
       .medha-logo {
-        margin-top: 150px;
-        width: 80px;
+        margin-top: 135px;
+        width: 104px;
         height: auto;
       }
       .heading {
-        font-family: 'BebasNeuePro-Book', cursive;
-        font-size: 72px;
+        font-family: 'BebasNeuePro-Regular';
+        font-size: 80px;
         font-style: normal;
         font-weight: 300;
         line-height: 115px;
@@ -42,22 +52,24 @@
         color: #FFFFFF;
       }
       .content {
-        font-size: 24px;
+        font-size: 26px;
         font-style: normal;
-        font-weight: 300;
+        font-weight: 400;
         line-height: 38px;
         letter-spacing: 0em;
         text-align: center;
         color: #EAEBEE;
+        font-family: 'Lato-Light';
       }
       .sub-heading {
         font-size: 38px;
-        font-style: normal;
         font-weight: 500;
         line-height: 53px;
         letter-spacing: 0em;
         text-align: center;
         color: #FFFFFF;
+        font-family: 'Lato-Regular';
+
       }
       .footer {
         position: absolute;
@@ -82,6 +94,7 @@
         letter-spacing: 0em;
         text-align: left;
         color: #FFFFFF;
+        font-family: 'Lato-Light';
       }
       .label-content {
         font-size: 22px;
@@ -91,6 +104,8 @@
         letter-spacing: 0em;
         text-align: right;
         color: #FFFFFF;
+        font-family: 'Lato-Regular';
+
       }
     </style>
   </head>
