@@ -107,6 +107,9 @@
     },
     "mode_of_payment": {
       "type": "string"
+    },
+    "messageId": {
+      "type": "string"
     }
   }
 }

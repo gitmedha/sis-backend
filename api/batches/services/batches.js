@@ -4,6 +4,7 @@
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-services)
  * to customize this service
  */
+const nodemailer = require('nodemailer');
 
 module.exports = {
   async handleProgramEnrollmentOnCompletion(batch) {
@@ -139,50 +140,78 @@ module.exports = {
     });
     return updatedBatch;
   },
-  async sendEmailOnCreationAndCompletion(batch){
+  async sendEmailOnCreationAndCompletion(batch) {
     try {
-      const {name,start_date,enrollment_type,institution,srmName,certifiedStudents,droppedOutStudents,enrolledStudents,end_date,status,srmEmail,managerEmail} = batch;
-      let formationMessageId;
+      const { id, name, start_date, enrollment_type, institution, srmName, certifiedStudents, droppedOutStudents, enrolledStudents, end_date, status,srmEmail,managerEmail } = batch;
+      let info;
+  
+      // Created a Nodemailer transporter
+      let transporter = nodemailer.createTransport({
+        host: 'smtp.office365.com',
+        port: 587,
+        auth: {
+          user: 'sis.admin@medha.org.in',
+          pass: 'sisadmin123A',
+        },
+      });
+  
+      // Formation Email
       const formationBatchEmail = {
-        subject: `Formation Mail – ${name}`,
+        from: '"Data Management" <sis.admin@medha.org.in>',
+        to: 'deepak.sharma@medha.org.in',
+        cc: 'rohit.sharma@medha.org.in,tech@medha.org.in',
+        subject: `Formation Mail-${name}`,
         text: `Batch ${name} has been created.`,
         html: `<p>A new batch has been successfully created by ${srmName}. Below are the details:</p>
-              <ul>
-                <li><strong>Batch Name:</strong> ${name}</li>
-                <li><strong>Batch Start Date:</strong> ${start_date}</li>
-                <li><strong>Number of Students Registered:</strong> ${enrolledStudents}</li>
-                <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
-                <li><strong>College Name:</strong> ${institution}</li>
-              </ul>
-              <p>Best,<br>${srmName}</p>`,
+                <ul>
+                  <li><strong>Batch Name:</strong> ${name}</li>
+                  <li><strong>Batch Start Date:</strong> ${start_date}</li>
+                  <li><strong>Number of Students Registered:</strong> ${enrolledStudents}</li>
+                  <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+                  <li><strong>College Name:</strong> ${institution}</li>
+                </ul>
+                <p>Best,<br>${srmName}</p>`
       };
-      
-      const closureBatchEmail = {
-        subject: `Closure Mail – ${name}`,
-        text: `Batch ${name} has been completed.`,
-        html: `<p>A batch has been successfully marked as complete by ${srmName}. Below are the details:</p>
-            <ul>
-              <li><strong>Batch Name:</strong> ${name}</li>
-              <li><strong>Batch End Date:</strong> ${end_date}</li>
-              <li><strong>Number of Certifying Students:</strong> ${certifiedStudents}</li>
-              <li><strong>Number of Dropout Students:</strong> ${droppedOutStudents}</li>
-              <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
-              <li><strong>College Name:</strong> ${institution}</li>
-            </ul>
-            <p>Best,<br>${srmName}</p>`,
-      };
-      
+  
+      if (status === "Enrollment Complete -- To Be Started") {
 
-      const emailTemplate = status === "Enrollment Complete -- To Be Started"?formationBatchEmail:closureBatchEmail;
-      const email = "sis-batchinfo@medha.org.in";
-      const ccEmail = [srmEmail,managerEmail];
-    
-      await strapi.plugins['email'].services.email.sendTemplatedEmail({
-        to: email,
-        cc: ccEmail
-      }, emailTemplate);
+        info = await transporter.sendMail(formationBatchEmail);
+
+        await strapi.services.batches.update({ id }, { messageId: info.messageId });
+      } else {
+        const batchFound = await strapi.services.batches.findOne({ id });
+        if (!batchFound.messageId) {
+          throw new Error("Message ID for formation email not found. Unable to thread closure email.");
+        }
+        const closureBatchEmail = {
+          from: '"Data Management" <sis.admin@medha.org.in>',
+          to: 'deepak.sharma@medha.org.in',
+          cc: 'rohit.sharma@medha.org.in,tech@medha.org.in',
+          subject: `Closure Mail-${name}`,
+          text: `Batch ${name} has been completed.`,
+          html: `<p>A batch has been successfully marked as complete by ${srmName}. Below are the details:</p>
+                  <ul>
+                    <li><strong>Batch Name:</strong> ${name}</li>
+                    <li><strong>Batch End Date:</strong> ${end_date}</li>
+                    <li><strong>Number of Certifying Students:</strong> ${certifiedStudents}</li>
+                    <li><strong>Number of Dropout Students:</strong> ${droppedOutStudents}</li>
+                    <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+                    <li><strong>College Name:</strong> ${institution}</li>
+                  </ul>
+                  <p>Best,<br>${srmName}</p>`,
+          headers: {
+            'References': batchFound.messageId,
+            'In-Reply-To': batchFound.messageId
+          }
+        };
+        
+        await transporter.sendMail(closureBatchEmail);
+     
+      }
     } catch (error) {
+      console.error("Error sending email:", error);
       throw new Error(error.message);
     }
   }
+  
 };
