@@ -77,8 +77,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("institutions").count();
       const values = await strapi.query("institutions").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||

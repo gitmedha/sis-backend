@@ -173,6 +173,7 @@ module.exports = {
     );
 
     try {
+      
       const values = await strapi.query("students").find({
         _limit: 100,
         _start: 0,
