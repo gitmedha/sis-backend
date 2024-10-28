@@ -20,15 +20,77 @@ module.exports = {
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
     entity = await strapi.services.batches.update({ id }, data);
+    if(data.status === 'Enrollment Complete -- To Be Started'){
+      
+      data.id = id;
+      const institution = await strapi.services['institutions'].findOne({id: data.institution});
+      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+        id: Number(data.assigned_to)
+      });
 
+      data.srmName = assignedTo.username;
+      data.srmEmail = assignedTo.email;
+      data.managerEmail = assignedTo.reports_to?.email;
+      data.institution = institution.name;
+
+      
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
+  
+      let droppedOutStudents = 0;
+      let completedStudent = 0;
+  
+      programEnrollments.forEach((student) => {
+        if (student.status === "Batch Complete") {
+          completedStudent++;
+        } else if (student.status === "Student Dropped Out") {
+          droppedOutStudents++;
+        }
+      });
+  
+      data.enrolledStudents = programEnrollments.length;
+      data.certifiedStudents = completedStudent;
+      data.droppedOutStudents = droppedOutStudents;
+
+      
+      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
+    }
     if (data.status === "Complete") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCompletion(
-        entity
-      );
+      await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
+  
+      data.id = id;
+      const institution = await strapi.services['institutions'].findOne({id: data.institution});
+      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+        id: Number(data.assigned_to)
+      });
+
+      data.srmName = assignedTo.username;
+      data.srmEmail = assignedTo.email;
+      data.managerEmail = assignedTo.reports_to?.email;
+      data.institution = institution.name;
+
+      
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
+  
+      let droppedOutStudents = 0;
+      let completedStudent = 0;
+  
+      programEnrollments.forEach((student) => {
+        if (student.status === "Batch Complete") {
+          completedStudent++;
+        } else if (student.status === "Student Dropped Out") {
+          droppedOutStudents++;
+        }
+      });
+  
+      data.enrolledStudents = programEnrollments.length;
+      data.certifiedStudents = completedStudent;
+      data.droppedOutStudents = droppedOutStudents;
+
+      
+      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
     } else if (data.status === "Certified") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCertification(
-        entity
-      );
+      await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+  
       // AuditLog: batch certification triggered by user
       await strapi.services["audit-logs"].create({
         user: ctx.state?.user?.id,
@@ -36,7 +98,7 @@ module.exports = {
         content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
       });
     }
-
+  
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
 
@@ -118,8 +180,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("batches").count();
       const values = await strapi.query("batches").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||
@@ -163,41 +226,41 @@ module.exports = {
     }
   },  
   
-  async sendEmailOnCreationAndCompletion(ctx) {
+  async sendEmailOnCreationAndCompletion(data) {
     try {
-      const {data} = ctx.request.body;
-      const programEnrollments = await strapi.services['program-enrollments'].find({
-        batch: data.id
-      });
-      const institution = await strapi.services['institutions'].findOne({id:data.institution});
+  
+      const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
-        id:Number(data.assigned_to)
+        id: Number(data.assigned_to)
       });
+  
       data.srmName = assignedTo.username;
       data.srmEmail = assignedTo.email;
-      data.managerEmail = assignedTo.reports_to.email;
+      data.managerEmail = assignedTo.reports_to?.email;
       data.institution = institution.name;
-      data.enrolledStudents = programEnrollments.length;
+  
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
+  
       let droppedOutStudents = 0;
       let completedStudent = 0;
-
-      programEnrollments.map((student)=>{
-        if(student.status === "Batch Complete"){
+  
+      programEnrollments.forEach((student) => {
+        if (student.status === "Batch Complete") {
           completedStudent++;
-        }
-        else if (student.status === "Student Dropped Out"){
+        } else if (student.status === "Student Dropped Out") {
           droppedOutStudents++;
         }
-      })
-
+      });
+  
+      data.enrolledStudents = programEnrollments.length;
       data.certifiedStudents = completedStudent;
       data.droppedOutStudents = droppedOutStudents;
-
+    
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
-      return ctx.send("successfully ! email sent");
+      return ctx.send("successfully! email sent");
     } catch (error) {
-      console.log("Error: " + error)
-      return ctx.badRequest(error.message)
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
     }
   }
 };
