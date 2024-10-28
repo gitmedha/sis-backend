@@ -29,6 +29,9 @@
     "updatedby": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "i_name": {
+      "type": "string"
     }
   }
 }
