@@ -177,8 +177,8 @@ module.exports = {
       const ccEmail = [srmEmail,managerEmail, "deepak.sharma@medha.org.in"];
     
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
-        to: email,
-        cc: ccEmail
+        to: "deepak.sharma@medha.org.in",
+        cc: "rohit.sharma@medha.org.in"
       }, emailTemplate);
     } catch (error) {
       console.log("error",error)
