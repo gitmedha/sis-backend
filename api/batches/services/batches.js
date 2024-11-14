@@ -184,5 +184,27 @@ module.exports = {
       console.log("error",error)
       throw new Error(error.message);
     }
+  },
+  async emailPreClosedLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].preBatchlinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  },
+  async emailPostClosedLinks(batch){
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].postBatchLinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
   }
 };
