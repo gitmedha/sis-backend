@@ -88,9 +88,10 @@ module.exports = {
       return ctx.send(optionsArray);
       }
       else {
+      const totalRecords = await strapi.query("users-ops-activities").count();
       const values = await strapi.query('users-ops-activities').find({
         isactive:true,
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
       });
      
@@ -109,17 +110,18 @@ module.exports = {
         else if (field === "program_name"){
           valueToAdd = values[row][field];
         }
-  
+        // console.log(valueToAdd);
         if (!uniqueValuesSet.has(valueToAdd)) {
           optionsArray.push({
             key: row,
             label: valueToAdd,
             value: valueToAdd,
           });
+          
           uniqueValuesSet.add(valueToAdd);
         }
       }
-  
+      // console.log(optionsArray);
       return ctx.send(optionsArray);
 
       }
