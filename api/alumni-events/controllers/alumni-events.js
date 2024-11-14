@@ -5,19 +5,24 @@ module.exports = {
     async createEvent(ctx){
         const {body} = ctx.request;
 
+        const newEvent ={}
+        newEvent.name = body.alumni_service;
+        newEvent.start_date = body.start_date;
+        newEvent.end_date = body.end_date;
+        newEvent.assgined_to = body.assgined_to;
+        newEvent.status = body.status;
+        newEvent.last_emailed_date = body.start_date;
+        newEvent.reporting_date = body.reporting_date;
+
+        if(body.location){
+            newEvent.location = body.location;
+        }
+        if(body.participants){
+            newEvent.participants = body.participants;
+        }
         try {
         
-            await strapi.services['alumni-events'].create({
-                name:body.alumni_service,
-                start_date: body.start_date,
-                end_date:body.end_date,
-                assgined_to:body.assgined_to,
-                status:body.status,
-                last_emailed_date:body.start_date,
-                reporting_date:body.reporting_date,
-                location:body.location,
-                participants:body.participants
-            });
+            await strapi.services['alumni-events'].create(newEvent);
 
             await strapi.services['alumni-events'].sendEventReportingMail(body.name,body.reporting_date)
             return ctx.send({
