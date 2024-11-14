@@ -290,6 +290,7 @@ module.exports = {
     return true;
   },
 
+
   // calculates attendance for a program enrollment in it's batch
   async calculateBatchAttendance(programEnrollment) {
     // get batch for the program enrollment
@@ -305,5 +306,83 @@ module.exports = {
     percentage = Number.parseFloat(percentage).toFixed(2);
 
     return percentage;
+  },
+  async preBatchlinks(programEnrollment){
+    const {student_id,email} = programEnrollment.student;
+    const {name} = await strapi.services['programs'].findOne({id:programEnrollment.batch.program});
+    let preBatchLink;
+
+    switch(name){
+      case 'Technology Advancement Bootcamp':
+        preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid='
+        break;
+      case 'Svapoorna':
+        preBatchLink='https://medhasurvey.surveycto.com/collect/svapoorna_pre_old_form?caseid=';
+        break;
+      case 'Swarambh':
+        preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
+        break;
+
+      default:
+        preBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid='
+        break;
+        
+    }
+
+    try {
+      const emailTemplate =  {
+        subject: `Pre Batch Survey`,
+        text: `Testing`,
+        html: `
+        <p>Please fill in your response in the survey form - <a href="${preBatchLink}${student_id}">Medha Program Feedback Form</a></p>
+        `
+      }
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        to: email,
+      }, emailTemplate);
+      
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  async postBatchLinks(programEnrollment){
+    const {student_id,email} = programEnrollment.student;
+    const {name} = await strapi.services['programs'].findOne({id:programEnrollment.batch.program});
+    let postBatchLink;
+
+    switch(name){
+      case 'Technology Advancement Bootcamp':
+        postBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=';
+        break;
+      case 'Svapoorna':
+        postBatchLink='https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
+        break;
+      case 'Swarambh':
+        postBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=';
+        break;
+      default:
+        postBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=';
+        break;
+        
+    }
+
+    try {
+      const emailTemplate =  {
+        subject: `Post Batch Survey`,
+        text: `Testing`,
+        html: `
+        <p>Please fill in your response in the survey form - <a href="${postBatchLink}${student_id}">Medha Program Feedback Form</a></p>
+        `
+      }
+
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        to:email,
+      }, emailTemplate);
+      
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 };

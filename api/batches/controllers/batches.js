@@ -261,5 +261,32 @@ module.exports = {
       console.log("Error in sendEmailOnCreationAndCompletion:", error);
       return ctx.badRequest(error.message);
     }
+  },
+
+  async sendPreBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      console.log(id);
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      console.log(batch);
+      await strapi.services['batches'].emailPreClosedLinks(batch);
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+  async sendPostBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPostClosedLinks(batch);
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
   }
+
+
 };
