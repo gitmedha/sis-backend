@@ -88,7 +88,6 @@ module.exports = {
       path: certificatePath,
       width: '1440px',
       height: '1120px',
-      scale: 1,
       printBackground: true,
       margin: {
         left: '0px',
