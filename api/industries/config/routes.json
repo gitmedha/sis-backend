@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "POST",
+      "path": "/industries/findAll",
+      "handler": "industries.findAll",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
