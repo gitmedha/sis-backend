@@ -78,6 +78,9 @@
     "isactive": {
       "type": "boolean",
       "default": true
+    },
+    "email": {
+      "type": "string"
     }
   }
 }
