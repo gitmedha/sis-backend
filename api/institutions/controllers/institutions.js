@@ -163,5 +163,14 @@ module.exports = {
       console.error(err); // Log error to console for debugging
       ctx.throw(500, 'An error occurred while searching institutions'); // Proper error handling
     }
-  }
+  },
+  async find(ctx) {
+    try {
+      // Fetch all institutions without limits
+      const allInstitutions = await strapi.query('institutions').find({ _limit: -1 });
+      return allInstitutions;
+    } catch (error) {
+      ctx.throw(500, 'An error occurred while fetching institutions.');
+    }
+  },
 };
