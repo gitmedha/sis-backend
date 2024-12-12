@@ -20,7 +20,10 @@ module.exports = {
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
     entity = await strapi.services.batches.update({ id }, data);
-    if(data.status === 'Enrollment Complete -- To Be Started'){
+    const isEmailSent = await strapi.services.batches.findOne({id});
+    const {formation_mail_sent,closure_mail_sent} = isEmailSent;
+    
+    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -54,7 +57,7 @@ module.exports = {
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
     }
-    if (data.status === "Complete") {
+    if (data.status === "Complete" && !closure_mail_sent) {
       await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
   
       data.id = id;
@@ -228,7 +231,6 @@ module.exports = {
   
   async sendEmailOnCreationAndCompletion(data) {
     try {
-  
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
         id: Number(data.assigned_to)
