@@ -96,7 +96,7 @@
       }
     },
     {
-      "method": "POST",
+      "method": "GET",
       "path": "/batch/:id/send-post-batch-link",
       "handler": "batches.sendPostBatchLinks",
       "config": {
