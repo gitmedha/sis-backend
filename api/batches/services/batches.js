@@ -141,8 +141,7 @@ module.exports = {
   },
   async sendEmailOnCreationAndCompletion(batch){
     try {
-      const {name,start_date,enrollment_type,institution,srmName,certifiedStudents,droppedOutStudents,enrolledStudents,end_date,status,srmEmail,managerEmail} = batch;
-      let formationMessageId;
+      const {name,start_date,enrollment_type,institution,srmName,certifiedStudents,droppedOutStudents,enrolledStudents,end_date,status,srmEmail,managerEmail,id} = batch;
       const formationBatchEmail = {
         subject: `Formation Mail – ${name}`,
         text: `Batch ${name} has been created.`,
@@ -180,6 +179,12 @@ module.exports = {
         to: email,
         cc: ccEmail
       }, emailTemplate);
+
+      if (status === "Enrollment Complete -- To Be Started") {
+        await strapi.services.batches.update({ id }, { formation_mail_sent: true });
+      } else {
+        await strapi.services.batches.update({ id }, { closure_mail_sent: true });
+      }
     } catch (error) {
       console.log("error",error)
       throw new Error(error.message);
