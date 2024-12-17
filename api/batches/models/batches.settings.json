@@ -107,6 +107,14 @@
     },
     "mode_of_payment": {
       "type": "string"
+    },
+    "pre_batch_email_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "post_batch_email_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -266,10 +266,12 @@ module.exports = {
   async sendPreBatchLinks(ctx) {
     try {
       const { id } = ctx.params;
-      console.log(id);
       const batch = await strapi.services['batches'].findOne({ id:id });
-      console.log(batch);
       await strapi.services['batches'].emailPreClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { pre_batch_email_sent: true }
+      );
       return ctx.send("successfully! email sent");
     } catch (error) {
       console.log("Error in sendEmailOnCreationAndCompletion:", error);
@@ -281,6 +283,10 @@ module.exports = {
       const { id } = ctx.params;
       const batch = await strapi.services['batches'].findOne({ id:id });
       await strapi.services['batches'].emailPostClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { post_batch_email_sent: true }
+      );
       return ctx.send("successfully! email sent");
     } catch (error) {
       console.log("Error in sendEmailOnCreationAndCompletion:", error);
