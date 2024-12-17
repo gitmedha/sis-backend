@@ -318,7 +318,7 @@ module.exports = {
             preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=';
             break;
         case 'Svapoorna':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_pre_old_form?caseid=';
+            preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=';
             break;
         case 'Swarambh':
             preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
