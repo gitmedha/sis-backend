@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment');
 
 /**
  * Cron config that gives you an opportunity
@@ -11,9 +12,53 @@
  */
 
 module.exports = {
-  '* * * * *': async () => {
-    await generateCertificates();
-  },
+  // '* * * * *': async () => {
+  //   await generateCertificates();
+  // },
+'0 9 * * *': async () => { // Runs daily at 9:00 AM
+    const batches = await strapi.services['batches'].find({status: 'In Progress'});
+
+    for (const batch of batches) {
+      const { last_attendance_date, status_changed_date} = batch;
+      
+
+    var assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+      id: Number(batch.assigned_to.id)
+    });
+
+    var srmName = assignedTo.username;
+      var srmEmail = assignedTo.email;
+      var managerEmail = assignedTo.reports_to?.email;
+      const now = moment();
+
+      // Grace period logic for batches transitioning from "On Hold" to "In-Progress"
+      if (status_changed_date && moment(status_changed_date).isAfter(moment().subtract(5, 'days'))) {
+        continue; // Skip batches within the grace period
+      }
+
+      // Check if last attendance was more than 5 days ago
+      if (last_attendance_date && now.diff(moment(last_attendance_date), 'days') > 5) {
+        // Trigger email
+        await strapi.plugins['email'].services.email.send({
+          to: srmEmail,
+          cc: [managerEmail],
+          subject: `Reminder: Please Mark Attendance for Batch ${batch.name}`,
+          text: `
+            Dear ${srmName},
+            
+            This is a reminder that attendance for batch ${batch.name} has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
+            Please ensure it is marked within the next 2 days to maintain accurate records.
+            
+            You can update the attendance by clicking on the following link:
+            [Mark Attendance Now]
+            
+            Best,
+            Data Management
+          `,
+        });
+      }
+    }
+  }
 };
 
 const generateCertificates = async () => {

@@ -185,4 +185,17 @@ module.exports = {
       throw new Error(error.message);
     }
   }
+  ,
+  async updateLastAttendanceDate(batch) {
+    let updatedBatch = await strapi.services['batches'].update({ id: batch }, {
+      last_attendance_date: new Date(),
+    });
+    return updatedBatch;
+  },
+  async updateLastStatusChanged(batch){
+    let updatedBatch = await strapi.services['batches'].update({ id: batch }, {
+      last_status_changed: new Date(),
+    });
+    return updatedBatch;
+  }
 };
