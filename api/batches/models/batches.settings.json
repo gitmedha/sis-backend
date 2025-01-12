@@ -107,6 +107,14 @@
     },
     "mode_of_payment": {
       "type": "string"
+    },
+    "formation_mail_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "closure_mail_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
