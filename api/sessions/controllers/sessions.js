@@ -1,4 +1,5 @@
 const { sanitizeEntity } = require('strapi-utils');
+const batches = require('../../batches/services/batches');
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -19,6 +20,7 @@ const { sanitizeEntity } = require('strapi-utils');
     data.created_by_frontend = logged_in_user;
     data.updated_by_frontend = logged_in_user;
     entity = await strapi.services.sessions.create(data);
+    await strapi.services['batches'].updateLastAttendanceDate(data.batch);
     return sanitizeEntity(entity, { model: strapi.models.sessions});
   },
 
