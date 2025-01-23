@@ -128,4 +128,49 @@ module.exports = {
       );
     }
   },
+
+  async search(ctx) {
+    try {
+      // Extract the search query from the request's query parameters
+      const query = ctx.query.q || '';  // 'q' is the query parameter for search
+
+      // If there's no query, return the first 20 institutions with only 'id' and 'name'
+      if (!query) {
+        const institutions = await strapi.query('institutions').find({
+          _limit: 20, // Limit to the first 20 institutions // Select only the 'id' and 'name' fields
+        });
+
+        return institutions;
+      }
+
+      // Perform the search in the database and return only 'id' and 'name'
+      const searchedInstitutions = await strapi.query('institutions').find({
+        where: {
+          $or: [
+            { name: { $contains: query } },
+            { description: { $contains: query } },
+            { type: { $contains: query } },
+            { city: { $contains: query } },
+            { state: { $contains: query } },
+            { district: { $contains: query } }
+          ]
+        },
+        _limit: 20, // Limit to 20 results (you can adjust this number) // Select only the 'id' and 'name' fields
+      });
+
+      return searchedInstitutions;
+    } catch (err) {
+      console.error(err); // Log error to console for debugging
+      ctx.throw(500, 'An error occurred while searching institutions'); // Proper error handling
+    }
+  },
+  async find(ctx) {
+    try {
+      // Fetch all institutions without limits
+      const allInstitutions = await strapi.query('institutions').find({ _limit: -1 });
+      return allInstitutions;
+    } catch (error) {
+      ctx.throw(500, 'An error occurred while fetching institutions.');
+    }
+  },
 };
