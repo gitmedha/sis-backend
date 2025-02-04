@@ -330,8 +330,8 @@ module.exports = {
  
              // Trigger email
              await strapi.plugins['email'].services.email.send({
-                 to:'deepak.sharma@medha.org.in',
-                 cc: [managerEmail, 'kirti.gour@medha.org.in','maryam.raza@medha.org.in','sanskaar.pradhan@medha.org.in'],
+                 to:'kirti.gour@medha.org.in',
+                 cc: ['deepak.sharma@medha.org.in','maryam.raza@medha.org.in','sanskaar.pradhan@medha.org.in'],
                  subject: `Reminder: Mark Attendance for Batch ${name}`,
                  text: `
                      Dear ${srmName},
