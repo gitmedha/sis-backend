@@ -2,8 +2,8 @@
   "kind": "collectionType",
   "collectionName": "industries",
   "info": {
-    "name": "industries",
-    "description": ""
+    "name": "Industry",
+    "description": "Manage industries data"
   },
   "options": {
     "increments": true,
@@ -20,16 +20,22 @@
     "category": {
       "type": "string"
     },
+    "existing_sis_name": {
+      "type": "string"
+    },
     "active": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "createdby": {
-      "plugin": "users-permissions",
-      "model": "user"
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     },
     "updatedby": {
-      "plugin": "users-permissions",
-      "model": "user"
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     },
     "i_name": {
       "type": "string"
