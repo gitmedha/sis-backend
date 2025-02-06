@@ -110,6 +110,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/batch/sendReminderEmail/:id",
+      "handler":"batches.sendReminderEmail",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
