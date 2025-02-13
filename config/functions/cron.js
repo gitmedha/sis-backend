@@ -38,7 +38,7 @@ module.exports = {
         }
 
         // Check if last attendance was more than 5 days ago
-        if (last_attendance_date && now.diff(moment(last_attendance_date), 'days') > 5) {
+        if (last_attendance_date && now.diff(moment(last_attendance_date), 'days') > 1) {
             // Generate the dynamic link
             const baseUrl = 'https://sisstg.medha.org.in';
             const attendanceLink = `${baseUrl}/batch/${id}`;
