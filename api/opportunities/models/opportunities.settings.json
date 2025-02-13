@@ -46,6 +46,9 @@
     "skills_required": {
       "type": "string"
     },
+    "experience_required":{
+      "type":"string"
+    },
     "address": {
       "type": "string"
     },
