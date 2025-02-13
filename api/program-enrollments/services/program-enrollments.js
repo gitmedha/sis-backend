@@ -318,7 +318,7 @@ module.exports = {
             preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=';
             break;
         case 'Svapoorna':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=';
+             preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
             break;
         case 'Swarambh':
             preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
@@ -342,9 +342,8 @@ module.exports = {
                 <p>Best regards,<br>Medha Team</p>
             `,
         };
-
         await strapi.plugins['email'].services.email.sendTemplatedEmail({
-            to: email,
+            to: email
         }, emailTemplate);
 
     } catch (error) {
@@ -357,13 +356,13 @@ async postBatchLinks(programEnrollment) {
   const { student_id, email, full_name } = programEnrollment.student;
   const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
   let postBatchLink;
-
+console.log(name)
   switch (name) {
       case 'Technology Advancement Bootcamp':
           postBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=';
           break;
       case 'Svapoorna':
-          postBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
+          postBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=';
           break;
       case 'Swarambh':
           postBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=';
@@ -388,7 +387,7 @@ async postBatchLinks(programEnrollment) {
           `,
       };
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
-          to: email,
+          to:email
       }, emailTemplate);
 
   } catch (error) {
