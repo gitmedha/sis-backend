@@ -20,22 +20,16 @@
     "category": {
       "type": "string"
     },
-    "existing_sis_name": {
-      "type": "string"
-    },
     "active": {
-      "type": "boolean",
-      "default": true
+      "type": "boolean"
     },
     "createdby": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "plugin": "users-permissions",
+      "model": "user"
     },
     "updatedby": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "plugin": "users-permissions",
+      "model": "user"
     },
     "i_name": {
       "type": "string"
