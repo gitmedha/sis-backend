@@ -2,14 +2,6 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/institutions",
-      "handler": "institutions.find",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
       "path": "/institutions/count",
       "handler": "institutions.count",
       "config": {
@@ -67,6 +59,15 @@
       "handler": "institutions.paymentRequired",
       "config": {
         "policies":[]
+        
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/institutions/findInstitutions_pehal",
+      "handler": "institutions.fetchAllInstitutions",
+      "config": {
+        "policies":[]  
       }
     },
     {
