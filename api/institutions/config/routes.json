@@ -69,6 +69,15 @@
       "config": {
         "policies":[]  
       }
+    },
+    {
+      "method": "POST",
+      "path": "/institutions/search",
+      "handler": "institutions.search",
+      "config": {
+        "policies": []
+      }
     }
+    
   ]
 }

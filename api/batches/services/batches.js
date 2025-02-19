@@ -174,10 +174,13 @@ module.exports = {
       const emailTemplate = status === "Enrollment Complete -- To Be Started"?formationBatchEmail:closureBatchEmail;
       const email = "sis-batchinfo@medha.org.in";
       const ccEmail = [srmEmail,managerEmail];
+      if(status === "Enrollment Complete -- To Be Started"){
+        await last_attendance_date(batch)
+      }
     
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
-        to: email,
-        cc: ccEmail
+        to: "deepak.sharma@medha.org.in",
+        cc:ccEmail
       }, emailTemplate);
 
       if (status === "Enrollment Complete -- To Be Started") {
@@ -189,5 +192,40 @@ module.exports = {
       console.log("error",error)
       throw new Error(error.message);
     }
+  },
+  async emailPreClosedLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].preBatchlinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  },
+  async emailPostClosedLinks(batch){
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].postBatchLinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  }
+  ,
+  async updateLastAttendanceDate(batch) {
+    let updatedBatch = await strapi.services['batches'].update({ id: batch }, {
+      last_attendance_date: new Date(),
+    });
+    return updatedBatch;
+  },
+  async updateLastStatusChanged(batch){
+    let updatedBatch = await strapi.services['batches'].update({ id: batch }, {
+      last_status_changed: new Date(),
+    });
+    return updatedBatch;
   }
 };

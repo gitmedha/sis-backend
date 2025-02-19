@@ -115,6 +115,20 @@
     "closure_mail_sent": {
       "type": "boolean",
       "default": false
+    },
+    "pre_batch_email_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "post_batch_email_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_attendance_date": {
+      "type": "date"
+    },
+    "status_changed_date": {
+      "type": "date"
     }
   }
 }

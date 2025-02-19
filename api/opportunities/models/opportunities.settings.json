@@ -40,10 +40,14 @@
       "type": "string"
     },
     "compensation_type": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": ["Paid", "Unpaid"]
     },
     "skills_required": {
       "type": "string"
+    },
+    "experience_required":{
+      "type":"string"
     },
     "address": {
       "type": "string"

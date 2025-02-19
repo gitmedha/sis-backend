@@ -1,4 +1,6 @@
 const { sanitizeEntity } = require("strapi-utils");
+const moment = require('moment');
+
 
 module.exports = {
   async create(ctx) {
@@ -19,6 +21,16 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
+
+    if (data.status === 'In Progress') {
+      // Query the batch to check the current status
+      const batch = await strapi.services['batches'].find({ id:id });  
+      if (batch[0].status === 'On Hold') {
+        console.log('Batch status is On Hold');
+        // Update the status_changed_date field before updating the batch
+        data.status_changed_date = new Date();
+      }
+    }
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
@@ -183,8 +195,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("batches").count();
       const values = await strapi.query("batches").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||
@@ -263,5 +276,93 @@ module.exports = {
       console.log("Error in sendEmailOnCreationAndCompletion:", error);
       return ctx.badRequest(error.message);
     }
+  },
+
+  async sendPreBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPreClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { pre_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+  async sendPostBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPostClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { post_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+  async sendReminderEmail (ctx){
+    try{
+      const { id } = ctx.params;
+      console.log("id",id);
+        const batches = await strapi.services['batches'].find({ id:id});
+    
+        for (const batch of batches) {
+            const { last_attendance_date, id, name } = batch;
+    
+            const assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+                id: Number(batch.assigned_to.id),
+            });
+    
+            const srmName = assignedTo.username;
+            const srmEmail = assignedTo.email;
+            const managerEmail = assignedTo.reports_to?.email;
+             // Generate the dynamic link
+             const baseUrl = 'https://sisstg.medha.org.in';
+             const attendanceLink = `${baseUrl}/batch/${id}`;
+ 
+             // Trigger email
+             await strapi.plugins['email'].services.email.send({
+                 to:'kirti.gour@medha.org.in',
+                 cc: ['deepak.sharma@medha.org.in','maryam.raza@medha.org.in','sanskaar.pradhan@medha.org.in'],
+                 subject: `Reminder: Mark Attendance for Batch ${name}`,
+                 text: `
+                     Dear ${srmName},
+                     
+                     This is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
+                     Please ensure it is marked within the next 2 days to maintain accurate records.
+                     
+                     You can update the attendance by clicking on the following link: [Mark Attendance Now](${attendanceLink})
+                     
+                     Best,
+                     Data Management
+                 `,
+                 html: `
+                     <p>Dear ${srmName},</p>
+                     <p>
+                         This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
+                         Please ensure it is marked within the next 2 days to maintain accurate records.
+                     </p>
+                     <p>
+                         You can update the attendance by clicking on the following link: <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a>
+                     </p>
+                     <p>Best,<br>Data Management</p>
+                 `,
+             });
+    
+        }
+        return ctx.send("successfully! reminder sent");
+
+      }catch(e){
+        console.log('Error in cron job', e);
+      }   
   }
+
 };

@@ -240,6 +240,7 @@ module.exports = {
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     let batchId = programEnrollment.batch.program;
+    const {student_id} = programEnrollment.student;
 
     const emailTemplate =
     batchId === 21 ?
@@ -269,7 +270,7 @@ module.exports = {
         <p>Dear ${username},</p>
         <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p>
         <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p>
-        <p>Please fill in your response in the feedback form - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
+        <p>Please fill in your response in the feedback form - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=${student_id}">Medha Program Feedback Form</a></p>
         <p>All the best for your future!</p>
         <p>Regards,<br>
         Medha</p><br>
@@ -277,7 +278,7 @@ module.exports = {
         <p>प्रिय ${username}</p>
         <p>हमें खुशी है की हाल ही में आपने मेधा कार्यक्रम पूरा किया है। अब आप इस कार्यक्रम के दौरान सीखी गयी जानकारी को अपनी निजी एवं पेशेवर ज़िंदगी में लागू करने के लिए पूरी तरह से तैयार हैं।</p>
         <p>मेधा से आगे की यात्रा शुरू करने से पहले हम यह जानना चाहेंगे कि आपने मेधा कार्यक्रम के दौरान क्या सीखा और जाना है? </p>
-        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
+        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=${student_id}">Medha Program Feedback Form</a></p>
         <p>शुभकामनाओं सहित आभार !</p>
         <p>भवदीय, <br>
         मेधा </p>
@@ -285,10 +286,11 @@ module.exports = {
       `,
     };
     await strapi.plugins['email'].services.email.sendTemplatedEmail({
-      to: email,
+      to:email,
     }, emailTemplate);
     return true;
   },
+
 
   // calculates attendance for a program enrollment in it's batch
   async calculateBatchAttendance(programEnrollment) {
@@ -305,5 +307,93 @@ module.exports = {
     percentage = Number.parseFloat(percentage).toFixed(2);
 
     return percentage;
+  },
+  async preBatchlinks(programEnrollment) {
+    const { student_id, email, full_name } = programEnrollment.student;
+    const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+    let preBatchLink;
+
+    switch (name) {
+        case 'Technology Advancement Bootcamp':
+            preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=';
+            break;
+        case 'Svapoorna':
+             preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
+            break;
+        case 'Swarambh':
+            preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
+            break;
+        default:
+            preBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=';
+            break;
+    }
+
+    try {
+        const surveyLink = `${preBatchLink}${student_id}`;
+        const emailTemplate = {
+            subject:'The format of the email for PRE TEST:',
+            text: `pre survey test`,
+            html: `
+                <p>Hi ${full_name},</p>
+                <p>We kindly request you to complete this short pre-test survey to share your valuable input:</p>
+                <p><a href="${surveyLink}">Click here to take the survey</a></p>
+                <p>Your feedback will help us design the program to better meet your needs.</p>
+                <p>If you have any questions, feel free to reach out to us.</p>
+                <p>Best regards,<br>Medha Team</p>
+            `,
+        };
+        await strapi.plugins['email'].services.email.sendTemplatedEmail({
+            to: email
+        }, emailTemplate);
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+,
+async postBatchLinks(programEnrollment) {
+  const { student_id, email, full_name } = programEnrollment.student;
+  const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+  let postBatchLink;
+console.log(name)
+  switch (name) {
+      case 'Technology Advancement Bootcamp':
+          postBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=';
+          break;
+      case 'Svapoorna':
+          postBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=';
+          break;
+      case 'Swarambh':
+          postBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=';
+          break;
+      default:
+          postBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=';
+          break;
   }
+
+  try {
+      const surveyLink = `${postBatchLink}${student_id}`;
+      const emailTemplate = {
+          subject: `The format of the email for POST TEST:`,
+          text: 'post survey test',
+          html: `
+              <p>Hi ${full_name},</p>
+              <p>We kindly request you to complete this short post-test survey to share your valuable feedback:</p>
+              <p><a href="${surveyLink}">Click here to take the survey</a></p>
+              <p>Your input will help us design the program to better meet your needs.</p>
+              <p>If you have any questions, feel free to reach out to us.</p>
+              <p>Best regards,<br>Medha Team</p>
+          `,
+      };
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+          to:email
+      }, emailTemplate);
+
+  } catch (error) {
+      console.log(error,"thus");
+      throw error;
+  }
+}
+
 };
