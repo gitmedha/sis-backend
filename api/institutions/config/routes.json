@@ -63,7 +63,7 @@
       }
     },
     {
-      "method": "GET",
+      "method": "POST",
       "path": "/institutions/findInstitutions_pehal",
       "handler": "institutions.fetchAllInstitutions",
       "config": {
