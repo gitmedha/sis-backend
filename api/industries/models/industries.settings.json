@@ -2,8 +2,8 @@
   "kind": "collectionType",
   "collectionName": "industries",
   "info": {
-    "name": "Industry",
-    "description": "Manage industries data"
+    "name": "industries",
+    "description": ""
   },
   "options": {
     "increments": true,
