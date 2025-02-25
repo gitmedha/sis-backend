@@ -45,15 +45,15 @@ module.exports = {
       async findDistinctField(ctx) {
         const { field } = ctx.params; // Extract the field name from the query parameters
         let optionsArray = [];
-      
         try {
       
           const values = await strapi.query('users-tot').find({
             isactive:true,
-            _limit: 100,
+            _limit: 10000000,
             _start: 0,
           });
-      
+         
+
       
           const uniqueValuesSet = new Set();
       
@@ -65,8 +65,8 @@ module.exports = {
             } else if (field) {
               valueToAdd = values[row][field];
             }
-      
             if (!uniqueValuesSet.has(valueToAdd)) {
+
               optionsArray.push({
                 key: row,
                 label: valueToAdd,
@@ -75,7 +75,6 @@ module.exports = {
               uniqueValuesSet.add(valueToAdd);
             }
           }
-          
           return ctx.send(optionsArray);
         } catch (error) {
           
