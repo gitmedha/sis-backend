@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_system_actor_ratios",
+  "info": {
+    "name": "studentSystemActorRatio"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "state": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "student_system_actor_ratio": {
+      "type": "string"
+    },
+    "createdBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "active": {
+      "type": "boolean"
+    }
+  }
+}
