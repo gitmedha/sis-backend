@@ -59,9 +59,8 @@ module.exports = {
       
           for (let row = 0; row < values.length; row++) {
             let valueToAdd;
-      
-            if (field === "trainer_1.username" || field === "trainer_2.username") {
-                valueToAdd = field === "trainer_1.username"?values[row]['trainer_1'].username:values[row]['trainer_2'].username
+            if ((field === "trainer_1.username" && values[row]['trainer_1']?.username) || (field === "trainer_2.username" && values[row]['trainer_2']?.username)) {
+                valueToAdd = field === "trainer_1.username"?values[row]['trainer_1'].username:values[row]['trainer_2'].username;
             } else if (field) {
               valueToAdd = values[row][field];
             }
@@ -77,7 +76,7 @@ module.exports = {
           }
           return ctx.send(optionsArray);
         } catch (error) {
-          
+          console.log("error", error);
           return ctx.badRequest('An error occurred while fetching distinct values.');
         }
       }
