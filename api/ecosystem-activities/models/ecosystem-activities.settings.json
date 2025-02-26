@@ -38,11 +38,11 @@
     "female_participants": {
       "type": "integer"
     },
-    "createdBy": {
+    "created_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
     },
-    "updatedBy": {
+    "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
     },
