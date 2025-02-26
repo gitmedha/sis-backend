@@ -26,17 +26,42 @@ module.exports = {
           if (!searchField || !searchValue) {
             return ctx.badRequest('Field and value are required.');
           }
+
+          if(searchField ==="start_date"){
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_gte`]: new Date(searchValue.start),
+              [`${searchField}_lte`]: new Date(searchValue.end),
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            return ctx.send(records);
+          }
+          else if(searchField === "end_date"){
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_gte`]: new Date(searchValue.start),
+              [`${searchField}_lte`]: new Date(searchValue.end),
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            return ctx.send(records);
+          }
+          else {
+
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_contains`]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            
+            
+      
+
+            return ctx.send(records);
+          }
           
-          const records = await strapi.query('users-tot').find({
-            [`${searchField}_contains`]: searchValue,
-            isactive:true,
-            _limit:1000000,
-            _start: 0
-          });
-          
-          
-    
-          return ctx.send(records);
         } catch (error) {
           console.log(error);
           throw error;
