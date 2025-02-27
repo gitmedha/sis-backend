@@ -19,6 +19,8 @@ module.exports = {
   
  async searchOps(ctx){
   try {
+    const { searchField, searchValue } = ctx.request.body;
+
     if (!searchField || !searchValue) {
       return ctx.badRequest('Field and value are required.');
     }
