@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/medha-scale-projects",
+      "handler": "medha-scale-projects.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medha-scale-projects/count",
+      "handler": "medha-scale-projects.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medha-scale-projects/:id",
+      "handler": "medha-scale-projects.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/medha-scale-projects",
+      "handler": "medha-scale-projects.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/medha-scale-projects/:id",
+      "handler": "medha-scale-projects.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/medha-scale-projects/:id",
+      "handler": "medha-scale-projects.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
