@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_outreaches",
+  "info": {
+    "name": "student_outreach",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "year_fy": {
+      "type": "string"
+    },
+    "quarter": {
+      "type": "enumeration",
+      "enum": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ]
+    },
+    "month": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "haryana",
+        "uttar_pradesh",
+        "bihar",
+        "uttarakhand"
+      ]
+    },
+    "department": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ]
+    },
+    "students": {
+      "model": "students"
+    },
+    "institution_type": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

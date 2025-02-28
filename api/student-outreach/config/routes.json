@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/student-outreaches",
+      "handler": "student-outreach.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/student-outreaches/count",
+      "handler": "student-outreach.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/student-outreaches/:id",
+      "handler": "student-outreach.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/student-outreaches",
+      "handler": "student-outreach.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/student-outreaches/:id",
+      "handler": "student-outreach.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/student-outreaches/:id",
+      "handler": "student-outreach.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
