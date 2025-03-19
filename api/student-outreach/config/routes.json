@@ -50,8 +50,8 @@
     },
     {
       "method":"POST",
-      "path":"/studentOutreach/search",
-      "handler":"student-outreach.createBulkOutreach",
+      "path":"/student-outreaches/search",
+      "handler":"student-outreach.searchOps",
       "config": {
         "policies": []
       }

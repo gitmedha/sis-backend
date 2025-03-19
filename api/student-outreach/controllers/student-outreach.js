@@ -18,40 +18,44 @@ module.exports = {
       }
     },
     async searchOps(ctx) {
-        try {
-          const { searchField, searchValue } = ctx.request.body;
-      
-          // Validate the request body
-          if (!searchField || !searchValue) {
-            return ctx.badRequest('Both searchField and searchValue are required.');
-          }
-      
-          // Ensure the searchField is 'state'
-          if (searchField !== 'state') {
-            return ctx.badRequest('Invalid search field. Only "state" is supported.');
-          }
-      
-          // Define the allowed state values
-          const allowedStates = ['Bihar', 'Uttarakhand', 'Uttar Pradesh', 'Haryana'];
-      
-          // Validate the searchValue
-          if (!allowedStates.includes(searchValue)) {
-            return ctx.badRequest('Invalid state value. Allowed values are: Bihar, Uttarakhand, Uttar Pradesh, Haryana.');
-          }
-      
-          // Query the student-outreach model
-          const records = await strapi.query('student-outreach').find({
-            [`${searchField}_contains`]: searchValue, // Filter by state
-            isActive: true, // Only fetch active records
-            _limit: 1000000, // Fetch all records (adjust as needed)
-            _start: 0,
-          });
-      
-          // Return the filtered records
-          return ctx.send(records);
-        } catch (error) {
-          console.error('Error in searchOps:', error);
-          return ctx.internalServerError('An error occurred while searching records.');
+      try {
+        const { searchField, searchValue } = ctx.request.body;
+    
+        // Validate the request body
+        if (!searchField || !searchValue) {
+          return ctx.badRequest('Both searchField and searchValue are required.');
         }
+    
+        // Ensure the searchField is 'state'
+        if (searchField !== 'state') {
+          return ctx.badRequest('Invalid search field. Only "state" is supported.');
+        }
+    
+        // Define the allowed state values
+        const allowedStates = ['Haryana', 'Uttar Pradesh', 'Bihar', 'Uttarakhand'];
+    
+        // Validate the searchValue
+        if (!allowedStates.includes(searchValue)) {
+          return ctx.badRequest(
+            'Invalid state value. Allowed values are: Haryana, UttarPradesh, Bihar, Uttarkhand.'
+          );
+        }
+    
+        // Query the student-outreach model
+        const records = await strapi.query('student-outreach').find({
+          [`${searchField}`]: searchValue, // Filter by state
+          isactive: true, // Only fetch active records
+          _limit: 1000, // Fetch a reasonable number of records
+          _start: 0,
+        });
+    
+        // Return the filtered records
+        return ctx.send(records);
+      } catch (error) {
+        console.error('Error in searchOps:', error);
+        // Use ctx.send with a 500 status code for internal server errors
+        return ctx.send({ message: 'An error occurred while searching records.' }, 500);
       }
+    }
+  
 }
