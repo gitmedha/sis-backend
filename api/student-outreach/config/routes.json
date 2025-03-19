@@ -42,8 +42,8 @@
     },
     {
       "method":"POST",
-      "path":"/studentOutreach/createBulkOutreach",
-      "handler":"users-tot.createBulkTots",
+      "path":"/student-outreaches/createBulkOutreach",
+      "handler": "student-outreach.createBulkOutreach",
       "config": {
         "policies": []
       }
@@ -51,7 +51,7 @@
     {
       "method":"POST",
       "path":"/studentOutreach/search",
-      "handler":"users-tot.createBulkTots",
+      "handler":"student-outreach.createBulkOutreach",
       "config": {
         "policies": []
       }

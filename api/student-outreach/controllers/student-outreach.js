@@ -9,7 +9,8 @@ module.exports = {
     async createBulkOutreach(ctx) {
       const { body } = ctx.request;
       try {
-        const createdData = await strapi.services["studentOutreach"].createMany(body);
+        console.log('backednd student outreach')
+        const createdData = await strapi.services["student-outreach"].createMany(body);
         return createdData;
       } catch (error) {
         console.error(error);
