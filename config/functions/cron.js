@@ -15,7 +15,7 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
-'00 10 * * *': async () => { // Runs daily at 10:00 AM
+'*/30 * * * *': async () => { // Runs daily at 10:00 AM
   try{
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
@@ -33,12 +33,12 @@ module.exports = {
         const now = moment();
 
         // Skip batches within the grace period
-        if (status_changed_date && moment(status_changed_date).isAfter(moment().subtract(5, 'days'))) {
+        if (status_changed_date && moment(status_changed_date).isAfter(moment().subtract(30, 'minutes'))) {
             continue;
         }
 
         // Check if last attendance was more than 5 days ago
-        if (last_attendance_date && now.diff(moment(last_attendance_date), 'days') > 1) {
+        if (last_attendance_date && now.diff(moment(last_attendance_date), 'minutes') > 30) {
             // Generate the dynamic link
             const baseUrl = 'https://sisstg.medha.org.in';
             const attendanceLink = `${baseUrl}/batch/${id}`;
