@@ -41,6 +41,22 @@
       }
     },
     {
+      "method":"POST",
+      "path":"/studentOutreach/createBulkOutreach",
+      "handler":"users-tot.createBulkTots",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/studentOutreach/search",
+      "handler":"users-tot.createBulkTots",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "DELETE",
       "path": "/student-outreaches/:id",
       "handler": "student-outreach.delete",
