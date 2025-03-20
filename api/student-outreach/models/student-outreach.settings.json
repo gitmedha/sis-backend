@@ -14,15 +14,6 @@
     "year_fy": {
       "type": "string"
     },
-    "quarter": {
-      "type": "enumeration",
-      "enum": [
-        "q1",
-        "q2",
-        "q3",
-        "q4"
-      ]
-    },
     "month": {
       "type": "string"
     },
@@ -32,10 +23,10 @@
     "state": {
       "type": "enumeration",
       "enum": [
-        "haryana",
-        "uttar_pradesh",
-        "bihar",
-        "uttarakhand"
+        "Haryana",
+        "UttarPradesh",
+        "Bihar",
+        "Uttarkhand"
       ]
     },
     "department": {
@@ -44,13 +35,10 @@
     "gender": {
       "type": "enumeration",
       "enum": [
-        "male",
-        "female",
-        "other"
+        "Male",
+        "Female",
+        "Other"
       ]
-    },
-    "students": {
-      "model": "students"
     },
     "institution_type": {
       "type": "string"
@@ -62,6 +50,15 @@
     "updated_by_frontend": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "isactive": {
+      "type": "boolean"
+    },
+    "quarter": {
+      "type": "string"
+    },
+    "students": {
+      "type": "integer"
     }
   }
 }
