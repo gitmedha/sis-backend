@@ -29,7 +29,7 @@
       "plugin": "users-permissions",
       "model": "user"
     },
-    "active": {
+    "isactive": {
       "type": "boolean"
     }
   }
