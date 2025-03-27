@@ -113,6 +113,15 @@
     },
     "status_changed_date": {
       "type": "date"
+    },
+    "formation_mail_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "closure_mail_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
+ 
 }

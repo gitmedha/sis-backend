@@ -26,11 +26,14 @@ module.exports = {
       if (batch[0].status === 'On Hold') {
         console.log('Batch status is On Hold');
         // Update the status_changed_date field before updating the batch
-        data.status_changed_date = new Date();
+        data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
     entity = await strapi.services.batches.update({ id }, data);
-    if(data.status === 'Enrollment Complete -- To Be Started'){
+    const isEmailSent = await strapi.services.batches.findOne({id});
+    const {formation_mail_sent,closure_mail_sent} = isEmailSent;
+    
+    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -64,7 +67,7 @@ module.exports = {
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
     }
-    if (data.status === "Complete") {
+    if (data.status === "Complete" && !closure_mail_sent) {
       await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
   
       data.id = id;
@@ -237,7 +240,6 @@ module.exports = {
   
   async sendEmailOnCreationAndCompletion(data) {
     try {
-  
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
         id: Number(data.assigned_to)

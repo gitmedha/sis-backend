@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "industries",
+  "info": {
+    "name": "industries",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "industry_name": {
+      "type": "string"
+    },
+    "sub_industry": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "createdby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updatedby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "i_name": {
+      "type": "string"
+    }
+  }
+}
