@@ -108,6 +108,12 @@
     "mode_of_payment": {
       "type": "string"
     },
+    "last_attendance_date": {
+      "type": "date"
+    },
+    "status_changed_date": {
+      "type": "date"
+    },
     "formation_mail_sent": {
       "type": "boolean",
       "default": false
@@ -117,4 +123,5 @@
       "default": false
     }
   }
+ 
 }

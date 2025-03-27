@@ -19,6 +19,16 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
+
+    if (data.status === 'In Progress') {
+      // Query the batch to check the current status
+      const batch = await strapi.services['batches'].find({ id:id });  
+      if (batch[0].status === 'On Hold') {
+        console.log('Batch status is On Hold');
+        // Update the status_changed_date field before updating the batch
+        data.status_changed_date =  new Date().toISOString().split("T")[0];
+      }
+    }
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;

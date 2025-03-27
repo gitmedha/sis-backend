@@ -181,13 +181,47 @@ module.exports = {
       }, emailTemplate);
 
       if (status === "Enrollment Complete -- To Be Started") {
-        await strapi.services.batches.update({ id }, { formation_mail_sent: true });
+        await strapi.services.batches.update(
+          { id }, 
+          { 
+            formation_mail_sent: true, 
+            last_attendance_date: new Date().toISOString().split("T")[0]
+          }
+        );      
       } else {
         await strapi.services.batches.update({ id }, { closure_mail_sent: true });
       }
     } catch (error) {
       console.log("error",error)
       throw new Error(error.message);
+    }
+  }
+  ,
+  async updateLastAttendanceDate(batch) {
+    try {
+      let updatedBatch = await strapi.services['batches'].update(
+        { id: batch }, 
+        { last_attendance_date: new Date().toISOString().split("T")[0] }
+      );
+
+      return updatedBatch;
+    } catch (error) {
+      console.error("Error updating last attendance date:", error);
+      return null;
+    }
+  },
+  async updateLastStatusChanged(batch){
+    try {
+
+      let updatedBatch = await strapi.services['batches'].update(
+        { id: batch},
+        { status_changed_date: new Date().toISOString().split("T")[0] }
+      );
+  
+      return updatedBatch;
+    } catch (error) {
+      console.error("Error updating last status changed date:", error);
+      return null;
     }
   }
 };
