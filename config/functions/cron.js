@@ -15,7 +15,7 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
-'00 10 * * *': async () => { // Runs daily at 10:00 AM
+'00 11 * * *': async () => { // Runs daily at 11:00 AM
   try{
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
