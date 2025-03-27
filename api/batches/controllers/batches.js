@@ -28,14 +28,14 @@ module.exports = {
       if (batch[0].status === 'On Hold') {
         console.log('Batch status is On Hold');
         // Update the status_changed_date field before updating the batch
-        data.status_changed_date = new Date();
+        data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
     
-    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
+    if(data.status === 'Enrollment Complete -- To Be Started'){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
