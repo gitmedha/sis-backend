@@ -28,7 +28,7 @@ module.exports = {
       if (batch[0].status === 'On Hold') {
         console.log('Batch status is On Hold');
         // Update the status_changed_date field before updating the batch
-        data.status_changed_date = new Date();
+        data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
     entity = await strapi.services.batches.update({ id }, data);
