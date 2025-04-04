@@ -35,7 +35,7 @@ module.exports = {
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
     
-    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
+    if(data.status === 'Enrollment Complete -- To Be Started'){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -311,7 +311,6 @@ module.exports = {
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
-      console.log("id",id);
         const batches = await strapi.services['batches'].find({ id:id});
     
         for (const batch of batches) {

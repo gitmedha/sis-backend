@@ -187,7 +187,8 @@ module.exports = {
             formation_mail_sent: true, 
             last_attendance_date: new Date().toISOString().split("T")[0]
           }
-        );      
+        );
+        
       } else {
         await strapi.services.batches.update({ id }, { closure_mail_sent: true });
       }
@@ -225,25 +226,28 @@ module.exports = {
         { id: batch }, 
         { last_attendance_date: new Date().toISOString().split("T")[0] }
       );
-
+  
+      console.log(updatedBatch);
       return updatedBatch;
     } catch (error) {
       console.error("Error updating last attendance date:", error);
       return null;
     }
-  },
-  async updateLastStatusChanged(batch){
-    try {
-
-      let updatedBatch = await strapi.services['batches'].update(
-        { id: batch},
-        { status_changed_date: new Date().toISOString().split("T")[0] }
-      );
-  
-      return updatedBatch;
-    } catch (error) {
-      console.error("Error updating last status changed date:", error);
-      return null;
-    }
   }
-};
+,  
+async updateLastStatusChanged(batch) {
+  try {
+   
+    let updatedBatch = await strapi.services['batches'].update(
+      { id: batch},
+      { status_changed_date: new Date().toISOString().split("T")[0] }
+    );
+
+    console.log(updatedBatch);
+    return updatedBatch;
+  } catch (error) {
+    console.error("Error updating last status changed date:", error);
+    return null;
+  }
+}
+}

@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "curriculum_interventions",
+  "collectionName": "medha_scale_projects",
   "info": {
-    "name": "curriculum_interventions",
+    "name": "medha_scale_projects",
     "description": ""
   },
   "options": {
@@ -11,22 +11,39 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "module_created_for": {
+    "state": {
       "type": "string"
     },
-    "module_developed_or_revised": {
+    "project_name": {
       "type": "string"
     },
-    "start_date": {
-      "type": "date"
-    },
-    "end_date": {
-      "type": "date"
-    },
-    "module_name": {
+    "institution_type": {
       "type": "string"
     },
-    "government_department_partnered_with": {
+    "active_status": {
+      "type": "enumeration",
+      "enum": [
+        "ongoing",
+        "closed"
+      ]
+    },
+    "poc": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "status": {
+      "type": "string"
+    },
+    "mou_status": {
+      "type": "string"
+    },
+    "funder": {
+      "type": "string"
+    },
+    "funder_target_number": {
+      "type": "text"
+    },
+    "project_time_period": {
       "type": "string"
     },
     "created_by_frontend": {
@@ -39,10 +56,6 @@
     },
     "isactive": {
       "type": "boolean"
-    },
-    "medha_poc": {
-      "plugin": "users-permissions",
-      "model": "user"
     }
   }
 }
