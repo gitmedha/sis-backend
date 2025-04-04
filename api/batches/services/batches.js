@@ -174,7 +174,6 @@ module.exports = {
       const emailTemplate = status === "Enrollment Complete -- To Be Started"?formationBatchEmail:closureBatchEmail;
       const email = "sis-batchinfo@medha.org.in";
       const ccEmail = [srmEmail,managerEmail];
-
     
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
         to: "deepak.sharma@medha.org.in",
