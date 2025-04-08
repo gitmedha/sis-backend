@@ -311,6 +311,7 @@ module.exports = {
   async preBatchlinks(programEnrollment) {
     const { student_id, email, full_name } = programEnrollment.student;
     const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+
     let preBatchLink;
 
     switch (name) {
@@ -329,7 +330,7 @@ module.exports = {
     }
 
     try {
-        const surveyLink = `${preBatchLink}${student_id}`;
+        const surveyLink = `${preBatchLink}${student_id}&batchid=${programEnrollment.batch.id}`;
         const emailTemplate = {
             subject:'The format of the email for PRE TEST:',
             text: `pre survey test`,
@@ -356,7 +357,6 @@ async postBatchLinks(programEnrollment) {
   const { student_id, email, full_name } = programEnrollment.student;
   const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
   let postBatchLink;
-console.log(name)
   switch (name) {
       case 'Technology Advancement Bootcamp':
           postBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=';
@@ -373,7 +373,7 @@ console.log(name)
   }
 
   try {
-      const surveyLink = `${postBatchLink}${student_id}`;
+      const surveyLink = `${postBatchLink}${student_id}&batchid=${programEnrollment.batch.id}`;
       const emailTemplate = {
           subject: `The format of the email for POST TEST:`,
           text: 'post survey test',
