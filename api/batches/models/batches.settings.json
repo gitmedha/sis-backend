@@ -115,6 +115,21 @@
     "post_batch_email_sent": {
       "type": "boolean",
       "default": false
+  },
+  "last_attendance_date": {
+      "type": "date"
+    },
+    "status_changed_date": {
+      "type": "date"
+    },
+    "formation_mail_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "closure_mail_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
+ 
 }
