@@ -15,6 +15,7 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
+ 
 '00 12 * * 1-5': async () => { // Runs only Monday to Friday at 12:00 AM
   try {
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
@@ -55,8 +56,8 @@ module.exports = {
             const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
             if (workingDaysSinceAttendance > 5) {
                 // Generate the dynamic link
-                const baseUrl = 'https://sisnew.medha.org.in';
-                const attendanceLink = `${baseUrl}/batch/${id}`;
+                const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
+                const attendanceLink = `${baseUrl}batch/${id}`;
 
                 // Trigger email with error handling
                 try {
