@@ -82,6 +82,9 @@ module.exports = {
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         medha_program_certificate_status: medha_program_certificate_status,
       });
+      if(isEligibleForCertification){
+        await strapi.services['program-enrollments'].generateCertificate(programEnrollment)
+      }
     });
 
     let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
