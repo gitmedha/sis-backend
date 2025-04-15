@@ -36,16 +36,20 @@ module.exports = {
 
     }
     ,
-    async getEvents(ctx){
+    async getEvents(ctx) {
         try {
-            const events = await strapi.services['alumni-events'].find();
+            const events = await strapi.query('alumni-events').find({
+                _limit: -1,
+            });
+            console.log("events", events);
             ctx.send(events);
         }
-        catch(error){
+        catch (error) {
             console.error(error);
             ctx.throw(500, 'An error occurred while fetching the events.');
         }
-    },
+    }
+    ,
     async updateEvent(ctx) {
         const { params, request } = ctx;
         const { id } = params;
