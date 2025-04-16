@@ -77,11 +77,13 @@ module.exports = {
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
       let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
-
       let medha_program_certificate_status = isEligibleForCertification ? 'processing' : 'low-attendance';
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         medha_program_certificate_status: medha_program_certificate_status,
       });
+      if(isEligibleForCertification){
+        await strapi.services['program-enrollments'].generateCertificate(programEnrollment)
+      }
     });
 
     let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
