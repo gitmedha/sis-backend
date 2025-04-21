@@ -1,127 +1,256 @@
-"use strict";
+'use strict';
 
 /**
- * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
- * to customize this controller
+ * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-services)
+ * to customize this service
  */
 
 module.exports = {
-  async createBulkCollegePitch(ctx) {
-    const { body } = ctx.request;
+  async handleProgramEnrollmentOnCompletion(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
 
-    try {
-      const createdData = await strapi.services["college-pitch"].createMany(
-        body
-      );
-      return createdData;
-    } catch (error) {
-      throw error;
-    }
-  },
-  async searchOps(ctx) {
-    const { searchFields, searchValues } = ctx.request.body;
-  
-    try {
-      // Validate input
-      if (
-        !Array.isArray(searchFields) ||
-        !Array.isArray(searchValues) ||
-        searchFields.length !== searchValues.length
-      ) {
-        return ctx.badRequest("Fields and values must be provided as equal-length arrays.");
-      }
-  
-      // Initialize filters
-      let filters = { isactive: true, _limit: 1000000, _start: 0 };
-  
-      // Add search filters dynamically
-      searchFields.forEach((field, index) => {
-        filters[`${field}_contains`] = searchValues[index]; // Using _contains for partial matches
+    await Promise.all(programEnrollments.map(async (programEnrollment) => {
+      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+      let status = isEligibleForCertification ? 'Batch Complete' : 'Student Dropped Out';
+      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+        status: status
       });
-  
-      console.log("Filters applied:", filters); // Debugging log
-  
-      // Query the database
-      const records = await strapi.query("college-pitch").find(filters);
-  
-      console.log("Records found:", records); // Debugging log
-  
-      // Return the results
-      return ctx.send(records);
-    } catch (error) {
-      console.error("Error in searchOps:", error);
-      return ctx.internalServerError("Something went wrong.");
-    }
+    }));
+    return batch;
   },
-  async findDistinctField(ctx) {
-    const { field } = ctx.params; // Extract the field name from the query parameters
-    let optionsArray = [];
 
-    try {
-      if (field === "program_name") {
-        const programs = await strapi.query("programs").find({
-          _start: 0,
-          _sort: "name:asc",
-        });
+  async handleProgramEnrollmentOnCertification(batch) {
+    await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
 
-        for (let row = 0; row < programs.length; row++) {
-          let valueToAdd;
-          valueToAdd = programs[row]["name"];
+    let changeAttandance= false ;
+    if(batch.program.name === "Pehli Udaan"){
+      changeAttandance = true
+    }
 
-          optionsArray.push({
-            key: row,
-            label: valueToAdd,
-            value: valueToAdd,
+    // update certification date for the program enrollment record
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+
+      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance);
+
+      if (!isEligibleForCertification) {
+        if(changeAttandance){
+          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+            status: 'Not Certified by Medha -- <100% Attendance'
           });
-        }
+          return;
 
-        return ctx.send(optionsArray);
+        }
+        else {
+          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+            status: 'Not Certified by Medha -- <75% Attendance'
+          });
+          return;
+        }
+      }
+      let today = new Date().toISOString().split('T')[0]
+      if (programEnrollment.certification_date !== null) {
+        today = new Date(programEnrollment.certification_date).toISOString().split('T')[0]
+      }
+      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+        certification_date: today,
+        status: 'Certified by Medha'
+      });
+
+      // update status for the student record
+      await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+        status: 'Certified',
+      });
+    });
+
+    // update status for the batch
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+      status: 'Certified',
+    });
+    return updatedBatch;
+  },
+
+  async generateProgramEnrollmentCertificates(batch) {
+    await strapi.services['batches'].handleProgramEnrollmentOnCertification(batch);
+
+    // update medha_program_certificate_status so that certificates can be generated by cron
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+
+      let medha_program_certificate_status = isEligibleForCertification ? 'processing' : 'low-attendance';
+      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+        medha_program_certificate_status: medha_program_certificate_status,
+      });
+      if(isEligibleForCertification){
+        await strapi.services['program-enrollments'].generateCertificate(programEnrollment)
+      }
+    });
+
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+      certificates_generated_at: new Date(),
+    });
+    return updatedBatch;
+  },
+
+  async sendCertificateEmailToSrm(batch) {
+    // send email to batch SRM
+    let email = batch.assigned_to.email;
+    let username = batch.assigned_to.username;
+    let batchName = batch.name;
+    let batchUrl = strapi.config.get('server.frontend_url') + `/batch/${batch.id}`; // to be replaced by batch URL
+    const emailTemplate = {
+      subject: 'Batch has been marked as certified by Data Management Team',
+      text: `Dear ${username},\n\n
+      Your batch ${batchName} has been marked as certified by the Data Management Team.\n
+      ${batchUrl}\n\n
+      Please expect certificates to be distributed to the students in the next hour or so via email.\n\n
+      Regards,\n
+      Data Management Team
+      `,
+      html: `<p>Dear ${username},</p>
+      <p>Your batch ${batchName} has been marked as certified by the Data Management Team.<br>
+      <a href="${batchUrl}">See the batch details</a><br><br>
+      Please expect certificates to be distributed to the students in the next hour or so via email.
+      </p>
+      <p>Regards,<br>
+      Data Management Team</p>`,
+    };
+    await strapi.plugins['email'].services.email.sendTemplatedEmail({
+      to: email,
+    }, emailTemplate);
+  },
+
+  async emailProgramEnrollmentCertificates(batch) {
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+      certificates_emailed_at: new Date(),
+    });
+    await strapi.services['batches'].sendCertificateEmailToSrm(batch);
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+      await strapi.services['program-enrollments'].emailCertificate(programEnrollment);
+    });
+    return updatedBatch;
+  },
+  async emailProgramEnrollmentLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    programEnrollments.forEach(async programEnrollment => {
+      await strapi.services['program-enrollments'].sendLink(programEnrollment);
+    });
+    let updatedBatch = await strapi.services['batches'].update({ id: batch.id } ,{
+      link_sent_at: new Date(),
+    });
+    return updatedBatch;
+  },
+  async sendEmailOnCreationAndCompletion(batch){
+    try {
+      const {name,start_date,enrollment_type,institution,srmName,certifiedStudents,droppedOutStudents,enrolledStudents,end_date,status,srmEmail,managerEmail,id} = batch;
+      const formationBatchEmail = {
+        subject: `Formation Mail – ${name}`,
+        text: `Batch ${name} has been created.`,
+        html: `<p>A new batch has been successfully created by ${srmName}. Below are the details:</p>
+              <ul>
+                <li><strong>Batch Name:</strong> ${name}</li>
+                <li><strong>Batch Start Date:</strong> ${start_date.toISOString().slice(0, 10)}</li>
+                <li><strong>Number of Students Registered:</strong> ${enrolledStudents}</li>
+                <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+                <li><strong>College Name:</strong> ${institution}</li>
+              </ul>
+              <p>Best,<br>${srmName}</p>`,
+      };
+      
+      const closureBatchEmail = {
+        subject: `Closure Mail – ${name}`,
+        text: `Batch ${name} has been completed.`,
+        html: `<p>A batch has been successfully marked as complete by ${srmName}. Below are the details:</p>
+            <ul>
+              <li><strong>Batch Name:</strong> ${name}</li>
+              <li><strong>Batch End Date:</strong> ${end_date.toISOString().slice(0, 10)}</li>
+              <li><strong>Number of Certified Students:</strong> ${certifiedStudents}</li>
+              <li><strong>Number of Dropout Students:</strong> ${droppedOutStudents}</li>
+              <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+              <li><strong>College Name:</strong> ${institution}</li>
+            </ul>
+            <p>Best,<br>${srmName}</p>`,
+      };
+      
+      const emailTemplate = status === "Enrollment Complete -- To Be Started"?formationBatchEmail:closureBatchEmail;
+      const email = "sis-batchinfo@medha.org.in";
+      const ccEmail = [srmEmail,managerEmail];
+    
+      await strapi.plugins['email'].services.email.sendTemplatedEmail({
+        to: "deepak.sharma@medha.org.in",
+        cc:ccEmail
+      }, emailTemplate);
+
+      if (status === "Enrollment Complete -- To Be Started") {
+        await strapi.services.batches.update(
+          { id }, 
+          { 
+            formation_mail_sent: true, 
+            last_attendance_date: new Date().toISOString().split("T")[0]
+          }
+        );
+        
       } else {
-        const values = await strapi.query("college-pitch").find({
-          isactive: true,
-          _limit: 100,
-          _start: 0,
-        });
-
-        const uniqueValuesSet = new Set();
-
-        for (let row = 0; row < values.length; row++) {
-          let valueToAdd;
-
-          if (field) {
-            valueToAdd = values[row][field];
-          }
-
-          if (!uniqueValuesSet.has(valueToAdd)) {
-            optionsArray.push({
-              key: row,
-              label: valueToAdd,
-              value: valueToAdd,
-            });
-            uniqueValuesSet.add(valueToAdd);
-          }
-        }
-
-        return ctx.send(optionsArray);
+        await strapi.services.batches.update({ id }, { closure_mail_sent: true });
       }
     } catch (error) {
-      return ctx.badRequest(
-        "An error occurred while fetching distinct values."
-      );
+      console.log("error",error)
+      throw new Error(error.message);
     }
   },
-  async updateLastStatusChanged(batch){
+  async emailPreClosedLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].preBatchlinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  },
+  async emailPostClosedLinks(batch){
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].postBatchLinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  }
+  ,
+  async updateLastAttendanceDate(batch) {
     try {
-
       let updatedBatch = await strapi.services['batches'].update(
-        { id: batch},
-        { status_changed_date: new Date().toISOString().split("T")[0] }
+        { id: batch }, 
+        { last_attendance_date: new Date().toISOString().split("T")[0] }
       );
   
+      console.log(updatedBatch);
       return updatedBatch;
     } catch (error) {
-      console.error("Error updating last status changed date:", error);
+      console.error("Error updating last attendance date:", error);
       return null;
     }
   }
-};
+,  
+async updateLastStatusChanged(batch) {
+  try {
+   
+    let updatedBatch = await strapi.services['batches'].update(
+      { id: batch},
+      { status_changed_date: new Date().toISOString().split("T")[0] }
+    );
+
+    console.log(updatedBatch);
+    return updatedBatch;
+  } catch (error) {
+    console.error("Error updating last status changed date:", error);
+    return null;
+  }
+}
+}
