@@ -77,6 +77,7 @@ module.exports = {
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     programEnrollments.forEach(async programEnrollment => {
       let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+
       let medha_program_certificate_status = isEligibleForCertification ? 'processing' : 'low-attendance';
       await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
         medha_program_certificate_status: medha_program_certificate_status,
@@ -179,7 +180,7 @@ module.exports = {
     
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
         to: email,
-        cc: ccEmail
+        cc:ccEmail
       }, emailTemplate);
 
       if (status === "Enrollment Complete -- To Be Started") {
@@ -189,13 +190,36 @@ module.exports = {
             formation_mail_sent: true, 
             last_attendance_date: new Date().toISOString().split("T")[0]
           }
-        );      
+        );
+        
       } else {
         await strapi.services.batches.update({ id }, { closure_mail_sent: true });
       }
     } catch (error) {
       console.log("error",error)
       throw new Error(error.message);
+    }
+  },
+  async emailPreClosedLinks(batch) {
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].preBatchlinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
+    }
+  },
+  async emailPostClosedLinks(batch){
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+    for (const programEnrollment of programEnrollments) {
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await strapi.services['program-enrollments'].postBatchLinks(programEnrollment);
+      } catch (error) {
+        console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
+      }
     }
   }
   ,
@@ -205,25 +229,28 @@ module.exports = {
         { id: batch }, 
         { last_attendance_date: new Date().toISOString().split("T")[0] }
       );
-
+  
+      console.log(updatedBatch);
       return updatedBatch;
     } catch (error) {
       console.error("Error updating last attendance date:", error);
       return null;
     }
-  },
-  async updateLastStatusChanged(batch){
-    try {
-
-      let updatedBatch = await strapi.services['batches'].update(
-        { id: batch},
-        { status_changed_date: new Date().toISOString().split("T")[0] }
-      );
-  
-      return updatedBatch;
-    } catch (error) {
-      console.error("Error updating last status changed date:", error);
-      return null;
-    }
   }
-};
+,  
+async updateLastStatusChanged(batch) {
+  try {
+   
+    let updatedBatch = await strapi.services['batches'].update(
+      { id: batch},
+      { status_changed_date: new Date().toISOString().split("T")[0] }
+    );
+
+    console.log(updatedBatch);
+    return updatedBatch;
+  } catch (error) {
+    console.error("Error updating last status changed date:", error);
+    return null;
+  }
+}
+}
