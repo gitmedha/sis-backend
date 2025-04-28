@@ -20,78 +20,172 @@ module.exports = {
   },
 
   async handleProgramEnrollmentOnCertification(batch) {
-    await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
+    try {
+      console.log(`[Certification] Starting certification process for batch ${batch.id}`);
+      
+      await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
+      console.log(`[Certification] Completed handleProgramEnrollmentOnCompletion for batch ${batch.id}`);
 
-    let changeAttandance= false ;
-    if(batch.program.name === "Pehli Udaan"){
-      changeAttandance = true
-    }
+      let changeAttandance = batch.program.name === "Pehli Udaan";
+      
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+      console.log(`[Certification] Found ${programEnrollments.length} enrollments to process for batch ${batch.id}`);
+      
+      const results = await Promise.allSettled(programEnrollments.map(async programEnrollment => {
+        try {
+          console.log(`[Certification] Processing enrollment ${programEnrollment.id}`);
+          
+          let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment, changeAttandance);
+          console.log(`[Certification] Enrollment ${programEnrollment.id} eligibility: ${isEligibleForCertification}`);
 
-    // update certification date for the program enrollment record
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    programEnrollments.forEach(async programEnrollment => {
+          if (!isEligibleForCertification) {
+            const status = changeAttandance ? 
+              'Not Certified by Medha -- <100% Attendance' : 
+              'Not Certified by Medha -- <75% Attendance';
+              
+            await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, { status });
+            console.log(`[Certification] Marked enrollment ${programEnrollment.id} as not certified`);
+            return { success: true, id: programEnrollment.id, status: 'not-eligible' };
+          }
 
-      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance);
+          let today = programEnrollment.certification_date ? 
+            new Date(programEnrollment.certification_date).toISOString().split('T')[0] :
+            new Date().toISOString().split('T')[0];
 
-      if (!isEligibleForCertification) {
-        if(changeAttandance){
           await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-            status: 'Not Certified by Medha -- <100% Attendance'
+            certification_date: today,
+            status: 'Certified by Medha'
           });
-          return;
 
-        }
-        else {
-          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-            status: 'Not Certified by Medha -- <75% Attendance'
+          await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+            status: 'Certified',
           });
-          return;
+          
+          console.log(`[Certification] Successfully certified enrollment ${programEnrollment.id}`);
+          return { success: true, id: programEnrollment.id, status: 'certified' };
+        } catch (error) {
+          console.error(`[Certification] Error processing enrollment ${programEnrollment.id}:`, error);
+          return { success: false, id: programEnrollment.id, error: error.message };
         }
-      }
-      let today = new Date().toISOString().split('T')[0]
-      if (programEnrollment.certification_date !== null) {
-        today = new Date(programEnrollment.certification_date).toISOString().split('T')[0]
-      }
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-        certification_date: today,
-        status: 'Certified by Medha'
-      });
+      }));
 
-      // update status for the student record
-      await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+      const failedEnrollments = results.filter(r => r.status === 'rejected' || (r.value && !r.value.success));
+      if (failedEnrollments.length > 0) {
+        console.error(`[Certification] Failed enrollments:`, failedEnrollments);
+      }
+
+      const updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
         status: 'Certified',
       });
-    });
-
-    // update status for the batch
-    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-      status: 'Certified',
-    });
-    return updatedBatch;
+      console.log(`[Certification] Updated batch ${batch.id} status to Certified`);
+      return updatedBatch;
+    } catch (error) {
+      console.error('[Certification] Error in handleProgramEnrollmentOnCertification:', error);
+      throw error;
+    }
   },
 
+  // ... existing code ...
   async generateProgramEnrollmentCertificates(batch) {
-    await strapi.services['batches'].handleProgramEnrollmentOnCertification(batch);
-
-    // update medha_program_certificate_status so that certificates can be generated by cron
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-    programEnrollments.forEach(async programEnrollment => {
-      let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
-
-      let medha_program_certificate_status = isEligibleForCertification ? 'processing' : 'low-attendance';
-      await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
-        medha_program_certificate_status: medha_program_certificate_status,
-      });
-      if(isEligibleForCertification){
-        await strapi.services['program-enrollments'].generateCertificate(programEnrollment)
+    try {
+      console.log(`[Generation] Starting certificate generation for batch ${batch.id}`);
+      
+      // Step 1: Verify batch exists and has required data
+      if (!batch || !batch.id) {
+        throw new Error('Invalid batch data provided');
       }
-    });
+      
+      // Step 2: Handle certification
+      try {
+        await strapi.services['batches'].handleProgramEnrollmentOnCertification(batch);
+        console.log(`[Generation] Completed certification process for batch ${batch.id}`);
+      } catch (certError) {
+        console.error('[Generation] Error in certification process:', certError);
+        throw certError;
+      }
 
-    let updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-      certificates_generated_at: new Date(),
-    });
-    return updatedBatch;
-  },
+      // Step 3: Get program enrollments
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+      console.log(`[Generation] Found ${programEnrollments.length} enrollments to process for certificate generation`);
+      
+      if (!programEnrollments || programEnrollments.length === 0) {
+        throw new Error(`No program enrollments found for batch ${batch.id}`);
+      }
+
+      const maxRetries = 3;
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      // Step 4: Process each enrollment
+      for (const programEnrollment of programEnrollments) {
+        let retryCount = 0;
+        let success = false;
+
+        while (retryCount < maxRetries && !success) {
+          try {
+            console.log(`[Generation] Processing enrollment ${programEnrollment.id}, attempt ${retryCount + 1}`);
+            
+            // Check eligibility
+            const isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
+            console.log(`[Generation] Enrollment ${programEnrollment.id} eligibility: ${isEligibleForCertification}`);
+            
+            // Update status
+            const medha_program_certificate_status = isEligibleForCertification ? 'processing' : 'low-attendance';
+            await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+              medha_program_certificate_status: medha_program_certificate_status,
+            });
+
+            // Generate certificate if eligible
+            if (isEligibleForCertification) {
+              console.log(`[Generation] Attempting to generate certificate for enrollment ${programEnrollment.id}`);
+              try {
+                await strapi.services['program-enrollments'].generateCertificate(programEnrollment);
+                console.log(`[Generation] Successfully generated certificate for enrollment ${programEnrollment.id}`);
+                success = true;
+              } catch (certGenError) {
+                console.error(`[Generation] Certificate generation error for enrollment ${programEnrollment.id}:`, certGenError);
+                throw certGenError;
+              }
+            } else {
+              console.log(`[Generation] Skipping certificate generation for ineligible enrollment ${programEnrollment.id}`);
+              success = true; // Mark as success since we're intentionally skipping
+            }
+          } catch (error) {
+            console.error(`[Generation] Error in attempt ${retryCount + 1} for enrollment ${programEnrollment.id}:`, error);
+            
+            if (retryCount < maxRetries - 1) {
+              retryCount++;
+              const waitTime = 1000 * Math.pow(2, retryCount); // Exponential backoff
+              console.log(`[Generation] Waiting ${waitTime}ms before retry ${retryCount} for enrollment ${programEnrollment.id}`);
+              await delay(waitTime);
+            } else {
+              console.error(`[Generation] All attempts failed for enrollment ${programEnrollment.id}`);
+              // Update status to indicate failure
+              await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+                medha_program_certificate_status: 'failed',
+              }).catch(updateError => {
+                console.error(`[Generation] Failed to update status for enrollment ${programEnrollment.id}:`, updateError);
+              });
+            }
+          }
+        }
+      }
+
+      // Step 5: Update batch status
+      try {
+        const updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+          certificates_generated_at: new Date(),
+        });
+        console.log(`[Generation] Successfully updated batch ${batch.id} with generation timestamp`);
+        return updatedBatch;
+      } catch (updateError) {
+        console.error(`[Generation] Failed to update batch ${batch.id}:`, updateError);
+        throw updateError;
+      }
+    } catch (error) {
+      console.error('[Generation] Fatal error in generateProgramEnrollmentCertificates:', error);
+      throw error;
+    }
+  },                                                                                                                                                                                                                                    
 
   async sendCertificateEmailToSrm(batch) {
     // send email to batch SRM
