@@ -38,7 +38,9 @@
         "Male",
         "Female",
         "Other"
-      ]
+      ],
+      "default": "Male",
+      "required": false
     },
     "institution_type": {
       "type": "string"
@@ -58,6 +60,15 @@
       "type": "string"
     },
     "students": {
+      "type": "integer"
+    },
+    "faculty": {
+      "type": "integer"
+    },
+    "male": {
+      "type": "integer"
+    },
+    "female": {
       "type": "integer"
     }
   }
