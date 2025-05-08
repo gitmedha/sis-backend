@@ -330,7 +330,7 @@ module.exports = {
     }
 
     try {
-        const surveyLink = `${preBatchLink}${student_id}&batchid=${programEnrollment.batch.id}`;
+        const surveyLink = `${preBatchLink}${student_id}&batchname=${programEnrollment.batch.name}`;
         const emailTemplate = {
             subject:'The format of the email for PRE TEST:',
             text: `pre survey test`,
@@ -373,7 +373,7 @@ async postBatchLinks(programEnrollment) {
   }
 
   try {
-      const surveyLink = `${postBatchLink}${student_id}&batchid=${programEnrollment.batch.id}`;
+      const surveyLink = `${postBatchLink}${student_id}&batchname=${programEnrollment.batch.name}`;
       const emailTemplate = {
           subject: `The format of the email for POST TEST:`,
           text: 'post survey test',
