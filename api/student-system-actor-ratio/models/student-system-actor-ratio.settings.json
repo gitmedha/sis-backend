@@ -37,6 +37,12 @@
     },
     "designations": {
       "type": "string"
+    },
+    "male": {
+      "type": "decimal"
+    },
+    "female": {
+      "type": "decimal"
     }
   }
 }
