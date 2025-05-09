@@ -32,16 +32,6 @@
     "department": {
       "type": "string"
     },
-    "gender": {
-      "type": "enumeration",
-      "enum": [
-        "Male",
-        "Female",
-        "Other"
-      ],
-      "default": "Male",
-      "required": false
-    },
     "institution_type": {
       "type": "string"
     },
@@ -66,10 +56,10 @@
       "type": "integer"
     },
     "male": {
-      "type": "integer"
+      "type": "decimal"
     },
     "female": {
-      "type": "integer"
+      "type": "decimal"
     }
   }
 }
