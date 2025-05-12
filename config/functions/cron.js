@@ -45,7 +45,7 @@ module.exports = {
         // Skip batches within the grace period (excluding weekends)
         if (status_changed_date) {
             const workingDaysSinceStatusChange = countWeekdaysBetween(status_changed_date, now);
-            if (workingDaysSinceStatusChange < 5) {
+            if (workingDaysSinceStatusChange < 3) {
                 console.log(`Skipping batch ${name} (ID: ${id}): Status changed recently (${workingDaysSinceStatusChange} working days ago)`);
                 continue;
             }
@@ -54,7 +54,7 @@ module.exports = {
         // Check if last attendance was more than 5 working days ago
         if (last_attendance_date) {
             const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
-            if (workingDaysSinceAttendance > 5) {
+            if (workingDaysSinceAttendance > 3) {
                 // Generate the dynamic link
                 const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
