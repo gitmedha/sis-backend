@@ -32,14 +32,6 @@
     "department": {
       "type": "string"
     },
-    "gender": {
-      "type": "enumeration",
-      "enum": [
-        "Male",
-        "Female",
-        "Other"
-      ]
-    },
     "institution_type": {
       "type": "string"
     },
@@ -59,6 +51,15 @@
     },
     "students": {
       "type": "integer"
+    },
+    "faculty": {
+      "type": "integer"
+    },
+    "male": {
+      "type": "decimal"
+    },
+    "female": {
+      "type": "decimal"
     }
   }
 }

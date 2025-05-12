@@ -9,12 +9,22 @@ module.exports = {
     async createBulkOutreach(ctx) {
       const { body } = ctx.request;
       try {
-        console.log('backednd student outreach')
+        console.log('Received outreach data:', JSON.stringify(body));
+        
+        // Validate if body is an array
+        if (!Array.isArray(body)) {
+          return ctx.badRequest('Request body must be an array of records');
+        }
+
         const createdData = await strapi.services["student-outreach"].createMany(body);
-        return createdData;
+        return ctx.send(createdData);
       } catch (error) {
-        console.error(error);
-        throw error;
+        console.error('Error in createBulkOutreach:', error);
+        return ctx.send({ 
+          error: true,
+          message: error.message || 'An error occurred while creating records',
+          details: error.details || error
+        }, 500);
       }
     },
     async searchOps(ctx) {
