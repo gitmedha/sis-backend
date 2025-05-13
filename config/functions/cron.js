@@ -16,7 +16,7 @@ module.exports = {
   //   await generateCertificates();
   // },
  
-'00 12 * * 1-5': async () => { // Runs only Monday to Friday at 12:00 AM
+'00 11 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM
   try {
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
@@ -40,12 +40,11 @@ module.exports = {
         const now = moment();
 
         // Log dates for debugging
-        console.log(`Batch ${name} (ID: ${id}): status_changed_date = ${status_changed_date}, last_attendance_date = ${last_attendance_date}`);
 
         // Skip batches within the grace period (excluding weekends)
         if (status_changed_date) {
             const workingDaysSinceStatusChange = countWeekdaysBetween(status_changed_date, now);
-            if (workingDaysSinceStatusChange < 3) {
+            if (workingDaysSinceStatusChange < 5) {
                 console.log(`Skipping batch ${name} (ID: ${id}): Status changed recently (${workingDaysSinceStatusChange} working days ago)`);
                 continue;
             }
@@ -54,26 +53,29 @@ module.exports = {
         // Check if last attendance was more than 5 working days ago
         if (last_attendance_date) {
             const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
-            if (workingDaysSinceAttendance > 3) {
+            if (workingDaysSinceAttendance > 5) {
                 // Generate the dynamic link
                 const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
 
                 // Trigger email with error handling
+                const emailBody = {
+                  subject: `Reminder: Please Mark Attendance for Batch ${name}`,
+                  text: `Dear ${srmName},\n\nThis is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.\nPlease ensure it is marked within the next 2 days to maintain accurate records.\n\nYou can update the attendance by clicking on the following link:\n[Mark Attendance Now](${attendanceLink})\n\nBest,\nData Management`,
+                  html: `
+                  <p>Dear ${srmName},</p>
+                  <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
+                  <p>Please ensure it is marked by today to maintain accurate records.</p>
+                  <p><a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
+                  <p>Best,<br>Data Management</p>
+              `
+                }
                 try {
-                    await strapi.plugins['email'].services.email.send({
-                        to: srmEmail,
-                        cc: [managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in'],
-                        subject: `Reminder: Please Mark Attendance for Batch ${name}`,
-                        text: `Dear ${srmName},\n\nThis is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.\nPlease ensure it is marked within the next 2 days to maintain accurate records.\n\nYou can update the attendance by clicking on the following link:\n[Mark Attendance Now](${attendanceLink})\n\nBest,\nData Management`,
-                        html: `
-                            <p>Dear ${srmName},</p>
-                            <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
-                            <p>Please ensure it is marked within the next 2 days to maintain accurate records.</p>
-                            <p><a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
-                            <p>Best,<br>Data Management</p>
-                        `,
-                    });
+
+                  await strapi.plugins['email'].services.email.sendTemplatedEmail({
+                    to:srmEmail,
+                    cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+                  }, emailBody);
                     console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
                 } catch (emailError) {
                     console.error(`Failed to send email for batch ${id}:`, emailError);
