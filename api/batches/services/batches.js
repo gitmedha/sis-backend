@@ -273,7 +273,7 @@ module.exports = {
       const ccEmail = [srmEmail,managerEmail];
     
       await strapi.plugins['email'].services.email.sendTemplatedEmail({
-        to: "deepak.sharma@medha.org.in",
+        to: "sis.admin@medha.org.in",
         cc:ccEmail
       }, emailTemplate);
 
