@@ -54,7 +54,7 @@ module.exports = {
             const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
             if (workingDaysSinceAttendance > 5) {
                 // Generate the dynamic link
-                const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
+                const baseUrl = 'https://sisnew.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
 
                 // Trigger email with error handling
