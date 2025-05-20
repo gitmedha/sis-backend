@@ -308,10 +308,9 @@ module.exports = {
       return ctx.badRequest(error.message);
     }
   },
-  async sendReminderEmail (ctx){
+ async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
-      console.log("id",id);
         const batches = await strapi.services['batches'].find({ id:id});
     
         for (const batch of batches) {
@@ -325,37 +324,26 @@ module.exports = {
             const srmEmail = assignedTo.email;
             const managerEmail = assignedTo.reports_to?.email;
              // Generate the dynamic link
-             const baseUrl = 'https://sisstg.medha.org.in';
-             const attendanceLink = `${baseUrl}/batch/${id}`;
- 
+                const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
+                const attendanceLink = `${baseUrl}batch/${id}`;
              // Trigger email
-             await strapi.plugins['email'].services.email.send({
-                 to:'kirti.gour@medha.org.in',
-                 cc: ['deepak.sharma@medha.org.in','maryam.raza@medha.org.in','sanskaar.pradhan@medha.org.in'],
-                 subject: `Reminder: Mark Attendance for Batch ${name}`,
-                 text: `
-                     Dear ${srmName},
-                     
-                     This is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
-                     Please ensure it is marked within the next 2 days to maintain accurate records.
-                     
-                     You can update the attendance by clicking on the following link: [Mark Attendance Now](${attendanceLink})
-                     
-                     Best,
-                     Data Management
-                 `,
-                 html: `
-                     <p>Dear ${srmName},</p>
-                     <p>
-                         This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
-                         Please ensure it is marked within the next 2 days to maintain accurate records.
-                     </p>
-                     <p>
-                         You can update the attendance by clicking on the following link: <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a>
-                     </p>
-                     <p>Best,<br>Data Management</p>
-                 `,
-             });
+
+             const emailBody = {
+                               subject: `Reminder: Please Mark Attendance for Batch ${name}`,
+                               text: `Dear ${srmName},\n\nThis is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.\nPlease ensure it is marked within the next 2 days to maintain accurate records.\n\nYou can update the attendance by clicking on the following link:\n[Mark Attendance Now](${attendanceLink})\n\nBest,\nData Management`,
+                               html: `
+                               <p>Dear ${srmName},</p>
+                               <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
+                               <p>Please ensure it is marked by today to maintain accurate records.</p>
+                               <p><a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
+                               <p>Best,<br>Data Management</p>
+                           `
+                             }
+
+             await strapi.plugins['email'].services.email.sendTemplatedEmail({
+              to:'deepak.sharma@medha.org.in',
+              // cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+             },emailBody)
     
         }
         return ctx.send("successfully! reminder sent");
