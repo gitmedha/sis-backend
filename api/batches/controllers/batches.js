@@ -324,7 +324,7 @@ module.exports = {
             const srmEmail = assignedTo.email;
             const managerEmail = assignedTo.reports_to?.email;
              // Generate the dynamic link
-                const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
+                const baseUrl ='https://sisstg.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
              // Trigger email
 
@@ -335,14 +335,14 @@ module.exports = {
                                <p>Dear ${srmName},</p>
                                <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
                                <p>Please ensure it is marked by today to maintain accurate records.</p>
-                               <p><a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
+                               <p>You can update the attendance by clicking on the following link : <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
                                <p>Best,<br>Data Management</p>
                            `
                              }
 
              await strapi.plugins['email'].services.email.sendTemplatedEmail({
-              to:'deepak.sharma@medha.org.in',
-              // cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+              to:srmEmail,
+              cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
              },emailBody)
     
         }
