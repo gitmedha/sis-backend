@@ -324,7 +324,7 @@ module.exports = {
             const srmEmail = assignedTo.email;
             const managerEmail = assignedTo.reports_to?.email;
              // Generate the dynamic link
-                const baseUrl = process.env.NODE_ENV === 'development' ?'https://sisstg.medha.org.in/':'https://sisnew.medha.org.in/';
+                const baseUrl ='https://sisstg.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
              // Trigger email
 
