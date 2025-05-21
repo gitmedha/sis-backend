@@ -335,7 +335,7 @@ module.exports = {
                                <p>Dear ${srmName},</p>
                                <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
                                <p>Please ensure it is marked by today to maintain accurate records.</p>
-                               <p><a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
+                               <p>You can update the attendance by clicking on the following link : <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
                                <p>Best,<br>Data Management</p>
                            `
                              }
