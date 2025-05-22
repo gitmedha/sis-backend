@@ -121,7 +121,14 @@
     "closure_mail_sent": {
       "type": "boolean",
       "default": false
+    },
+    "manual_email_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "reminder_sent": {
+      "type": "boolean",
+      "default": false
     }
   }
- 
 }
