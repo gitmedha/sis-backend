@@ -308,7 +308,8 @@ module.exports = {
       return ctx.badRequest(error.message);
     }
   },
- async sendReminderEmail (ctx){
+ 
+  async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
         const batches = await strapi.services['batches'].find({ id:id});
@@ -344,13 +345,15 @@ module.exports = {
               to:srmEmail,
               cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
              },emailBody)
+
+             await strapi.services['batches'].update({ id }, {manual_email_sent: true, reminder_sent: true});
     
         }
         return ctx.send("successfully! reminder sent");
 
       }catch(e){
         console.log('Error in cron job', e);
-      }   
+      }
   }
 
 };
