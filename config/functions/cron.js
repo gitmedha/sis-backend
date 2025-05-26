@@ -77,6 +77,9 @@ module.exports = {
                     to:srmEmail,
                     cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
                   }, emailBody);
+                  
+                  await strapi.services['batches'].update({ id }, { reminder_sent: true});
+
                     console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
                 } catch (emailError) {
                     console.error(`Failed to send email for batch ${id}:`, emailError);
