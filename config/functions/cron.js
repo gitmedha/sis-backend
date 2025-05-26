@@ -15,7 +15,9 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
-'00 11 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM
+
+  //Setted up utc 05:30 AM which is 11:00 PM IST 
+'30 5 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM IST
   try {
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
@@ -75,6 +77,9 @@ module.exports = {
                     to:srmEmail,
                     cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
                   }, emailBody);
+                  
+                  await strapi.services['batches'].update({ id }, { reminder_sent: true});
+
                     console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
                 } catch (emailError) {
                     console.error(`Failed to send email for batch ${id}:`, emailError);
