@@ -19,7 +19,7 @@ module.exports = {
     let student_id  = programEnrollment.student.student_id
     let program_name = program.name
     let institution_name = programEnrollment.institution.name
-    let course_name = programEnrollment.course_name_in_current_sis
+    let course_name = programEnrollment.course_name_in_current_sis ==='Other' ? programEnrollment.course_name_other:programEnrollment.course_name_in_current_sis;
 
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
