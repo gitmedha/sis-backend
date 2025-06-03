@@ -324,8 +324,8 @@ module.exports = {
             const srmName = assignedTo.username;
             const srmEmail = assignedTo.email;
             const managerEmail = assignedTo.reports_to?.email;
-             // Generate the dynamic link
-                const baseUrl ='https://sisstg.medha.org.in/';
+            
+                const baseUrl ='https://sisnew.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
              // Trigger email
 
