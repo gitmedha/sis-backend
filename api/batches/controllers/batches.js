@@ -35,7 +35,7 @@ module.exports = {
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
     
-    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
+    if(data.status === 'Enrollment Complete -- To Be Started'){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -195,8 +195,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("batches").count();
       const values = await strapi.query("batches").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||
@@ -276,6 +277,38 @@ module.exports = {
       return ctx.badRequest(error.message);
     }
   },
+
+  async sendPreBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPreClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { pre_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+  async sendPostBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPostClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { post_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+ 
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
@@ -322,4 +355,5 @@ module.exports = {
         console.log('Error in cron job', e);
       }
   }
+
 };
