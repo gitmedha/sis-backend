@@ -47,6 +47,48 @@ module.exports = {
             });
             return ctx.send(records);
           }
+          else if (searchField === 'age') {
+                let ageRange = searchValue; // e.g., "18-25" or "56+"
+                let ageConditions = {};
+
+                if (ageRange.includes('+')) {
+                  // Handle cases like "56+"
+                  const minAge = parseInt(ageRange.replace('+', ''), 10);
+                  ageConditions = {
+                    age_gte: minAge,
+                  };
+                } else {
+                  // Handle ranges like "18-25"
+                  const [minAge, maxAge] = ageRange.split('-').map(Number);
+                  ageConditions = {
+                    age_gte: minAge,
+                    age_lte: maxAge,
+                  };
+                }
+
+                const records = await strapi.query('users-tot').find({
+                  ...ageConditions,
+                  isactive: true,
+                  _limit: 1000000,
+                  _start: 0,
+                });
+
+                return ctx.send(records);
+              }
+          else if (searchField === "gender"){
+            const records = await strapi.query('users-tot').find({
+              [searchField]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            
+            
+      
+
+            return ctx.send(records);
+
+          }
           else {
 
             const records = await strapi.query('users-tot').find({
