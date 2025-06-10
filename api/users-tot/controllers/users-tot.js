@@ -55,17 +55,89 @@ module.exports = {
 //         _start: 0
 //       });
       
-      
+      async searchOps(ctx) {
+        const { searchField, searchValue } = ctx.request.body;
 
+        try {
+          if (!searchField || !searchValue) {
+            return ctx.badRequest('Field and value are required.');
+          }
 
-//       return ctx.send(records);
-//     }
+          if(searchField ==="start_date"){
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_gte`]: new Date(searchValue.start),
+              [`${searchField}_lte`]: new Date(searchValue.end),
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            return ctx.send(records);
+          }
+          else if(searchField === "end_date"){
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_gte`]: new Date(searchValue.start),
+              [`${searchField}_lte`]: new Date(searchValue.end),
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            return ctx.send(records);
+          }
+          // else if (searchField === 'age') {
+          //       let ageRange = searchValue; // e.g., "18-25" or "56+"
+          //       let ageConditions = {};
+
+          //       if (ageRange.includes('+')) {
+          //         // Handle cases like "56+"
+          //         const minAge = parseInt(ageRange.replace('+', ''), 10);
+          //         ageConditions = {
+          //           age_gte: minAge,
+          //         };
+          //       } else {
+          //         // Handle ranges like "18-25"
+          //         const [minAge, maxAge] = ageRange.split('-').map(Number);
+          //         ageConditions = {
+          //           age_gte: minAge,
+          //           age_lte: maxAge,
+          //         };
+          //       }
+
+          //       const records = await strapi.query('users-tot').find({
+          //         ...ageConditions,
+          //         isactive: true,
+          //         _limit: 1000000,
+          //         _start: 0,
+          //       });
+
+          //       return ctx.send(records);
+          //     }
+          else if (searchField === "gender"){
+            const records = await strapi.query('users-tot').find({
+              [searchField]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            
+            return ctx.send(records);
+
+          }
+          else {
+
+            const records = await strapi.query('users-tot').find({
+              [`${searchField}_contains`]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+      return ctx.send(records);
+    }
     
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-//  },
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+ },
 
 async searchOps(ctx) {
   console.log("Request Body:", ctx.request.body); // Log the request body
