@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -6,18 +6,54 @@
  */
 
 module.exports = {
-    async createBulkTots(ctx) {
-        const { body } = ctx.request;
-        
-        try {
-          const createdData = await strapi.services['users-tot'].createMany(body);
-          return createdData;
-       
-        } catch (error) {
-          console.error(error);
-          throw error;
-        }
-      },
+  async createBulkTots(ctx) {
+    const { body } = ctx.request;
+    try {
+      const createdData = await strapi.services["users-tot"].createMany(body);
+      return createdData;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  
+//  async searchOps(ctx){
+//   try {
+//     const { searchField, searchValue } = ctx.request.body;
+
+//       // Validate if searchField and searchValue are provided
+//     if (!searchField || !searchValue) {
+//       return ctx.badRequest('Field and value are required.');
+//     }
+
+//     if(searchField ==="start_date"){
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_gte`]: new Date(searchValue.start),
+//         [`${searchField}_lte`]: new Date(searchValue.end),
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
+//       return ctx.send(records);
+//     }
+//     else if(searchField === "end_date"){
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_gte`]: new Date(searchValue.start),
+//         [`${searchField}_lte`]: new Date(searchValue.end),
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
+//       return ctx.send(records);
+//     }
+//     else {
+
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_contains`]: searchValue,
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
       
       async searchOps(ctx) {
         const { searchField, searchValue } = ctx.request.body;
@@ -47,6 +83,45 @@ module.exports = {
             });
             return ctx.send(records);
           }
+          // else if (searchField === 'age') {
+          //       let ageRange = searchValue; // e.g., "18-25" or "56+"
+          //       let ageConditions = {};
+
+          //       if (ageRange.includes('+')) {
+          //         // Handle cases like "56+"
+          //         const minAge = parseInt(ageRange.replace('+', ''), 10);
+          //         ageConditions = {
+          //           age_gte: minAge,
+          //         };
+          //       } else {
+          //         // Handle ranges like "18-25"
+          //         const [minAge, maxAge] = ageRange.split('-').map(Number);
+          //         ageConditions = {
+          //           age_gte: minAge,
+          //           age_lte: maxAge,
+          //         };
+          //       }
+
+          //       const records = await strapi.query('users-tot').find({
+          //         ...ageConditions,
+          //         isactive: true,
+          //         _limit: 1000000,
+          //         _start: 0,
+          //       });
+
+          //       return ctx.send(records);
+          //     }
+          else if (searchField === "gender"){
+            const records = await strapi.query('users-tot').find({
+              [searchField]: searchValue,
+              isactive:true,
+              _limit:1000000,
+              _start: 0
+            });
+            
+            return ctx.send(records);
+
+          }
           else {
 
             const records = await strapi.query('users-tot').find({
@@ -55,18 +130,75 @@ module.exports = {
               _limit:1000000,
               _start: 0
             });
-            
-            
-      
+      return ctx.send(records);
+    }
+    
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+ },
 
-            return ctx.send(records);
-          }
-          
-        } catch (error) {
-          console.log(error);
-          throw error;
+async searchOps(ctx) {
+  console.log("Request Body:", ctx.request.body); // Log the request body
+
+  const { searchFields, searchValues } = ctx.request.body;
+
+  try {
+    // Validate if searchFields and searchValues are provided as equal-length arrays
+    if (
+      !Array.isArray(searchFields) ||
+      !Array.isArray(searchValues) ||
+      searchFields.length !== searchValues.length
+    ) {
+      console.error("Validation failed: Fields and values must be equal-length arrays.");
+      return ctx.badRequest('Fields and values must be provided as equal-length arrays.');
+    }
+
+    // Log the searchFields and searchValues
+    console.log("Search Fields:", searchFields);
+    console.log("Search Values:", searchValues);
+
+    // Initialize filters with default values
+    let filters = { isactive: true };
+
+    // Add search filters dynamically
+    searchFields.forEach((field, index) => {
+      if (field === "start_date" || field === "end_date") {
+        // Check if the searchValues[index] is an object with start and end properties
+        if (
+          !searchValues[index] ||
+          typeof searchValues[index] !== "object" ||
+          !searchValues[index].start ||
+          !searchValues[index].end
+        ) {
+          console.error(`Invalid date range for ${field}:`, searchValues[index]);
+          throw new Error(`Invalid date range for ${field}. Expected { start: "YYYY-MM-DD", end: "YYYY-MM-DD" }.`);
         }
-      },
+
+        // Handle date range filtering for start_date and end_date
+        filters[`${field}_gte`] = new Date(searchValues[index].start);
+        filters[`${field}_lte`] = new Date(searchValues[index].end);
+      } else {
+        // Handle partial matching for other fields
+        filters[`${field}_contains`] = searchValues[index];
+      }
+    });
+
+    console.log("Filters applied:", filters); // Debugging log
+
+    // Fetch records from the users-tot table
+    const records = await strapi.query('users-tot').find({ _where: filters });
+
+    console.log("Records found:", records.length); // Debugging log
+
+    // Return the fetched records or empty array if none found
+    return ctx.send(records.length > 0 ? records : []);
+  } catch (error) {
+    console.error('Error in searchOps:', error);
+    return ctx.internalServerError(error.message || 'Something went wrong.');
+  }
+},
       async findDistinctField(ctx) {
         const { field } = ctx.params; // Extract the field name from the query parameters
         let optionsArray = [];

@@ -167,10 +167,11 @@ module.exports = {
   async fetchAllInstitutions(ctx) {
     try {
       // Fetch all institutions without limits
-      const allInstitutions = await strapi.query('institutions').find({ _limit: -1 });
+      const allInstitutions = await strapi.query("institutions").find({ _limit: -1 });
       return allInstitutions;
     } catch (error) {
-      ctx.throw(500, 'An error occurred while fetching institutions.');
+      console.error("Error fetching institutions:", error);
+      ctx.throw(500, "An error occurred while fetching institutions.");
     }
   },
 };
