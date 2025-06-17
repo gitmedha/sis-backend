@@ -300,6 +300,7 @@ module.exports = {
       try {
         await new Promise(resolve => setTimeout(resolve, 1000));
         await strapi.services['program-enrollments'].preBatchlinks(programEnrollment);
+        break; // Exit after sending the first link
       } catch (error) {
         console.error(`Error processing program enrollment ${programEnrollment.id}:`, error);
       }

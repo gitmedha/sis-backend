@@ -308,43 +308,45 @@ module.exports = {
 
     return percentage;
   },
-  async preBatchlinks(programEnrollment) {
+ async preBatchlinks(programEnrollment) {
     const { student_id, email, full_name } = programEnrollment.student;
     const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+
+    // Replace spaces in batch name with hyphens for cleaner URL
+    const batchNameForUrl = programEnrollment.batch.name.replace(/\s+/g, '-');
 
     let preBatchLink;
 
     switch (name) {
         case 'Technology Advancement Bootcamp':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=${student_id},caseid=${batchNameForUrl}`;
             break;
         case 'Svapoorna':
-             preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=${student_id},caseid=${batchNameForUrl}`;
             break;
         case 'Swarambh':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=${student_id},caseid=${batchNameForUrl}`;
             break;
         default:
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=${student_id},caseid=${batchNameForUrl}`;
             break;
     }
 
     try {
-        const surveyLink = `${preBatchLink}${student_id}&batchname=${programEnrollment.batch.name}`;
         const emailTemplate = {
-            subject:'The format of the email for PRE TEST:',
+            subject: 'The format of the email for PRE TEST:',
             text: `pre survey test`,
             html: `
                 <p>Hi ${full_name},</p>
                 <p>We kindly request you to complete this short pre-test survey to share your valuable input:</p>
-                <p><a href="${surveyLink}">Click here to take the survey</a></p>
+                <p><a href="${preBatchLink}">Click here to take the survey</a></p>
                 <p>Your feedback will help us design the program to better meet your needs.</p>
                 <p>If you have any questions, feel free to reach out to us.</p>
                 <p>Best regards,<br>Medha Team</p>
             `,
         };
         await strapi.plugins['email'].services.email.sendTemplatedEmail({
-            to: email
+            to: 'deepak.sharma@medha.org.in'
         }, emailTemplate);
 
     } catch (error) {
