@@ -31,6 +31,7 @@ module.exports = {
         data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
+   
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
