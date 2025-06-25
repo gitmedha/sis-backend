@@ -19,23 +19,38 @@ module.exports = {
     }
   },
   async searchOps(ctx) {
-    const { searchField, searchValue } = ctx.request.body;
-
+    const { searchFields, searchValues } = ctx.request.body;
+  
     try {
-      if (!searchField || !searchValue) {
-        return ctx.badRequest("Field and value are required.");
+      // Validate input
+      if (
+        !Array.isArray(searchFields) ||
+        !Array.isArray(searchValues) ||
+        searchFields.length !== searchValues.length
+      ) {
+        return ctx.badRequest("Fields and values must be provided as equal-length arrays.");
       }
-
-      const records = await strapi.query("college-pitch").find({
-        [`${searchField}_contains`]: searchValue,
-        isactive: true,
-        _limit: 1000000,
-        _start: 0,
+  
+      // Initialize filters
+      let filters = { isactive: true, _limit: 1000000, _start: 0 };
+  
+      // Add search filters dynamically
+      searchFields.forEach((field, index) => {
+        filters[`${field}_contains`] = searchValues[index]; // Using _contains for partial matches
       });
-
+  
+      console.log("Filters applied:", filters); // Debugging log
+  
+      // Query the database
+      const records = await strapi.query("college-pitch").find(filters);
+  
+      console.log("Records found:", records); // Debugging log
+  
+      // Return the results
       return ctx.send(records);
     } catch (error) {
-      throw error;
+      console.error("Error in searchOps:", error);
+      return ctx.internalServerError("Something went wrong.");
     }
   },
   async findDistinctField(ctx) {

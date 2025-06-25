@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/medhavi-memberships",
+      "handler": "medhavi-memberships.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medhavi-memberships/count",
+      "handler": "medhavi-memberships.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medhavi-memberships/:id",
+      "handler": "medhavi-memberships.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/medhavi-memberships",
+      "handler": "medhavi-memberships.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/medhavi-memberships/:id",
+      "handler": "medhavi-memberships.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/medhavi-memberships/:id",
+      "handler": "medhavi-memberships.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
