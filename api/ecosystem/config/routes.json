@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/ecosystems",
+      "handler": "ecosystem.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystems/count",
+      "handler": "ecosystem.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystems/:id",
+      "handler": "ecosystem.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ecosystems",
+      "handler": "ecosystem.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/ecosystems/:id",
+      "handler": "ecosystem.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/ecosystems/:id",
+      "handler": "ecosystem.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
