@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ecosystems",
+  "info": {
+    "name": "ecosystem",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "activity_type": {
+      "type": "string"
+    },
+    "date_of_activity": {
+      "type": "date"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "govt_dept_partner_with": {
+      "type": "string"
+    },
+    "type_of_partner": {
+      "type": "string"
+    },
+    "employer_name_external_party_ngo_partner_with": {
+      "type": "string"
+    },
+    "attended_students": {
+      "type": "integer"
+    },
+    "male_participants": {
+      "type": "integer"
+    },
+    "female_participants": {
+      "type": "integer"
+    },
+    "medha_poc_1": {
+      "type": "string"
+    },
+    "medha_poc_2": {
+      "type": "string"
+    },
+    "CreatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "UpdatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
