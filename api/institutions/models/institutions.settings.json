@@ -90,8 +90,11 @@
     },
     "source": {
       "type": "string",
-      "required": true,
+      "required": false,
       "default": "Core Programs"
+    },
+    "project_name": {
+      "type": "string"
     }
   }
 }
