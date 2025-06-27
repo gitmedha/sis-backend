@@ -12,7 +12,7 @@
   },
   "attributes": {
     "medhavi_member": {
-      "type": "boolean"
+      "type": "string"
     },
     "membership_fee": {
       "type": "integer"
