@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    }, 
+    {
+      "method":"POST",
+      "path":"/ecosystems/create-bulk-ecosystem",
+      "handler": "ecosystem.createBulkEcosystem",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
