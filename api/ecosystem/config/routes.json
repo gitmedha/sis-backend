@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystems/distinct/:field",
+      "handler": "ecosystem.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }
