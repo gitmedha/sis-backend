@@ -47,6 +47,22 @@
       "config": {
         "policies": []
       }
+    }, 
+    {
+      "method":"POST",
+      "path":"/ecosystems/create-bulk-ecosystem",
+      "handler": "ecosystem.createBulkEcosystem",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystems/distinct/:field",
+      "handler": "ecosystem.findDistinctField",
+      "config": {
+        "policies":[]
+      }
     }
   ]
 }
