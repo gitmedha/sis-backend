@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "medha_scale_projects",
+  "info": {
+    "name": "medha_scale_projects",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "state": {
+      "type": "string"
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "institution_type": {
+      "type": "string"
+    },
+    "active_status": {
+      "type": "enumeration",
+      "enum": [
+        "ongoing",
+        "closed"
+      ]
+    },
+    "poc": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "status": {
+      "type": "string"
+    },
+    "mou_status": {
+      "type": "string"
+    },
+    "funder": {
+      "type": "string"
+    },
+    "funder_target_number": {
+      "type": "text"
+    },
+    "project_time_period": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "isactive": {
+      "type": "boolean"
+    }
+  }
+}
