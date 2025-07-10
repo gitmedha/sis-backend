@@ -38,12 +38,6 @@
     "female_participants": {
       "type": "integer"
     },
-    "medha_poc_1": {
-      "type": "string"
-    },
-    "medha_poc_2": {
-      "type": "string"
-    },
     "CreatedBy": {
       "plugin": "users-permissions",
       "model": "user"
@@ -55,6 +49,14 @@
     "isactive": {
       "type": "boolean",
       "default": true
+    },
+    "medha_poc_1": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "medha_poc_2": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
