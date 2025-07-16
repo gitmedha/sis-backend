@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "curriculum_interventions",
+  "collectionName": "curricula",
   "info": {
-    "name": "curriculum_interventions",
+    "name": "curriculum",
     "description": ""
   },
   "options": {
@@ -14,7 +14,7 @@
     "module_created_for": {
       "type": "string"
     },
-    "module_developed_or_revised": {
+    "module_developed_revised": {
       "type": "string"
     },
     "start_date": {
@@ -26,21 +26,22 @@
     "module_name": {
       "type": "string"
     },
-    "government_department_partnered_with": {
-      "type": "string"
-    },
-    "created_by_frontend": {
-      "plugin": "users-permissions",
-      "model": "user"
-    },
-    "updated_by_frontend": {
+    "medha_poc": {
       "plugin": "users-permissions",
       "model": "user"
     },
     "isactive": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
-    "medha_poc": {
+    "govt_dept_partnered_with": {
+      "type": "string"
+    },
+    "CreatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "UpdatedBy": {
       "plugin": "users-permissions",
       "model": "user"
     }
