@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ecosystem_activities",
+  "info": {
+    "name": "ecosystem_activities",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "activity_type": {
+      "type": "string"
+    },
+    "date_of_the_activity": {
+      "type": "date"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "government_department_partnered_with": {
+      "type": "string"
+    },
+    "type_of_partner": {
+      "type": "string"
+    },
+    "name_of_the_employer_or_external_party_or_ngo_partnered_with": {
+      "type": "string"
+    },
+    "number_of_students_attended_activity": {
+      "type": "integer"
+    },
+    "male_participants": {
+      "type": "integer"
+    },
+    "female_participants": {
+      "type": "integer"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "isactive": {
+      "type": "boolean"
+    },
+    "medha_poc_1": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "medha_poc_2": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}
