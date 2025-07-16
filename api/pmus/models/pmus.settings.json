@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pmuses",
+  "info": {
+    "name": "pmus"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "year": {
+      "type": "date"
+    },
+    "pmu": {
+      "type": "string"
+    },
+    "State": {
+      "type": "string"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    },
+    "medha_poc": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}
