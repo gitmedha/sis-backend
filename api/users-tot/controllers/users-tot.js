@@ -56,7 +56,16 @@ module.exports = {
 //       });
       
       async searchOps(ctx) {
-        const { searchField, searchValue } = ctx.request.body;
+        let searchField, searchValue;
+        if (ctx.request.body.searchFields){
+           searchField = ctx.request.body.searchFields[0];
+           searchValue = ctx.request.body.searchValues[0];
+        }
+        else {
+           searchField = ctx.request.body.searchField;
+           searchValue = ctx.request.body.searchValue;
+        }
+
 
         try {
           if (!searchField || !searchValue) {
@@ -83,43 +92,24 @@ module.exports = {
             });
             return ctx.send(records);
           }
-          // else if (searchField === 'age') {
-          //       let ageRange = searchValue; // e.g., "18-25" or "56+"
-          //       let ageConditions = {};
-
-          //       if (ageRange.includes('+')) {
-          //         // Handle cases like "56+"
-          //         const minAge = parseInt(ageRange.replace('+', ''), 10);
-          //         ageConditions = {
-          //           age_gte: minAge,
-          //         };
-          //       } else {
-          //         // Handle ranges like "18-25"
-          //         const [minAge, maxAge] = ageRange.split('-').map(Number);
-          //         ageConditions = {
-          //           age_gte: minAge,
-          //           age_lte: maxAge,
-          //         };
-          //       }
-
-          //       const records = await strapi.query('users-tot').find({
-          //         ...ageConditions,
-          //         isactive: true,
-          //         _limit: 1000000,
-          //         _start: 0,
-          //       });
-
-          //       return ctx.send(records);
-          //     }
           else if (searchField === "gender"){
-            const records = await strapi.query('users-tot').find({
-              [searchField]: searchValue,
-              isactive:true,
-              _limit:1000000,
-              _start: 0
-            });
-            
-            return ctx.send(records);
+            const normalizedValue = searchValue.toLowerCase();
+            console.log("Normalized Value:", normalizedValue);
+
+  
+              // Get all active records first
+              const allRecords = await strapi.query('users-tot').find({
+                isactive: true,
+                _limit: 1000000,
+                _start: 0
+              });
+              
+              // Then filter by gender (case-insensitive)
+              const filteredRecords = allRecords.filter(record => 
+                record.gender && record.gender.toLowerCase() === normalizedValue
+              );
+              
+              return ctx.send(filteredRecords);
 
           }
           else {
