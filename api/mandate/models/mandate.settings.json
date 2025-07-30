@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mandates",
+  "info": {
+    "name": "Mandate",
+    "description": "Stores mandate or policy information."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "programme_name": {
+      "type": "string",
+      "required": true
+    },
+    "department_name": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "string",
+      "required": true
+    },
+    "mandate_title": {
+      "type": "string",
+      "required": true
+    },
+    "mandate_summary": {
+      "type": "text",
+      "required": true
+    },
+    "mandate_link": {
+      "type": "string",
+      "required": false
+    }
+  }
+} 

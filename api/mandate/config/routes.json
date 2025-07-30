@@ -1,0 +1,42 @@
+[
+  {
+    "method": "GET",
+    "path": "/mandates",
+    "handler": "mandate.find",
+    "config": {
+      "policies": []
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/mandates/:id",
+    "handler": "mandate.findOne",
+    "config": {
+      "policies": []
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/mandates",
+    "handler": "mandate.create",
+    "config": {
+      "policies": []
+    }
+  },
+  {
+    "method": "PUT",
+    "path": "/mandates/:id",
+    "handler": "mandate.update",
+    "config": {
+      "policies": []
+    }
+  },
+  {
+    "method": "DELETE",
+    "path": "/mandates/:id",
+    "handler": "mandate.delete",
+    "config": {
+      "policies": []
+    }
+  }
+] 
