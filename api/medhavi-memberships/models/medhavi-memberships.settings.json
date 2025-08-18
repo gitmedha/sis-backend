@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "medhavi_memberships",
+  "info": {
+    "name": "MedhaviMemberships",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "medhavi_member": {
+      "type": "string"
+    },
+    "membership_fee": {
+      "type": "integer"
+    },
+    "medhavi_member_id": {
+      "type": "string"
+    },
+    "date_of_payment": {
+      "type": "datetime"
+    },
+    "date_of_avail": {
+      "type": "datetime"
+    },
+    "date_of_settlement": {
+      "type": "datetime"
+    },
+    "receipt_number": {
+      "type": "string"
+    },
+    "tenure_completion_date": {
+      "type": "date"
+    },
+    "membership_status": {
+      "type": "string"
+    },
+    "reason_for_cancellation": {
+      "type": "string"
+    },
+    "studentID": {
+      "model": "students"
+    },
+     "assigned_to": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

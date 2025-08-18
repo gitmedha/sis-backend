@@ -22,6 +22,8 @@ module.exports = {
   async handleProgramEnrollmentOnCertification(batch) {
     try {
       console.log(`[Certification] Starting certification process for batch ${batch.id}`);
+      let batchStatus = batch.program.name === "MRC" ? "Complete - Not to be Certified" :"Certified";
+      let programStatus = batch.program.name === "MRC" ? "Batch Complete" : "Certified by Medha";
       
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
       console.log(`[Certification] Completed handleProgramEnrollmentOnCompletion for batch ${batch.id}`);
@@ -54,15 +56,16 @@ module.exports = {
 
           await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
             certification_date: today,
-            status: 'Certified by Medha'
+            status:programStatus,
           });
-
-          await strapi.services['students'].update({ id: programEnrollment.student.id }, {
-            status: 'Certified',
-          });
+          if(batch.program.name !== "MRC"){
+            await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+                      status: 'Certified',
+                    });
+          }
           
           console.log(`[Certification] Successfully certified enrollment ${programEnrollment.id}`);
-          return { success: true, id: programEnrollment.id, status: 'certified' };
+          return { success: true, id: programEnrollment.id, status: programStatus };
         } catch (error) {
           console.error(`[Certification] Error processing enrollment ${programEnrollment.id}:`, error);
           return { success: false, id: programEnrollment.id, error: error.message };
@@ -75,7 +78,7 @@ module.exports = {
       }
 
       const updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-        status: 'Certified',
+        status:batchStatus,
       });
       console.log(`[Certification] Updated batch ${batch.id} status to Certified`);
       return updatedBatch;
