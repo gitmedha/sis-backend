@@ -128,7 +128,48 @@ module.exports = {
    
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
+  },
+ async customPickList(ctx) {
+  const { field, table } = ctx.params;
+  let optionsArray = [];
+
+  try {
+    // Fetch only the requested field instead of all columns
+    const values = await strapi.query(table).find({}, [field]);
+
+    // Use a Set to avoid duplicates
+    const uniqueValues = new Set();
+
+    for (let row = 0; row < values.length; row++) {
+      let valueToAdd;
+
+      if (field === "assigned_to") {
+        valueToAdd = values[row][field]?.username;
+      } else if (field === "batch") {
+        valueToAdd = values[row][field]?.name;
+      } else {
+        valueToAdd = values[row][field];
+      }
+
+      if (valueToAdd) {
+        uniqueValues.add(valueToAdd);
+      }
+    }
+
+    // Convert to dropdown-friendly format
+    optionsArray = Array.from(uniqueValues).map((val, idx) => ({
+      key: idx,
+      label: val,
+      value: val,
+    }));
+
+    return ctx.send(optionsArray);
+  } catch (error) {
+    strapi.log.error(error);
+    return ctx.badRequest("An error occurred while fetching picklist values.");
   }
+}
+
   
     
 };
