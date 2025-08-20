@@ -71,7 +71,16 @@
       "config": {
         "policies":[]
       }
-    }
+    },
+    {
+  "method": "GET",
+  "path": "/users-ops-activities/custom-picklist/:table/:field",
+  "handler": "users-ops-activities.customPickList",
+  "config": {
+    "policies": []
+  }
+}
+
   
   ]
 }

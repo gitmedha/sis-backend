@@ -89,6 +89,11 @@
       "component": "common.mou-list"
     },
     "source": {
+      "type": "string",
+      "required": false,
+      "default": "Core Programs"
+    },
+    "project_name": {
       "type": "string"
     }
   }
