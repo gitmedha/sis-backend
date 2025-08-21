@@ -87,6 +87,9 @@
       "type": "component",
       "repeatable": true,
       "component": "common.mou-list"
+    },
+    "source": {
+      "type": "string"
     }
   }
 }
