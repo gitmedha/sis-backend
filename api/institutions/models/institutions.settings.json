@@ -90,6 +90,9 @@
     },
     "source": {
       "type": "string"
+    },
+    "project_name": {
+      "type": "string"
     }
   }
 }
