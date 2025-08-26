@@ -137,6 +137,12 @@
     "reminder_sent": {
       "type": "boolean",
       "default": false
+    },
+    "formation_email_date": {
+      "type": "date"
+    },
+    "closure_email_date": {
+      "type": "date"
     }
   }
 }
