@@ -20,82 +20,54 @@ module.exports = {
       },
       
       async searchOps(ctx) {
-        let searchField, searchValue;
-        if (ctx.request.body.searchFields){
-           searchField = ctx.request.body.searchFields[0];
-           searchValue = ctx.request.body.searchValues[0];
+  try {
+    let filters = {};
+    const { searchFields, searchValues, searchField, searchValue } = ctx.request.body;
+
+    if (searchFields && searchValues && searchFields.length > 0) {
+      searchFields.forEach((field, index) => {
+        const value = searchValues[index];
+
+        if (field === "start_date" || field === "end_date") {
+          filters[`${field}_gte`] = new Date(value.start);
+          filters[`${field}_lte`] = new Date(value.end);
+        } else if (field === "gender") {
+          filters[field] = value;
+        } else {
+          filters[`${field}_contains`] = value;
         }
-        else {
-           searchField = ctx.request.body.searchField;
-           searchValue = ctx.request.body.searchValue;
-        }
+      });
+    } 
+    else if (searchField && searchValue) {
+      if (searchField === "start_date" || searchField === "end_date") {
+        filters[`${searchField}_gte`] = new Date(searchValue.start);
+        filters[`${searchField}_lte`] = new Date(searchValue.end);
+      } else if (searchField === "gender") {
+        filters[searchField] = searchValue;
+      } else {
+        filters[`${searchField}_contains`] = searchValue;
+      }
+    } else {
+      return ctx.badRequest("Field and value are required.");
+    }
 
+    // Always apply isactive + limits
+    filters.isactive = true;
+console.log("Filters applied:", filters); 
 
-        try {
-          if (!searchField || !searchValue) {
-            return ctx.badRequest('Field and value are required.');
-          }
-
-          if(searchField ==="start_date"){
-            const records = await strapi.query('users-tot').find({
-              [`${searchField}_gte`]: new Date(searchValue.start),
-              [`${searchField}_lte`]: new Date(searchValue.end),
-              isactive:true,
-              _limit:1000000,
-              _start: 0
-            });
-            return ctx.send(records);
-          }
-          else if(searchField === "end_date"){
-            const records = await strapi.query('users-tot').find({
-              [`${searchField}_gte`]: new Date(searchValue.start),
-              [`${searchField}_lte`]: new Date(searchValue.end),
-              isactive:true,
-              _limit:1000000,
-              _start: 0
-            });
-            return ctx.send(records);
-          }
-          else if (searchField === "gender"){
-            const normalizedValue = searchValue.toLowerCase();
-            console.log("Normalized Value:", normalizedValue);
-
-  
-              // Get all active records first
-              const allRecords = await strapi.query('users-tot').find({
-                isactive: true,
-                _limit: 1000000,
-                _start: 0
-              });
-              
-              // Then filter by gender (case-insensitive)
-              const filteredRecords = allRecords.filter(record => 
-                record.gender && record.gender.toLowerCase() === normalizedValue
-              );
-              
-              return ctx.send(filteredRecords);
-
-          }
-          else {
-
-            const records = await strapi.query('users-tot').find({
-              [`${searchField}_contains`]: searchValue,
-              isactive:true,
-              _limit:1000000,
-              _start: 0
-            });
-            
-            
-      
-
-            return ctx.send(records);
-          }
-          
-        } catch (error) {
-          console.log(error);
-          throw error;
-        }
-      },
+    const records = await strapi.query("users-tot").find({
+      ...filters,
+      _limit: 1000000,
+      _start: 0,
+    });
+console.log("Records found:", records.length);
+    return ctx.send(records);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+,
       async findDistinctField(ctx) {
         const { field } = ctx.params; // Extract the field name from the query parameters
         let optionsArray = [];
