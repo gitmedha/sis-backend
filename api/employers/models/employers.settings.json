@@ -97,7 +97,7 @@
       "plugin": "users-permissions",
       "model": "user"
     },
-     "outsourced": {
+    "outsourced": {
       "type": "string"
     },
     "mou_file": {
@@ -111,6 +111,5 @@
       "required": false,
       "pluginOptions": {}
     }
-   
   }
 }
