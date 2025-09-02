@@ -307,7 +307,7 @@ module.exports = {
 
     return percentage;
   },
-  async preBatchlinks(programEnrollment) {
+ async preBatchlinks(programEnrollment) {
     const { student_id, email, full_name } = programEnrollment.student;
     const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
 
@@ -315,21 +315,21 @@ module.exports = {
 
     switch (name) {
         case 'Technology Advancement Bootcamp':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
             break;
         case 'Svapoorna':
-             preBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=${student_id}+${programEnrollment.batch.name}`;
             break;
         case 'Swarambh':
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
             break;
         default:
-            preBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=';
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
             break;
     }
 
     try {
-        const surveyLink = `${preBatchLink}${student_id}&batchname=${programEnrollment.batch.name}`;
+        const surveyLink = `${preBatchLink}&batchname=${programEnrollment.batch.name}`;
         const emailTemplate = {
             subject:'The format of the email for PRE TEST:',
             text: `pre survey test`,
@@ -342,57 +342,60 @@ module.exports = {
                 <p>Best regards,<br>Medha Team</p>
             `,
         };
-        await strapi.plugins['email'].services.email.sendTemplatedEmail({
-            to: email
-        }, emailTemplate);
-
+        await strapi.plugins['email'].services.email.sendTemplatedEmail(
+            { to: email },
+            emailTemplate
+        );
     } catch (error) {
         console.log(error);
         throw error;
     }
-}
-,
+},
+
 async postBatchLinks(programEnrollment) {
-  const { student_id, email, full_name } = programEnrollment.student;
-  const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
-  let postBatchLink;
-  switch (name) {
-      case 'Technology Advancement Bootcamp':
-          postBatchLink = 'https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=';
-          break;
-      case 'Svapoorna':
-          postBatchLink = 'https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=';
-          break;
-      case 'Swarambh':
-          postBatchLink = 'https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=';
-          break;
-      default:
-          postBatchLink = 'https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=';
-          break;
-  }
+    const { student_id, email, full_name } = programEnrollment.student;
+    const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
 
-  try {
-      const surveyLink = `${postBatchLink}${student_id}&batchname=${programEnrollment.batch.name}`;
-      const emailTemplate = {
-          subject: `The format of the email for POST TEST:`,
-          text: 'post survey test',
-          html: `
-              <p>Hi ${full_name},</p>
-              <p>We kindly request you to complete this short post-test survey to share your valuable feedback:</p>
-              <p><a href="${surveyLink}">Click here to take the survey</a></p>
-              <p>Your input will help us design the program to better meet your needs.</p>
-              <p>If you have any questions, feel free to reach out to us.</p>
-              <p>Best regards,<br>Medha Team</p>
-          `,
-      };
-      await strapi.plugins['email'].services.email.sendTemplatedEmail({
-          to:email
-      }, emailTemplate);
+    let postBatchLink;
 
-  } catch (error) {
-      console.log(error,"thus");
-      throw error;
-  }
+    switch (name) {
+        case 'Technology Advancement Bootcamp':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Svapoorna':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Swarambh':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        default:
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+    }
+
+    try {
+        const surveyLink = `${postBatchLink}&batchname=${programEnrollment.batch.name}`;
+        const emailTemplate = {
+            subject: `The format of the email for POST TEST:`,
+            text: 'post survey test',
+            html: `
+                <p>Hi ${full_name},</p>
+                <p>We kindly request you to complete this short post-test survey to share your valuable feedback:</p>
+                <p><a href="${surveyLink}">Click here to take the survey</a></p>
+                <p>Your input will help us design the program to better meet your needs.</p>
+                <p>If you have any questions, feel free to reach out to us.</p>
+                <p>Best regards,<br>Medha Team</p>
+            `,
+        };
+        await strapi.plugins['email'].services.email.sendTemplatedEmail(
+            { to: email },
+            emailTemplate
+        );
+    } catch (error) {
+        console.log(error, "thus");
+        throw error;
+    }
 }
+
 
 };
