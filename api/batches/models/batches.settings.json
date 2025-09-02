@@ -138,11 +138,8 @@
       "type": "boolean",
       "default": false
     },
-    "formation_email_date": {
-      "type": "date"
-    },
-    "closure_email_date": {
-      "type": "date"
+    "reminder_count": {
+      "type": "integer"
     }
   }
 }
