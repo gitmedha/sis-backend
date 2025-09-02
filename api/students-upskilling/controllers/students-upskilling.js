@@ -19,44 +19,47 @@ module.exports = {
         }
       },
       async searchOps(ctx) {
-        const { searchField, searchValue } = ctx.request.body;
+        const { searchFields, searchValues } = ctx.request.body;
       
         try {
-          if (!searchField || !searchValue) {
-            return ctx.badRequest('Field and value are required.');
+          // Validate input
+          if (
+            !Array.isArray(searchFields) ||
+            !Array.isArray(searchValues) ||
+            searchFields.length !== searchValues.length
+          ) {
+            return ctx.badRequest("Fields and values must be provided as equal-length arrays.");
           }
-          
-          if(searchValue.hasOwnProperty('start_date')){
-
-            const records = await strapi.query('students-upskilling').find({
-              'start_date_gte': searchValue.start_date,
-              'end_date_lte': searchValue.end_date,
-              isactive:true,
-              _limit: 1000000,
-              _start: 0,
-              _sort:`${searchField}:asc`
-            });
-            
       
-            return ctx.send(records);
-
-           
-          }
-          else {
-            const records = await strapi.query('students-upskilling').find({
-              [`${searchField}_contains`]: searchValue,
-              isactive:true,
-              _limit:1000000,
-              _start: 0
-            });
-            
-  
-            return ctx.send(records);
-          }
-         
+          // Initialize filters
+          let filters = { isactive: true, _limit: 1000000, _start: 0 };
+      
+          // Add search filters dynamically
+          searchFields.forEach((field, index) => {
+            const value = searchValues[index];
+      
+            if (typeof value === "object" && value.hasOwnProperty("start_date")) {
+              // Handle date range filters
+              filters[`${field}_gte`] = value.start_date; // Greater than or equal to start date
+              filters[`${field}_lte`] = value.end_date;   // Less than or equal to end date
+            } else {
+              // Handle regular text filters
+              filters[`${field}_contains`] = value; // Using _contains for partial matches
+            }
+          });
+      
+          console.log("Filters applied:", filters); // Debugging log
+      
+          // Query the database
+          const records = await strapi.query("students-upskilling").find(filters);
+      
+          console.log("Records found:", records); // Debugging log
+      
+          // Return the results
+          return ctx.send(records);
         } catch (error) {
-          console.log(error);
-          throw error;
+          console.error("Error in searchOps:", error);
+          return ctx.internalServerError("Something went wrong.");
         }
       },
       async findDistinctField(ctx) {

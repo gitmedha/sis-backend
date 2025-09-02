@@ -103,5 +103,30 @@
         "policies": []
       }
     }
+    , {
+      "method": "POST",
+      "path": "/batch/sendEmailONCreationAndUpdate",
+      "handler":"batches.sendEmailOnCreationAndCompletion",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/batch/sendReminderEmail/:id",
+      "handler":"batches.sendReminderEmail",
+      "config": {
+        "policies": []
+      }
+    }
+    ,
+    {
+      "method": "GET",
+      "path": "/batch/sendReminderEmail/:id",
+      "handler":"batches.sendReminderEmail",
+      "config": {
+        "policies": []
+      }
+    }
   ]
 }
