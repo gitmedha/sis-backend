@@ -19,36 +19,50 @@ module.exports = {
     }
   },
 
-  async searchOps(ctx) {
-    const { searchFields, searchValues } = ctx.request.body;
-  
-    try {
-      if (
-        !Array.isArray(searchFields) || 
-        !Array.isArray(searchValues) || 
-        searchFields.length !== searchValues.length
-      ) {
-        return ctx.badRequest('Fields and values must be provided as equal-length arrays.');
-      }
-  
-      let filters = { isactive: true, _limit: 1000000, _start: 0 };
-  
-      searchFields.forEach((field, index) => {
-        filters[`${field}_contains`] = searchValues[index];  // Using _contains for partial matches
-      });
-  
-      console.log("Filters applied:", filters); // Debugging log
-  
-      const records = await strapi.query('users-ops-activities').find(filters);
-      
-      console.log("Records found:", records); // Debugging log
-      
-      return ctx.send(records);
-    } catch (error) {
-      console.error('Error in searchOps:', error);
-      return ctx.internalServerError('Something went wrong.');
+ async searchOps(ctx) {
+  const { searchFields, searchValues } = ctx.request.body;
+
+  try {
+    if (
+      !Array.isArray(searchFields) || 
+      !Array.isArray(searchValues) || 
+      searchFields.length !== searchValues.length
+    ) {
+      return ctx.badRequest('Fields and values must be provided as equal-length arrays.');
     }
-  },
+
+    let filters = { isactive: true, _limit: 1000000, _start: 0 };
+
+    searchFields.forEach((field, index) => {
+      const value = searchValues[index];
+      
+      // Handle date range filters for both start_date and end_date
+      if (field === 'start_date_from') {
+        filters['start_date_gte'] = value;
+      } else if (field === 'start_date_to') {
+        filters['start_date_lte'] = value;
+      } else if (field === 'end_date_from') {
+        filters['end_date_gte'] = value;
+      } else if (field === 'end_date_to') {
+        filters['end_date_lte'] = value;
+      } else {
+        // For other text fields
+        filters[`${field}_contains`] = value;
+      }
+    });
+
+    console.log("Filters applied:", filters);
+
+    const records = await strapi.query('users-ops-activities').find(filters);
+    
+    console.log("Records found:", records.length);
+    
+    return ctx.send(records);
+  } catch (error) {
+    console.error('Error in searchOps:', error);
+    return ctx.throw(500, "Internal Server Error");
+  }
+},
   async findDistinctField(ctx) {
     const { field } = ctx.params; // Extract the field name from the query parameters
     let optionsArray = [];
