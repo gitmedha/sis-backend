@@ -20,45 +20,33 @@ module.exports = {
   },
 
   async searchOps(ctx) {
-    const { searchField, searchValue } = ctx.request.body;
-
+    const { searchFields, searchValues } = ctx.request.body;
+  
     try {
-      if (!searchField || !searchValue) {
-        return ctx.badRequest('Field and value are required.');
+      if (
+        !Array.isArray(searchFields) || 
+        !Array.isArray(searchValues) || 
+        searchFields.length !== searchValues.length
+      ) {
+        return ctx.badRequest('Fields and values must be provided as equal-length arrays.');
       }
-
-      if(searchValue.hasOwnProperty('start_date')){
-
-        const records = await strapi.query('users-ops-activities').find({
-          'start_date_gte': searchValue.start_date,
-          'start_date_lte': searchValue.end_date,
-          isactive:true,
-          _limit: 1000000,
-          _start: 0,
-          _sort:`${searchField}:asc`
-        });
-        
   
-        return ctx.send(records);
-
-       
-      }
-      else {
-        const records = await strapi.query('users-ops-activities').find({
-          [`${searchField}_contains`]: searchValue,
-          isactive:true,
-          _limit:1000000,
-          _start: 0
-        });
+      let filters = { isactive: true, _limit: 1000000, _start: 0 };
   
-        return ctx.send(records);
-
-      }
+      searchFields.forEach((field, index) => {
+        filters[`${field}_contains`] = searchValues[index];  // Using _contains for partial matches
+      });
+  
+      console.log("Filters applied:", filters); // Debugging log
+  
+      const records = await strapi.query('users-ops-activities').find(filters);
       
-   
+      console.log("Records found:", records); // Debugging log
+      
+      return ctx.send(records);
     } catch (error) {
-      
-      throw error;
+      console.error('Error in searchOps:', error);
+      return ctx.internalServerError('Something went wrong.');
     }
   },
   async findDistinctField(ctx) {
@@ -88,9 +76,10 @@ module.exports = {
       return ctx.send(optionsArray);
       }
       else {
+      const totalRecords = await strapi.query("users-ops-activities").count();
       const values = await strapi.query('users-ops-activities').find({
         isactive:true,
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
       });
      
@@ -109,17 +98,18 @@ module.exports = {
         else if (field === "program_name"){
           valueToAdd = values[row][field];
         }
-  
+        // console.log(valueToAdd);
         if (!uniqueValuesSet.has(valueToAdd)) {
           optionsArray.push({
             key: row,
             label: valueToAdd,
             value: valueToAdd,
           });
+          
           uniqueValuesSet.add(valueToAdd);
         }
       }
-  
+      // console.log(optionsArray);
       return ctx.send(optionsArray);
 
       }
@@ -128,7 +118,48 @@ module.exports = {
    
       return ctx.badRequest('An error occurred while fetching distinct values.');
     }
+  },
+ async customPickList(ctx) {
+  const { field, table } = ctx.params;
+  let optionsArray = [];
+
+  try {
+    // Fetch only the requested field instead of all columns
+    const values = await strapi.query(table).find({}, [field]);
+
+    // Use a Set to avoid duplicates
+    const uniqueValues = new Set();
+
+    for (let row = 0; row < values.length; row++) {
+      let valueToAdd;
+
+      if (field === "assigned_to") {
+        valueToAdd = values[row][field]?.username;
+      } else if (field === "batch") {
+        valueToAdd = values[row][field]?.name;
+      } else {
+        valueToAdd = values[row][field];
+      }
+
+      if (valueToAdd) {
+        uniqueValues.add(valueToAdd);
+      }
+    }
+
+    // Convert to dropdown-friendly format
+    optionsArray = Array.from(uniqueValues).map((val, idx) => ({
+      key: idx,
+      label: val,
+      value: val,
+    }));
+
+    return ctx.send(optionsArray);
+  } catch (error) {
+    strapi.log.error(error);
+    return ctx.badRequest("An error occurred while fetching picklist values.");
   }
+}
+
   
     
 };

@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "curricula",
+  "info": {
+    "name": "curriculum",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "module_created_for": {
+      "type": "string"
+    },
+    "module_developed_revised": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "medha_poc": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "isactive": {
+      "type": "boolean",
+      "default": true
+    },
+    "govt_dept_partnered_with": {
+      "type": "string"
+    },
+    "CreatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "UpdatedBy": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

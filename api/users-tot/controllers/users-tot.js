@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -6,18 +6,54 @@
  */
 
 module.exports = {
-    async createBulkTots(ctx) {
-        const { body } = ctx.request;
-        
-        try {
-          const createdData = await strapi.services['users-tot'].createMany(body);
-          return createdData;
-       
-        } catch (error) {
-          console.error(error);
-          throw error;
-        }
-      },
+  async createBulkTots(ctx) {
+    const { body } = ctx.request;
+    try {
+      const createdData = await strapi.services["users-tot"].createMany(body);
+      return createdData;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  
+//  async searchOps(ctx){
+//   try {
+//     const { searchField, searchValue } = ctx.request.body;
+
+//       // Validate if searchField and searchValue are provided
+//     if (!searchField || !searchValue) {
+//       return ctx.badRequest('Field and value are required.');
+//     }
+
+//     if(searchField ==="start_date"){
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_gte`]: new Date(searchValue.start),
+//         [`${searchField}_lte`]: new Date(searchValue.end),
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
+//       return ctx.send(records);
+//     }
+//     else if(searchField === "end_date"){
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_gte`]: new Date(searchValue.start),
+//         [`${searchField}_lte`]: new Date(searchValue.end),
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
+//       return ctx.send(records);
+//     }
+//     else {
+
+//       const records = await strapi.query('users-tot').find({
+//         [`${searchField}_contains`]: searchValue,
+//         isactive:true,
+//         _limit:1000000,
+//         _start: 0
+//       });
       
       async searchOps(ctx) {
   try {
