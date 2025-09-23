@@ -21,7 +21,6 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
-
     if (data.status === 'In Progress') {
       // Query the batch to check the current status
       const batch = await strapi.services['batches'].find({ id:id });  
@@ -104,16 +103,27 @@ module.exports = {
 
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
-    } else if (data.status === "Certified") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
-  
-      // AuditLog: batch certification triggered by user
-      await strapi.services["audit-logs"].create({
-        user: ctx.state?.user?.id,
-        action: "batch_mark_as_certified",
-        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
-      });
-    }
+    }else if (data.status === "Certified") {
+  const program = entity.program?.name;
+
+  if (program === "On the Ground") {
+    await strapi.services["batches"].handleOnTheGroundCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified_ontheground",
+      content: `Batch "${entity.name}" (ID ${entity.id}) for program "On the Ground" marked as certified (custom flow) by "${ctx.state.user.username}" (ID ${ctx.state.user.id})`,
+    });
+  } else {
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified",
+      content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+    });
+  }
+}
   
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
