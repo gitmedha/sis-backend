@@ -62,6 +62,9 @@
     "contact": {
       "type": "string"
     },
+    "specify_other": {
+      "type": "string"
+    },
     "createdby": {
       "plugin": "users-permissions",
       "model": "user"
