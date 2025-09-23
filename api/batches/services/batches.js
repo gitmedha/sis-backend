@@ -291,7 +291,7 @@ module.exports = {
         ? formationBatchEmail
         : closureBatchEmail;
 
-    const email = "sis-batchinfo@medha.org.in";
+    const email = "deepak.sharma@medha.org.in"; // only for staging
     const ccEmail = [srmEmail, managerEmail];
 
     await strapi.plugins["email"].services.email.sendTemplatedEmail(
