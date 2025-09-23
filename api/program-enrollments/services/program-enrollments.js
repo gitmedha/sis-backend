@@ -143,33 +143,37 @@ module.exports = {
     return programEnrollment;
   },
 
-  async isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance) {
+ async isProgramEnrollmentEligibleForCertification(enrollment, isOnTheGround = false) {
+  try {
+    const programName = enrollment.program?.name?.toLowerCase();
 
-    let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+    let requiredAttendance = 75; // default
 
-    // check attendance is high enough or not
-
-    if (changeAttandance){
-      if(isNaN(attendance) || attendance< 100){
-        return false
-      }
-    }
-    else {
-      if (isNaN(attendance) || attendance < 75) {
-        return false;
-      }
+    // Special rule: Pehli Udaan requires 100% attendance
+    if (programName === "pehli udaan") {
+      requiredAttendance = 100;
     }
 
+    const hasMinAttendance = enrollment.attendance_percentage >= requiredAttendance;
 
-    // check if assignment file is required or not
-    // if assignment file is required, then it should be present
-    const considerAssignmentFile = programEnrollment.batch.require_assignment_file_for_certification;
-    if (considerAssignmentFile && !programEnrollment.assignment_file) {
-      return false;
+    if (isOnTheGround) {
+      // On the Ground → must satisfy attendance + assignment
+      const hasCompletedAssignment = enrollment.assignment_status === "Completed";
+      return hasMinAttendance && hasCompletedAssignment;
     }
 
-    return true;
-  },
+    // Normal flow
+    if (enrollment.program?.assignment_based) {
+      return hasMinAttendance; 
+    }
+
+    return hasMinAttendance;
+  } catch (err) {
+    strapi.log.error("Error in isProgramEnrollmentEligibleForCertification:", err);
+    return false;
+  }
+}
+,
 
   async emailCertificate(programEnrollment) {
     if (!programEnrollment.medha_program_certificate) {

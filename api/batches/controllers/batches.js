@@ -21,7 +21,6 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
-
     if (data.status === 'In Progress') {
       // Query the batch to check the current status
       const batch = await strapi.services['batches'].find({ id:id });  
@@ -103,16 +102,27 @@ module.exports = {
 
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
-    } else if (data.status === "Certified") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
-  
-      // AuditLog: batch certification triggered by user
-      await strapi.services["audit-logs"].create({
-        user: ctx.state?.user?.id,
-        action: "batch_mark_as_certified",
-        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
-      });
-    }
+    }else if (data.status === "Certified") {
+  const program = entity.program?.name;
+
+  if (program === "On the Ground") {
+    await strapi.services["batches"].handleOnTheGroundCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified_ontheground",
+      content: `Batch "${entity.name}" (ID ${entity.id}) for program "On the Ground" marked as certified (custom flow) by "${ctx.state.user.username}" (ID ${ctx.state.user.id})`,
+    });
+  } else {
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified",
+      content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+    });
+  }
+}
   
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
@@ -240,42 +250,50 @@ module.exports = {
     }
   },  
   
-  async sendEmailOnCreationAndCompletion(data) {
-    try {
-      const institution = await strapi.services['institutions'].findOne({id: data.institution});
-      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
-        id: Number(data.assigned_to)
-      });
-  
-      data.srmName = assignedTo.username;
-      data.srmEmail = assignedTo.email;
-      data.managerEmail = assignedTo.reports_to?.email;
-      data.institution = institution.name;
-  
-      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
-  
-      let droppedOutStudents = 0;
-      let completedStudent = 0;
-  
-      programEnrollments.forEach((student) => {
-        if (student.status === "Batch Complete") {
-          completedStudent++;
-        } else if (student.status === "Student Dropped Out") {
-          droppedOutStudents++;
-        }
-      });
-  
-      data.enrolledStudents = programEnrollments.length;
-      data.certifiedStudents = completedStudent;
-      data.droppedOutStudents = droppedOutStudents;
-    
-      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
-      return ctx.send("successfully! email sent");
-    } catch (error) {
-      console.log("Error in sendEmailOnCreationAndCompletion:", error);
-      return ctx.badRequest(error.message);
-    }
-  },
+ async sendEmailOnCreationAndCompletion(data) {
+  try {
+    const institution = await strapi.services['institutions'].findOne({ id: data.institution });
+    if (!data.assigned_to || isNaN(Number(data.assigned_to))) {
+  throw new Error(`Invalid assigned_to value: ${data.assigned_to}`);
+}
+
+let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+  id: Number(data.assigned_to),
+});
+
+
+    data.srmName = assignedTo.username;
+    data.srmEmail = assignedTo.email;
+    data.managerEmail = assignedTo.reports_to?.email;
+    data.institution = institution.name;
+
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
+
+    let droppedOutStudents = 0;
+    let completedStudent = 0;
+
+    programEnrollments.forEach((student) => {
+      if (student.status === 'Batch Complete') {
+        completedStudent++;
+      } else if (student.status === 'Student Dropped Out') {
+        droppedOutStudents++;
+      }
+    });
+
+    data.enrolledStudents = programEnrollments.length;
+    data.certifiedStudents = completedStudent;
+    data.droppedOutStudents = droppedOutStudents;
+
+    await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
+
+    return { success: true, message: 'successfully! email sent' };
+  } catch (error) {
+    console.log('Error in sendEmailOnCreationAndCompletion:', error);
+    throw new Error(error.message);
+  }
+}
+
+,
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;

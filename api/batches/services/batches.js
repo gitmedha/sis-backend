@@ -346,5 +346,38 @@ async updateLastStatusChanged(batch) {
     console.error("Error updating last status changed date:", error);
     return null;
   }
+},
+async handleOnTheGroundCertification(batch) {
+  // Step 1: Don’t mark batch as Certified
+  await strapi.services['batches'].update({ id: batch.id }, {
+    status: "Complete – Not to be Certified",
+  });
+
+  // Step 2: Get all enrollments
+  const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+
+  // Step 3: Check eligibility (attendance + assignment if applicable)
+  for (const enrollment of programEnrollments) {
+    const isEligible = await strapi.services['program-enrollments']
+      .isProgramEnrollmentEligibleForCertification(enrollment, true); // pass flag for "On the Ground"
+
+    if (isEligible) {
+      await strapi.services['program-enrollments'].update({ id: enrollment.id }, {
+        certification_date: new Date().toISOString().split('T')[0],
+        status: "Certified by Medha",
+      });
+      await strapi.services['students'].update({ id: enrollment.student.id }, { status: "Certified" });
+    } else {
+      await strapi.services['program-enrollments'].update({ id: enrollment.id }, {
+        status: "Not Certified by Medha",
+      });
+    }
+  }
+
+  await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
+  await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
+
+  return batch;
 }
+
 }
