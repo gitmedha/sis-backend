@@ -147,7 +147,7 @@ module.exports = {
     const logged_in_user = ctx.state.user.id;
 
     // Generate custom student ID
-    const customStudentId = generateCustomStudentId(data.state, data.phone, data.type);
+    const customStudentId = generateCustomStudentId(data.state, data.phone, data.type, data.course_type);
 
 
     var date = new Date(data.date_of_birth); // M-D-YYYY
@@ -205,11 +205,9 @@ module.exports = {
             CREATED AT: ${sanitizedStudentEntity.created_at}
             CUSTOM STUDENT ID: ${student.custom_student_id}
         `);
-console.log(data.program_id,"program_id")
     const program = await strapi.services.programs.findOne({
-      id: 25,
+      id: data.program_id,
     });
-    console.log(program,"program")
     const money_id = data.payuMoneyId;
 
     // create a program enrollment for the student
@@ -253,7 +251,7 @@ console.log(data.program_id,"program_id")
     }
 
     // Function to generate custom student ID
-function generateCustomStudentId(state, phone, type) {
+function generateCustomStudentId(state, phone, type, course_type) {
   // State code mapping
   const stateCodeMap = {
       'UP': '1',
@@ -265,8 +263,16 @@ function generateCustomStudentId(state, phone, type) {
       'Delhi': '5'
   };
   
+  const couseCodeMap = {
+    'ITI': '1',
+    'Polytechnic': '2',
+    'UG': '3',
+  };
+  
   // Get state code (default to 6 for other states)
   const stateCode = stateCodeMap[state] || '6';
+
+  const courseCode = couseCodeMap[course_type] || '4';
   
   // Clean phone number (remove spaces, dashes, etc.)
   const cleanPhone = phone.replace(/\D/g, '');
@@ -278,7 +284,7 @@ function generateCustomStudentId(state, phone, type) {
 
   
   // Create custom ID: SAS + StateCode + PhoneNumber
-  const customId = `${prefix}${stateCode}${cleanPhone}`;
+  const customId = `${prefix}${stateCode}${courseCode}${cleanPhone}`;
   
   return customId;
 }
