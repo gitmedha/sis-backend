@@ -9,6 +9,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/students/systemadoption/createFromWebhook",
+      "handler": "students.createFromSystemAdoptionWebhook",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "GET",
       "path": "/students",
       "handler": "students.find",
