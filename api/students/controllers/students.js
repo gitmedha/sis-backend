@@ -194,10 +194,8 @@ module.exports = {
     student.how_did_you_hear_about_us_other =
       data.how_did_you_hear_about_us_other;
     student.your_plan_after_your_current_course = data.your_plan_after_your_current_course;
-    let studentEntity = await strapi.services.students.create(student);
-    let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
-      model: strapi.models.students,
-    });
+    // let studentEntity = await strapi.services.students.create(student);
+    let sanitizedStudentEntity = student.custom_student_id;
     console.log(`
             STUDENT CREATED ID: ${sanitizedStudentEntity.id}
             NAME: ${sanitizedStudentEntity.full_name}
