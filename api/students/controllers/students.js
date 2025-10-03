@@ -198,11 +198,14 @@ module.exports = {
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
     });
+    
+    // Override the ID with our custom student ID
+    sanitizedStudentEntity.id = student.custom_student_id;
+    
     console.log(`
             STUDENT CREATED ID: ${sanitizedStudentEntity.id}
             NAME: ${sanitizedStudentEntity.full_name}
             CREATED AT: ${sanitizedStudentEntity.created_at}
-            CUSTOM STUDENT ID: ${student.custom_student_id}
         `);
     const program = await strapi.services.programs.findOne({
       id: data.program_id,
