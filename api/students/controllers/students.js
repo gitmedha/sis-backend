@@ -292,8 +292,15 @@ function generateCustomStudentId(state, phone, type, course_type) {
   return customId;
 }
 
-    ctx.send(sanitizedStudentEntity);
-    return sanitizedStudentEntity;
+    // Ensure department and custom_id are included in the response
+    const responseEntity = {
+      ...sanitizedStudentEntity,
+      department: student.department,
+      custom_id: student.custom_id
+    };
+    
+    ctx.send(responseEntity);
+    return responseEntity;
   },
 
   async delete(ctx) {
