@@ -175,7 +175,7 @@ module.exports = {
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
     student.category = data.category;
     student.gender = data.gender;
-    student.custom_id = customStudentId; // Add custom ID here
+    student.student_id = customStudentId; // Store as student_id field
     student.department = "System Adoption";
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
@@ -200,13 +200,10 @@ module.exports = {
       model: strapi.models.students,
     });
     
-
-    
     console.log(`
-            STUDENT CREATED ID: ${student.custom_id}
+            STUDENT CREATED ID: ${sanitizedStudentEntity.student_id}
             NAME: ${sanitizedStudentEntity.full_name}
             CREATED AT: ${sanitizedStudentEntity.created_at}
-            CUSTOM STUDENT ID: ${student.custom_student_id}
         `);
     const program = await strapi.services.programs.findOne({
       id: data.program_id,
@@ -296,7 +293,6 @@ function generateCustomStudentId(state, phone, type, course_type) {
     const responseEntity = {
       ...sanitizedStudentEntity,
       department: student.department,
-      custom_id: student.custom_id
     };
     
     ctx.send(responseEntity);
