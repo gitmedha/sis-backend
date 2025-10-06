@@ -104,8 +104,13 @@ module.exports = {
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
     } else if (data.status === "Certified") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
-  
+      if(entity.program.name === 'On The Ground'){
+        const batch = await strapi.services.batches.update({ id:entity.id }, {status:'Complete – Not to be Certified'});
+        await strapi.services["batches"].handleProgramEnrollmentOnCertification(batch);
+      }
+      else {
+        await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+      }  
       // AuditLog: batch certification triggered by user
       await strapi.services["audit-logs"].create({
         user: ctx.state?.user?.id,
@@ -183,7 +188,7 @@ module.exports = {
     return ctx.send({ batch: batch });
   },
   async findDistinctField(ctx) {
-    const { field, tab, info } = ctx.params; // Extract the field name from the query parameters
+    const { field, tab, info } = ctx.params;
     let optionsArray = [];
 
     const queryString = info.substring();
@@ -240,42 +245,51 @@ module.exports = {
     }
   },  
   
-  async sendEmailOnCreationAndCompletion(data) {
-    try {
-      const institution = await strapi.services['institutions'].findOne({id: data.institution});
-      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
-        id: Number(data.assigned_to)
-      });
-  
-      data.srmName = assignedTo.username;
-      data.srmEmail = assignedTo.email;
-      data.managerEmail = assignedTo.reports_to?.email;
-      data.institution = institution.name;
-  
-      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
-  
-      let droppedOutStudents = 0;
-      let completedStudent = 0;
-  
-      programEnrollments.forEach((student) => {
-        if (student.status === "Batch Complete") {
-          completedStudent++;
-        } else if (student.status === "Student Dropped Out") {
-          droppedOutStudents++;
-        }
-      });
-  
-      data.enrolledStudents = programEnrollments.length;
-      data.certifiedStudents = completedStudent;
-      data.droppedOutStudents = droppedOutStudents;
-    
-      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
-      return ctx.send("successfully! email sent");
-    } catch (error) {
-      console.log("Error in sendEmailOnCreationAndCompletion:", error);
-      return ctx.badRequest(error.message);
-    }
-  },
+ async sendEmailOnCreationAndCompletion(ctx) {
+  try {
+    const batchId = ctx.params.id || ctx.request.body.id;
+
+
+
+    // fetch batch details & compute extra fields
+    const batch = await strapi.services.batches.findOne({ id: batchId });
+
+    const institution = await strapi.services.institutions.findOne({ id: batch.institution });
+    const assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+      id: Number(batch.assigned_to),
+    });
+
+    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+
+    let droppedOutStudents = 0;
+    let certifiedStudents = 0;
+    programEnrollments.forEach((student) => {
+      if (student.status === "Batch Complete") certifiedStudents++;
+      else if (student.status === "Student Dropped Out") droppedOutStudents++;
+    });
+
+    // enrich batch with required props for email
+    const payload = {
+      ...batch,
+      institution: institution?.name,
+      srmName: assignedTo.username,
+      srmEmail: assignedTo.email,
+      managerEmail: assignedTo.reports_to?.email,
+      enrolledStudents: programEnrollments.length,
+      certifiedStudents,
+      droppedOutStudents,
+    };
+
+    // call service
+    await strapi.services.batches.sendEmailOnCreationAndCompletion(payload);
+
+    return ctx.send({ message: "Successfully sent batch email" });
+  } catch (error) {
+    strapi.log.error("Error in sendEmailOnCreationAndCompletion:", error);
+    return ctx.badRequest(error.message);
+  }
+}
+,
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;

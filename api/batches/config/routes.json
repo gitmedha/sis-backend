@@ -81,7 +81,7 @@
       }
     }, {
       "method": "POST",
-      "path": "/batch/sendEmailONCreationAndUpdate",
+      "path": "/batches/sendEmailOnCreationAndCompletion",
       "handler":"batches.sendEmailOnCreationAndCompletion",
       "config": {
         "policies": []

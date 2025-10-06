@@ -143,22 +143,16 @@ module.exports = {
     return programEnrollment;
   },
 
-  async isProgramEnrollmentEligibleForCertification(programEnrollment,changeAttandance) {
-
-    let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
+    const program = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+    const requiredAttendance = program.name === 'Pehli Udaan' ? 100 : 75;
+    
+       let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
 
     // check attendance is high enough or not
-
-    if (changeAttandance){
-      if(isNaN(attendance) || attendance< 100){
-        return false
-      }
-    }
-    else {
-      if (isNaN(attendance) || attendance < 75) {
+if (isNaN(attendance) || attendance < requiredAttendance) {
         return false;
       }
-    }
 
 
     // check if assignment file is required or not
@@ -169,6 +163,7 @@ module.exports = {
     }
 
     return true;
+   
   },
 
   async emailCertificate(programEnrollment) {
