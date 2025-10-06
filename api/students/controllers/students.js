@@ -143,7 +143,6 @@ module.exports = {
 
   async createFromSystemAdoptionWebhook(ctx) {
     const data = ctx.request.body;
-    console.log(data,"systemadoption")
     const logged_in_user = ctx.state.user.id;
 
     // Generate custom student ID
@@ -176,7 +175,8 @@ module.exports = {
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
     student.category = data.category;
     student.gender = data.gender;
-    student.custom_student_id = customStudentId; // Add custom ID here
+    student.student_id = customStudentId; // Store as student_id field
+    student.department = "System Adoption";
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.income_level = data.income_level;
@@ -199,11 +199,11 @@ module.exports = {
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
     });
+    
     console.log(`
-            STUDENT CREATED ID: ${sanitizedStudentEntity.id}
+            STUDENT CREATED ID: ${sanitizedStudentEntity.student_id}
             NAME: ${sanitizedStudentEntity.full_name}
             CREATED AT: ${sanitizedStudentEntity.created_at}
-            CUSTOM STUDENT ID: ${student.custom_student_id}
         `);
     const program = await strapi.services.programs.findOne({
       id: data.program_id,
@@ -285,12 +285,18 @@ function generateCustomStudentId(state, phone, type, course_type) {
   
   // Create custom ID: SAS + StateCode + PhoneNumber
   const customId = `${prefix}${stateCode}${courseCode}${cleanPhone}`;
-  
+ 
   return customId;
 }
 
-    ctx.send(sanitizedStudentEntity);
-    return sanitizedStudentEntity;
+    // Ensure department and custom_id are included in the response
+    const responseEntity = {
+      ...sanitizedStudentEntity,
+      department: student.department,
+    };
+    
+    ctx.send(responseEntity);
+    return responseEntity;
   },
 
 
