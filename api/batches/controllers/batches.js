@@ -21,7 +21,6 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
-
     if (data.status === 'In Progress') {
       // Query the batch to check the current status
       const batch = await strapi.services['batches'].find({ id:id });  
@@ -31,11 +30,12 @@ module.exports = {
         data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
+   
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
     
-    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
+    if(data.status === 'Enrollment Complete -- To Be Started'){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -103,21 +103,27 @@ module.exports = {
 
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
-    } else if (data.status === "Certified") {
-      if(entity.program.name === 'On The Ground'){
-        const batch = await strapi.services.batches.update({ id:entity.id }, {status:'Complete – Not to be Certified'});
-        await strapi.services["batches"].handleProgramEnrollmentOnCertification(batch);
-      }
-      else {
-        await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
-      }  
-      // AuditLog: batch certification triggered by user
-      await strapi.services["audit-logs"].create({
-        user: ctx.state?.user?.id,
-        action: "batch_mark_as_certified",
-        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
-      });
-    }
+    }else if (data.status === "Certified") {
+  const program = entity.program?.name;
+
+  if (program === "On the Ground") {
+    await strapi.services["batches"].handleOnTheGroundCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified_ontheground",
+      content: `Batch "${entity.name}" (ID ${entity.id}) for program "On the Ground" marked as certified (custom flow) by "${ctx.state.user.username}" (ID ${ctx.state.user.id})`,
+    });
+  } else {
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified",
+      content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+    });
+  }
+}
   
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
@@ -200,8 +206,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("batches").count();
       const values = await strapi.query("batches").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||
@@ -245,51 +252,74 @@ module.exports = {
     }
   },  
   
- async sendEmailOnCreationAndCompletion(ctx) {
-  try {
-    const batchId = ctx.params.id || ctx.request.body.id;
+  async sendEmailOnCreationAndCompletion(data) {
+    try {
+      const institution = await strapi.services['institutions'].findOne({id: data.institution});
+      let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+        id: Number(data.assigned_to)
+      });
+  
+      data.srmName = assignedTo.username;
+      data.srmEmail = assignedTo.email;
+      data.managerEmail = assignedTo.reports_to?.email;
+      data.institution = institution.name;
+  
+      const programEnrollments = await strapi.services['program-enrollments'].find({ batch: data.id });
+  
+      let droppedOutStudents = 0;
+      let completedStudent = 0;
+  
+      programEnrollments.forEach((student) => {
+        if (student.status === "Batch Complete") {
+          completedStudent++;
+        } else if (student.status === "Student Dropped Out") {
+          droppedOutStudents++;
+        }
+      });
+  
+      data.enrolledStudents = programEnrollments.length;
+      data.certifiedStudents = completedStudent;
+      data.droppedOutStudents = droppedOutStudents;
+    
+      await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
 
-
-
-    // fetch batch details & compute extra fields
-    const batch = await strapi.services.batches.findOne({ id: batchId });
-
-    const institution = await strapi.services.institutions.findOne({ id: batch.institution });
-    const assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
-      id: Number(batch.assigned_to),
-    });
-
-    const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-
-    let droppedOutStudents = 0;
-    let certifiedStudents = 0;
-    programEnrollments.forEach((student) => {
-      if (student.status === "Batch Complete") certifiedStudents++;
-      else if (student.status === "Student Dropped Out") droppedOutStudents++;
-    });
-
-    // enrich batch with required props for email
-    const payload = {
-      ...batch,
-      institution: institution?.name,
-      srmName: assignedTo.username,
-      srmEmail: assignedTo.email,
-      managerEmail: assignedTo.reports_to?.email,
-      enrolledStudents: programEnrollments.length,
-      certifiedStudents,
-      droppedOutStudents,
-    };
-
-    // call service
-    await strapi.services.batches.sendEmailOnCreationAndCompletion(payload);
-
-    return ctx.send({ message: "Successfully sent batch email" });
-  } catch (error) {
-    strapi.log.error("Error in sendEmailOnCreationAndCompletion:", error);
-    return ctx.badRequest(error.message);
-  }
-}
-,
+  async sendPreBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPreClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { pre_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+  async sendPostBatchLinks(ctx) {
+    try {
+      const { id } = ctx.params;
+      const batch = await strapi.services['batches'].findOne({ id:id });
+      await strapi.services['batches'].emailPostClosedLinks(batch);
+      await strapi.services['batches'].update(
+        { id: id },
+        { post_batch_email_sent: true }
+      );
+      return ctx.send("successfully! email sent");
+    } catch (error) {
+      console.log("Error in sendEmailOnCreationAndCompletion:", error);
+      return ctx.badRequest(error.message);
+    }
+  },
+ 
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
@@ -327,7 +357,18 @@ module.exports = {
               cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
              },emailBody)
 
-             await strapi.services['batches'].update({ id }, {manual_email_sent: true, reminder_sent: true});
+             
+              const currentBatch = await strapi.services['batches'].findOne({ id });
+              const currentCount = currentBatch?.reminder_count || 0;
+
+             await strapi.services['batches'].update(
+              { id }, 
+              {
+                manual_email_sent: true, 
+                reminder_sent: true,
+                reminder_count: currentCount + 1
+              });
+    
     
         }
         return ctx.send("successfully! reminder sent");
@@ -336,4 +377,5 @@ module.exports = {
         console.log('Error in cron job', e);
       }
   }
+
 };

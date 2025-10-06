@@ -17,45 +17,7 @@ module.exports = {
     }
   },
   
-//  async searchOps(ctx){
-//   try {
-//     const { searchField, searchValue } = ctx.request.body;
-
-//       // Validate if searchField and searchValue are provided
-//     if (!searchField || !searchValue) {
-//       return ctx.badRequest('Field and value are required.');
-//     }
-
-//     if(searchField ==="start_date"){
-//       const records = await strapi.query('users-tot').find({
-//         [`${searchField}_gte`]: new Date(searchValue.start),
-//         [`${searchField}_lte`]: new Date(searchValue.end),
-//         isactive:true,
-//         _limit:1000000,
-//         _start: 0
-//       });
-//       return ctx.send(records);
-//     }
-//     else if(searchField === "end_date"){
-//       const records = await strapi.query('users-tot').find({
-//         [`${searchField}_gte`]: new Date(searchValue.start),
-//         [`${searchField}_lte`]: new Date(searchValue.end),
-//         isactive:true,
-//         _limit:1000000,
-//         _start: 0
-//       });
-//       return ctx.send(records);
-//     }
-//     else {
-
-//       const records = await strapi.query('users-tot').find({
-//         [`${searchField}_contains`]: searchValue,
-//         isactive:true,
-//         _limit:1000000,
-//         _start: 0
-//       });
-      
-      async searchOps(ctx) {
+ async searchOps(ctx) {
   try {
     let filters = {};
     const { searchFields, searchValues, searchField, searchValue } = ctx.request.body;
@@ -64,9 +26,15 @@ module.exports = {
       searchFields.forEach((field, index) => {
         const value = searchValues[index];
 
-        if (field === "start_date" || field === "end_date") {
-          filters[`${field}_gte`] = new Date(value.start);
-          filters[`${field}_lte`] = new Date(value.end);
+        // Handle the new date range filters
+        if (field === 'start_date_from') {
+          filters['start_date_gte'] = new Date(value);
+        } else if (field === 'start_date_to') {
+          filters['start_date_lte'] = new Date(value);
+        } else if (field === 'end_date_from') {
+          filters['end_date_gte'] = new Date(value);
+        } else if (field === 'end_date_to') {
+          filters['end_date_lte'] = new Date(value);
         } else if (field === "gender") {
           filters[field] = value;
         } else {
@@ -75,6 +43,7 @@ module.exports = {
       });
     } 
     else if (searchField && searchValue) {
+      // Handle single filter (maintain backward compatibility)
       if (searchField === "start_date" || searchField === "end_date") {
         filters[`${searchField}_gte`] = new Date(searchValue.start);
         filters[`${searchField}_lte`] = new Date(searchValue.end);
@@ -89,18 +58,19 @@ module.exports = {
 
     // Always apply isactive + limits
     filters.isactive = true;
-console.log("Filters applied:", filters); 
+    console.log("Filters applied:", filters); 
 
     const records = await strapi.query("users-tot").find({
       ...filters,
       _limit: 1000000,
       _start: 0,
     });
-console.log("Records found:", records.length);
+    
+    console.log("Records found:", records.length);
     return ctx.send(records);
   } catch (error) {
     console.log(error);
-    throw error;
+    return ctx.throw(500, "Internal Server Error");
   }
 }
 ,

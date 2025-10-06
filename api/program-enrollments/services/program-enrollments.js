@@ -19,7 +19,7 @@ module.exports = {
     let student_id  = programEnrollment.student.student_id
     let program_name = program.name
     let institution_name = programEnrollment.institution.name
-    let course_name = programEnrollment.course_name_in_current_sis ==='Other' ? programEnrollment.course_name_other:programEnrollment.course_name_in_current_sis;
+    let course_name = programEnrollment.course_name_in_current_sis ==='Other' ? programEnrollment.course_name_other:programEnrollment.course_name_in_current_sis
 
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
@@ -37,6 +37,8 @@ module.exports = {
     const puppeteer = require('puppeteer');
 
     let certifcateFilePath = '';
+    console.log(program.certificate, "program.certificate");
+    
     switch (program.certificate) {
       case 'svapoorna':
         certifcateFilePath = './public/program-enrollment-certificate-template/svapoorna/certificate.html';
@@ -44,6 +46,10 @@ module.exports = {
 
       case 'pehliudaan':
         certifcateFilePath = './public/program-enrollment-certificate-template/pehliUdaan/certificate.html';
+        break;
+
+       case 'EmplifyWithAi':
+        certifcateFilePath = './public/program-enrollment-certificate-template/EmplifyWithAi/certificate.html';
         break;
 
       case 'default':
@@ -143,28 +149,37 @@ module.exports = {
     return programEnrollment;
   },
 
-  async isProgramEnrollmentEligibleForCertification(programEnrollment) {
-    const program = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
-    const requiredAttendance = program.name === 'Pehli Udaan' ? 100 : 75;
-    
-       let attendance = await strapi.services['program-enrollments'].calculateBatchAttendance(programEnrollment);
+ async isProgramEnrollmentEligibleForCertification(enrollment, isOnTheGround = false) {
+  try {
+    const programName = enrollment.program?.name?.toLowerCase();
 
-    // check attendance is high enough or not
-if (isNaN(attendance) || attendance < requiredAttendance) {
-        return false;
-      }
+    let requiredAttendance = 75; // default
 
-
-    // check if assignment file is required or not
-    // if assignment file is required, then it should be present
-    const considerAssignmentFile = programEnrollment.batch.require_assignment_file_for_certification;
-    if (considerAssignmentFile && !programEnrollment.assignment_file) {
-      return false;
+    // Special rule: Pehli Udaan requires 100% attendance
+    if (programName === "pehli udaan") {
+      requiredAttendance = 100;
     }
 
-    return true;
-   
-  },
+    const hasMinAttendance = enrollment.attendance_percentage >= requiredAttendance;
+
+    if (isOnTheGround) {
+      // On the Ground → must satisfy attendance + assignment
+      const hasCompletedAssignment = enrollment.assignment_status === "Completed";
+      return hasMinAttendance && hasCompletedAssignment;
+    }
+
+    // Normal flow
+    if (enrollment.program?.assignment_based) {
+      return hasMinAttendance; 
+    }
+
+    return hasMinAttendance;
+  } catch (err) {
+    strapi.log.error("Error in isProgramEnrollmentEligibleForCertification:", err);
+    return false;
+  }
+}
+,
 
   async emailCertificate(programEnrollment) {
     if (!programEnrollment.medha_program_certificate) {
@@ -235,6 +250,7 @@ if (isNaN(attendance) || attendance < requiredAttendance) {
     let username = programEnrollment.student.full_name
     let email = programEnrollment.student.email;
     let batchId = programEnrollment.batch.program;
+    const {student_id} = programEnrollment.student;
 
     const emailTemplate =
     batchId === 21 ?
@@ -264,7 +280,7 @@ if (isNaN(attendance) || attendance < requiredAttendance) {
         <p>Dear ${username},</p>
         <p>You have just completed your Medha Program and are ready to implement everything you have learned in the program into your personal/professional life.</p>
         <p>Before you start your journey beyond Medha, we would love to hear from you about what you have learned throughout your Medha program.</p>
-        <p>Please fill in your response in the feedback form - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
+        <p>Please fill in your response in the feedback form - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=${student_id}">Medha Program Feedback Form</a></p>
         <p>All the best for your future!</p>
         <p>Regards,<br>
         Medha</p><br>
@@ -272,7 +288,7 @@ if (isNaN(attendance) || attendance < requiredAttendance) {
         <p>प्रिय ${username}</p>
         <p>हमें खुशी है की हाल ही में आपने मेधा कार्यक्रम पूरा किया है। अब आप इस कार्यक्रम के दौरान सीखी गयी जानकारी को अपनी निजी एवं पेशेवर ज़िंदगी में लागू करने के लिए पूरी तरह से तैयार हैं।</p>
         <p>मेधा से आगे की यात्रा शुरू करने से पहले हम यह जानना चाहेंगे कि आपने मेधा कार्यक्रम के दौरान क्या सीखा और जाना है? </p>
-        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=">Medha Program Feedback Form</a></p>
+        <p>फीडबैक फॉर्म पर जाकर अपने विचारों को व्यक्त करे - <a href="https://medhasurvey.surveycto.com/collect/medha_program_feedback_from_2?caseid=${student_id}">Medha Program Feedback Form</a></p>
         <p>शुभकामनाओं सहित आभार !</p>
         <p>भवदीय, <br>
         मेधा </p>
@@ -280,10 +296,11 @@ if (isNaN(attendance) || attendance < requiredAttendance) {
       `,
     };
     await strapi.plugins['email'].services.email.sendTemplatedEmail({
-      to: email,
+      to:email,
     }, emailTemplate);
     return true;
   },
+
 
   // calculates attendance for a program enrollment in it's batch
   async calculateBatchAttendance(programEnrollment) {
@@ -300,5 +317,96 @@ if (isNaN(attendance) || attendance < requiredAttendance) {
     percentage = Number.parseFloat(percentage).toFixed(2);
 
     return percentage;
-  }
+  },
+ async preBatchlinks(programEnrollment) {
+    const { student_id, email, full_name } = programEnrollment.student;
+    const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+
+    let preBatchLink;
+
+    switch (name) {
+        case 'Technology Advancement Bootcamp':
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Svapoorna':
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Swarambh':
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        default:
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+    }
+
+    try {
+        const surveyLink = `${preBatchLink}&batchname=${programEnrollment.batch.name}`;
+        const emailTemplate = {
+            subject:'The format of the email for PRE TEST:',
+            text: `pre survey test`,
+            html: `
+                <p>Hi ${full_name},</p>
+                <p>We kindly request you to complete this short pre-test survey to share your valuable input:</p>
+                <p><a href="${surveyLink}">Click here to take the survey</a></p>
+                <p>Your feedback will help us design the program to better meet your needs.</p>
+                <p>If you have any questions, feel free to reach out to us.</p>
+                <p>Best regards,<br>Medha Team</p>
+            `,
+        };
+        await strapi.plugins['email'].services.email.sendTemplatedEmail(
+            { to: email },
+            emailTemplate
+        );
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+},
+
+async postBatchLinks(programEnrollment) {
+    const { student_id, email, full_name } = programEnrollment.student;
+    const { name } = await strapi.services['programs'].findOne({ id: programEnrollment.batch.program });
+
+    let postBatchLink;
+
+    switch (name) {
+        case 'Technology Advancement Bootcamp':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Svapoorna':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        case 'Swarambh':
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+        default:
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
+            break;
+    }
+
+    try {
+        const surveyLink = `${postBatchLink}&batchname=${programEnrollment.batch.name}`;
+        const emailTemplate = {
+            subject: `The format of the email for POST TEST:`,
+            text: 'post survey test',
+            html: `
+                <p>Hi ${full_name},</p>
+                <p>We kindly request you to complete this short post-test survey to share your valuable feedback:</p>
+                <p><a href="${surveyLink}">Click here to take the survey</a></p>
+                <p>Your input will help us design the program to better meet your needs.</p>
+                <p>If you have any questions, feel free to reach out to us.</p>
+                <p>Best regards,<br>Medha Team</p>
+            `,
+        };
+        await strapi.plugins['email'].services.email.sendTemplatedEmail(
+            { to: email },
+            emailTemplate
+        );
+    } catch (error) {
+        console.log(error, "thus");
+        throw error;
+    }
+}
+
+
 };

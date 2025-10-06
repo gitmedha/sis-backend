@@ -135,6 +135,15 @@
     },
     "family_annual_income": {
       "type": "biginteger"
+    },
+    "last_update_at": {
+      "type": "datetime"
+    },
+    "department": {
+      "type": "string"
+    },
+    "custom_id": {
+      "type": "string"
     }
   }
 }

@@ -247,7 +247,7 @@ console.log("isOTG", isOTG);
     });
     return updatedBatch;
   },
-  async sendEmailOnCreationAndCompletion(batch) {
+ async sendEmailOnCreationAndCompletion(batch) {
   try {
     const {
       name,
@@ -265,54 +265,33 @@ console.log("isOTG", isOTG);
       id,
     } = batch;
 
-    // ✅ Safely handle ID
-    const batchId = id ? Number(id) : null;
-    if (!batchId || isNaN(batchId)) {
-      throw new Error("Invalid batch id");
-    }
-
-    // ✅ Helper to format date safely
-    const formatDate = (d) => {
-      if (!d) return "";
-      const parsed = new Date(d);
-      return isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
-    };
-
-    // ✅ Ensure numbers are safe
-    const safeNumber = (val) =>
-      typeof val === "number" && !isNaN(val) ? val : 0;
-
     const formationBatchEmail = {
-      subject: `Formation Mail – ${name || "Unnamed Batch"}`,
-      text: `Batch ${name || ""} has been created.`,
-      html: `
-        <p>A new batch has been successfully created by ${srmName || "SRM"}. Below are the details:</p>
-        <ul>
-          <li><strong>Batch Name:</strong> ${name || ""}</li>
-          <li><strong>Batch Start Date:</strong> ${formatDate(start_date)}</li>
-          <li><strong>Number of Students Registered:</strong> ${safeNumber(enrolledStudents)}</li>
-          <li><strong>Enrollment Type:</strong> ${enrollment_type || ""}</li>
-          <li><strong>College Name:</strong> ${institution || ""}</li>
-        </ul>
-        <p>Best,<br>${srmName || ""}</p>
-      `,
+      subject: `Formation Mail – ${name}`,
+      text: `Batch ${name} has been created.`,
+      html: `<p>A new batch has been successfully created by ${srmName}. Below are the details:</p>
+            <ul>
+              <li><strong>Batch Name:</strong> ${name}</li>
+              <li><strong>Batch Start Date:</strong> ${start_date.toISOString().slice(0, 10)}</li>
+              <li><strong>Number of Students Registered:</strong> ${enrolledStudents}</li>
+              <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+              <li><strong>College Name:</strong> ${institution}</li>
+            </ul>
+            <p>Best,<br>${srmName}</p>`,
     };
 
     const closureBatchEmail = {
-      subject: `Closure Mail – ${name || "Unnamed Batch"}`,
-      text: `Batch ${name || ""} has been completed.`,
-      html: `
-        <p>A batch has been successfully marked as complete by ${srmName || "SRM"}. Below are the details:</p>
-        <ul>
-          <li><strong>Batch Name:</strong> ${name || ""}</li>
-          <li><strong>Batch End Date:</strong> ${formatDate(end_date)}</li>
-          <li><strong>Number of Certified Students:</strong> ${safeNumber(certifiedStudents)}</li>
-          <li><strong>Number of Dropout Students:</strong> ${safeNumber(droppedOutStudents)}</li>
-          <li><strong>Enrollment Type:</strong> ${enrollment_type || ""}</li>
-          <li><strong>College Name:</strong> ${institution || ""}</li>
-        </ul>
-        <p>Best,<br>${srmName || ""}</p>
-      `,
+      subject: `Closure Mail – ${name}`,
+      text: `Batch ${name} has been completed.`,
+      html: `<p>A batch has been successfully marked as complete by ${srmName}. Below are the details:</p>
+          <ul>
+            <li><strong>Batch Name:</strong> ${name}</li>
+            <li><strong>Batch End Date:</strong> ${end_date.toISOString().slice(0, 10)}</li>
+            <li><strong>Number of Certified Students:</strong> ${certifiedStudents}</li>
+            <li><strong>Number of Dropout Students:</strong> ${droppedOutStudents}</li>
+            <li><strong>Enrollment Type:</strong> ${enrollment_type}</li>
+            <li><strong>College Name:</strong> ${institution}</li>
+          </ul>
+          <p>Best,<br>${srmName}</p>`,
     };
 
     const emailTemplate =
@@ -321,7 +300,7 @@ console.log("isOTG", isOTG);
         : closureBatchEmail;
 
     const email = "sis-batchinfo@medha.org.in";
-    const ccEmail = [srmEmail, managerEmail].filter(Boolean);
+    const ccEmail = [srmEmail, managerEmail];
 
     await strapi.plugins["email"].services.email.sendTemplatedEmail(
       {
@@ -331,27 +310,31 @@ console.log("isOTG", isOTG);
       emailTemplate
     );
 
-    // ✅ Update batch flags
+    const today = new Date().toISOString().split("T")[0];
+
     if (status === "Enrollment Complete -- To Be Started") {
       await strapi.services.batches.update(
-        { id: batchId },
+        { id },
         {
           formation_mail_sent: true,
-          last_attendance_date: formatDate(new Date()),
+          formation_email_date: today,
+          last_attendance_date: today,
         }
       );
     } else {
       await strapi.services.batches.update(
-        { id: batchId },
-        { closure_mail_sent: true }
+        { id },
+        {
+          closure_mail_sent: true,
+          closure_email_date: today,
+        }
       );
     }
   } catch (error) {
-    console.error("Error in sendEmailOnCreationAndCompletion:", error);
-    throw new Error(error.message || "Unknown error occurred");
+    console.log("error", error);
+    throw new Error(error.message);
   }
-}
-,
+},
   async emailPreClosedLinks(batch) {
     const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
     for (const programEnrollment of programEnrollments) {
@@ -404,5 +387,38 @@ async updateLastStatusChanged(batch) {
     console.error("Error updating last status changed date:", error);
     return null;
   }
+},
+async handleOnTheGroundCertification(batch) {
+  // Step 1: Don’t mark batch as Certified
+  await strapi.services['batches'].update({ id: batch.id }, {
+    status: "Complete – Not to be Certified",
+  });
+
+  // Step 2: Get all enrollments
+  const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
+
+  // Step 3: Check eligibility (attendance + assignment if applicable)
+  for (const enrollment of programEnrollments) {
+    const isEligible = await strapi.services['program-enrollments']
+      .isProgramEnrollmentEligibleForCertification(enrollment, true); // pass flag for "On the Ground"
+
+    if (isEligible) {
+      await strapi.services['program-enrollments'].update({ id: enrollment.id }, {
+        certification_date: new Date().toISOString().split('T')[0],
+        status: "Certified by Medha",
+      });
+      await strapi.services['students'].update({ id: enrollment.student.id }, { status: "Certified" });
+    } else {
+      await strapi.services['program-enrollments'].update({ id: enrollment.id }, {
+        status: "Not Certified by Medha",
+      });
+    }
+  }
+
+  await strapi.services['batches'].generateProgramEnrollmentCertificates(batch);
+  await strapi.services['batches'].emailProgramEnrollmentCertificates(batch);
+
+  return batch;
 }
+
 }

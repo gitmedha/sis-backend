@@ -15,9 +15,7 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
-
-  //Setted up utc 05:30 AM which is 11:00 PM IST 
-'30 5 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM IST
+'30 5 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM
   try {
     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
@@ -56,7 +54,7 @@ module.exports = {
             const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
             if (workingDaysSinceAttendance > 5) {
                 // Generate the dynamic link
-                const baseUrl = 'https://sisnew.medha.org.in/';
+                const baseUrl = 'https://sisstg.medha.org.in/';
                 const attendanceLink = `${baseUrl}batch/${id}`;
 
                 // Trigger email with error handling
@@ -74,11 +72,20 @@ module.exports = {
                 try {
 
                   await strapi.plugins['email'].services.email.sendTemplatedEmail({
-                    to:srmEmail,
-                    cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+                    to:'deepak.sharma@medha.org.in',
+                    // cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
                   }, emailBody);
                   
-                  await strapi.services['batches'].update({ id }, { reminder_sent: true});
+                    const currentBatch = await strapi.services['batches'].findOne({ id });
+                    const currentCount = currentBatch?.reminder_count || 0;
+
+                    await strapi.services['batches'].update(
+                      { id },
+                      { 
+                        reminder_sent: true,
+                        reminder_count: currentCount + 1
+                      }
+                    );
 
                     console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
                 } catch (emailError) {
