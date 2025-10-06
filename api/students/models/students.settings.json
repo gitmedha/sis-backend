@@ -135,6 +135,9 @@
     },
     "family_annual_income": {
       "type": "biginteger"
+    },
+    "department": {
+      "type": "string"
     }
   }
 }
