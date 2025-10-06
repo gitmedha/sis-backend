@@ -194,7 +194,7 @@ module.exports = {
     return ctx.send({ batch: batch });
   },
   async findDistinctField(ctx) {
-    const { field, tab, info } = ctx.params; // Extract the field name from the query parameters
+    const { field, tab, info } = ctx.params;
     let optionsArray = [];
 
     const queryString = info.substring();
