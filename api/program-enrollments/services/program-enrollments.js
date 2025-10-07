@@ -37,6 +37,7 @@ module.exports = {
     const puppeteer = require('puppeteer');
 
     let certifcateFilePath = '';
+    console.log("program.certificate", program);
     switch (program.certificate) {
       case 'svapoorna':
         certifcateFilePath = './public/program-enrollment-certificate-template/svapoorna/certificate.html';
@@ -45,7 +46,9 @@ module.exports = {
       case 'pehliudaan':
         certifcateFilePath = './public/program-enrollment-certificate-template/pehliUdaan/certificate.html';
         break;
-
+      case 'otg':
+        certifcateFilePath = './public/program-enrollment-certificate-template/otg/certificate.html';
+        break;
       case 'default':
       default:
         certifcateFilePath = './public/program-enrollment-certificate-template/default/certificate.html';
