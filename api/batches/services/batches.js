@@ -22,50 +22,49 @@ module.exports = {
   async handleProgramEnrollmentOnCertification(batch) {
     try {
       console.log(`[Certification] Starting certification process for batch ${batch.id}`);
-      let batchStatus = batch.program.name === "MRC" ? "Complete - Not to be Certified" :"Certified";
-      let programStatus = batch.program.name === "MRC" ? "Batch Complete" : "Certified by Medha";
-      
       await strapi.services['batches'].handleProgramEnrollmentOnCompletion(batch);
-      console.log(`[Certification] Completed handleProgramEnrollmentOnCompletion for batch ${batch.id}`);
 
       let changeAttandance = batch.program.name === "Pehli Udaan";
+      let isOTG = batch.program.name === "On The Ground";
       
       const programEnrollments = await strapi.services['program-enrollments'].find({ batch: batch.id });
-      console.log(`[Certification] Found ${programEnrollments.length} enrollments to process for batch ${batch.id}`);
       
       const results = await Promise.allSettled(programEnrollments.map(async programEnrollment => {
         try {
-          console.log(`[Certification] Processing enrollment ${programEnrollment.id}`);
           
-          let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment, changeAttandance);
-          console.log(`[Certification] Enrollment ${programEnrollment.id} eligibility: ${isEligibleForCertification}`);
+          let isEligibleForCertification = await strapi.services['program-enrollments'].isProgramEnrollmentEligibleForCertification(programEnrollment);
 
           if (!isEligibleForCertification) {
             const status = changeAttandance ? 
               'Not Certified by Medha -- <100% Attendance' : 
               'Not Certified by Medha -- <75% Attendance';
-              
+            
             await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, { status });
-            console.log(`[Certification] Marked enrollment ${programEnrollment.id} as not certified`);
             return { success: true, id: programEnrollment.id, status: 'not-eligible' };
           }
 
           let today = programEnrollment.certification_date ? 
             new Date(programEnrollment.certification_date).toISOString().split('T')[0] :
             new Date().toISOString().split('T')[0];
-
-          await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+            if (isOTG) {
+             const otg =  await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
+                certification_date: today,
+                status: 'Batch Complete'
+              });
+            }else {
+              await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
             certification_date: today,
-            status:programStatus,
+            status: 'Certified by Medha'
           });
-          if(batch.program.name !== "MRC"){
-            await strapi.services['students'].update({ id: programEnrollment.student.id }, {
-                      status: 'Certified',
-                    });
-          }
+            }
+          
+
+          await strapi.services['students'].update({ id: programEnrollment.student.id }, {
+            status: 'Certified',
+          });
           
           console.log(`[Certification] Successfully certified enrollment ${programEnrollment.id}`);
-          return { success: true, id: programEnrollment.id, status: programStatus };
+          return { success: true, id: programEnrollment.id, status: 'certified' };
         } catch (error) {
           console.error(`[Certification] Error processing enrollment ${programEnrollment.id}:`, error);
           return { success: false, id: programEnrollment.id, error: error.message };
@@ -76,10 +75,17 @@ module.exports = {
       if (failedEnrollments.length > 0) {
         console.error(`[Certification] Failed enrollments:`, failedEnrollments);
       }
-
-      const updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
-        status:batchStatus,
+    let updatedBatch;
+      if(isOTG){
+      updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+        status: 'Complete – Not to be Certified',
       });
+      }else {
+
+      updatedBatch = await strapi.services['batches'].update({ id: batch.id }, {
+        status: 'Certified',
+      });
+      }
       console.log(`[Certification] Updated batch ${batch.id} status to Certified`);
       return updatedBatch;
     } catch (error) {
