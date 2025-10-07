@@ -8,17 +8,17 @@
   <style>
     @font-face {
       font-family: 'BebasNeuePro-Regular';
-      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf') format('truetype');
+      src: url('../fonts/BebasNeuePro-Regular.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Lato-Regular';
-      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
+      src: url('../fonts/Lato-Regular.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Lato-Light';
-      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
+      src: url('../fonts/Lato-Light.ttf') format('truetype');
     }
 
     body {
@@ -54,21 +54,22 @@
       position: absolute;
     }
 
-    .heading-logo {
-      height: 10rem;
-      /* padding-right: 3rem;
-      padding-left: 3rem; */
-      width: 45%;
+   .heading-logo {
+      width: 100% !important;
+      max-width: 550px !important;
+      height: auto;
       z-index: 1;
-      object-fit: contain;
-      margin-bottom: 30px;
+      text-align: center;
     }
 
 
     #Logo {
-      height: 100%;
-      width: 100%;
+      max-height: 150px;
+      width: auto;
+      max-width: 100%;
+      height: auto;
       z-index: 1;
+      object-fit: contain;
     }
 
     .heading-logo {
@@ -82,7 +83,7 @@
 
     .heading {
       font-family: 'BebasNeuePro-Regular';
-      font-size: 100px;
+      font-size: 80px;
       color: #282828;
       margin-top: 15px;
       letter-spacing: 2px;
@@ -200,9 +201,9 @@
 <body>
   <div class="main-container">
     <div class="certificate-container">
-      <img src="{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.jpeg" id="cert_img" />
+      <img src="./certificate-bg.jpeg" id="cert_img" />
       <div class="heading-logo">
-        <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/Logos.png" alt="Medha Logo"
+        <img src="./Logos.png" alt="Medha Logo"
           id="Logo" />
       </div>
       <div class="certificate-info-sec">
@@ -251,7 +252,7 @@
         </div>
         <div class="stamp_sec text-align-center">
           <div>
-            <img src="{{app_url}}/program-enrollment-certificate-template/default/mcc-logo.jpg" alt="Stamp Logo"
+            <img src="mcc-logo.jpg" alt="Stamp Logo"
               id="mcc-logo" />
           </div>
           <div>
