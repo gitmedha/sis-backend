@@ -52,6 +52,9 @@ module.exports = {
         certifcateFilePath = './public/program-enrollment-certificate-template/EmplifyWithAi/certificate.html';
         break;
 
+      case 'otg':
+        certifcateFilePath = './public/program-enrollment-certificate-template/otg/certificate.html';
+        break;
       case 'default':
       default:
         certifcateFilePath = './public/program-enrollment-certificate-template/default/certificate.html';
