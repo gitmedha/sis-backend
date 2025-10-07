@@ -46,9 +46,7 @@ module.exports = {
           let today = programEnrollment.certification_date ? 
             new Date(programEnrollment.certification_date).toISOString().split('T')[0] :
             new Date().toISOString().split('T')[0];
-console.log("isOTG", isOTG);
             if (isOTG) {
-              console.log("OTG Certification Process",programEnrollment.id);
              const otg =  await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
                 certification_date: today,
                 status: 'Batch Complete'
