@@ -144,6 +144,7 @@ module.exports = {
   async createFromSystemAdoptionWebhook(ctx) {
     const data = ctx.request.body;
     const logged_in_user = ctx.state.user.id;
+    
 
     // Generate custom student ID
     const customStudentId = generateCustomStudentId(data.state, data.phone, data.type, data.course_type);
@@ -177,8 +178,8 @@ module.exports = {
     student.gender = data.gender;
     student.student_id = customStudentId; // Store as student_id field
     student.department = "System Adoption";
-    student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
-    student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
+    student.assigned_to = '2';
+    student.registered_by = '2';
     student.income_level = data.income_level;
     student.family_annual_income = data.family_annual_income;
     student.medha_champion = false;
@@ -188,7 +189,7 @@ module.exports = {
     student.pin_code = data.pin_code;
     student.state = data.state;
     student.district = data.district;
-    student.medha_area = institution?.medha_area ? institution?.medha_area : data.medha_area;
+    student.medha_area = "";
     student.created_by_frontend = logged_in_user;
     student.updated_by_frontend = logged_in_user;
     student.how_did_you_hear_about_us = data.how_did_you_hear_about_us;
@@ -199,7 +200,7 @@ module.exports = {
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
     });
-    
+   
     console.log(`
             STUDENT CREATED ID: ${sanitizedStudentEntity.student_id}
             NAME: ${sanitizedStudentEntity.full_name}
