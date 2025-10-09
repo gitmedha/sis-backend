@@ -132,6 +132,18 @@
     },
     "reminder_count": {
       "type": "integer"
+    },
+    "reminder_sent_at": {
+      "type": "datetime"
+    },
+    "formation_mail_sent_at": {
+      "type": "datetime"
+    },
+    "closure_mail_sent_at": {
+      "type": "datetime"
+    },
+    "manual_reminder_sent_at": {
+      "type": "datetime"
     }
   }
 }
