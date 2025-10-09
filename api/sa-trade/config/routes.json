@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/sa-trades",
+      "handler": "sa-trade.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sa-trades/count",
+      "handler": "sa-trade.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/sa-trades/:id",
+      "handler": "sa-trade.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/sa-trades",
+      "handler": "sa-trade.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/sa-trades/:id",
+      "handler": "sa-trade.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/sa-trades/:id",
+      "handler": "sa-trade.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

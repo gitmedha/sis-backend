@@ -8,17 +8,17 @@
   <style>
     @font-face {
       font-family: 'BebasNeuePro-Regular';
-      src: url('../fonts/BebasNeuePro-Regular.ttf') format('truetype');
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Lato-Regular';
-      src: url('../fonts/Lato-Regular.ttf') format('truetype');
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
     }
 
     @font-face {
       font-family: 'Lato-Light';
-      src: url('../fonts/Lato-Light.ttf') format('truetype');
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
     }
 
     body {
@@ -62,6 +62,7 @@
       width: 100% !important;
       max-width: 500px !important;
       margin-bottom: 1rem;
+
       height: auto;
       z-index: 1;
       text-align: center;
@@ -99,7 +100,7 @@
     .sub-heading {
       font-family: 'Lato-Light';
       color: #171717;
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 400;
     }
 
@@ -216,9 +217,9 @@
   <div class="main-container">
     
     <div class="certificate-container">
-      <img src="./certificate-bg.jpeg" id="cert_img" />
+      <img src="{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.jpeg" id="cert_img" />
       <div class="heading-logo">
-        <img src="./Logos.png" alt="Medha Logo"
+         <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/Logos.png" alt="Medha Logo"
           id="Logo" />
       </div>
       <div class="certificate-info-sec">
@@ -270,7 +271,6 @@
           </div>
         </div>
         <div class="stamp_sec text-align-center">
-          
           <div>
             <p class="center">This program is part of the Al Opportunity Fund: Asia Pacific by AVPN,<br /> with support
               from Google.org and ADB</p>

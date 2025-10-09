@@ -70,8 +70,7 @@ module.exports = {
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
     }
     if (data.status === "Complete" && !closure_mail_sent) {
-      await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
-  
+await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
@@ -107,7 +106,7 @@ module.exports = {
   const program = entity.program?.name;
 
   if (program === "On the Ground") {
-    await strapi.services["batches"].handleOnTheGroundCertification(entity);
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
 
     await strapi.services["audit-logs"].create({
       user: ctx.state?.user?.id,
@@ -194,7 +193,7 @@ module.exports = {
     return ctx.send({ batch: batch });
   },
   async findDistinctField(ctx) {
-    const { field, tab, info } = ctx.params; // Extract the field name from the query parameters
+    const { field, tab, info } = ctx.params;
     let optionsArray = [];
 
     const queryString = info.substring();
@@ -366,7 +365,8 @@ module.exports = {
               {
                 manual_email_sent: true, 
                 reminder_sent: true,
-                reminder_count: currentCount + 1
+                reminder_count: currentCount + 1,
+                manual_reminder_sent_at: new Date()
               });
     
     
