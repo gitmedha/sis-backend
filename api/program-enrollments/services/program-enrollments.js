@@ -123,9 +123,10 @@ module.exports = {
     });
 
     // update certificate url for the program enrollment record
+    let status = program.certificate === 'otg' ? 'Batch Complete' : 'Certified by Medha';
     const updatedProgramEnrollment = await strapi.services['program-enrollments'].update({ id: programEnrollment.id }, {
       medha_program_certificate: fileUpload[0].id,
-      status: 'Certified by Medha',
+      status: status,
       medha_program_certificate_status: 'complete',
       certification_date: today,
     });

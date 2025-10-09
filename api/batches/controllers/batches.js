@@ -70,8 +70,13 @@ module.exports = {
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
     }
     if (data.status === "Complete" && !closure_mail_sent) {
-      await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
-  
+      const program = entity.program?.name;
+      if (program === "On the Ground") {
+        await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+      } else {
+        await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+      }
+
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
@@ -107,7 +112,7 @@ module.exports = {
   const program = entity.program?.name;
 
   if (program === "On the Ground") {
-    await strapi.services["batches"].handleOnTheGroundCertification(entity);
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
 
     await strapi.services["audit-logs"].create({
       user: ctx.state?.user?.id,
