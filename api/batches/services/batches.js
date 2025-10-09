@@ -311,23 +311,18 @@ module.exports = {
     const today = new Date().toISOString().split("T")[0];
 
     if (status === "Enrollment Complete -- To Be Started") {
-      await strapi.services.batches.update(
-        { id },
-        {
-          formation_mail_sent: true,
-          formation_email_date: today,
-          last_attendance_date: today,
-        }
-      );
-    } else {
-      await strapi.services.batches.update(
-        { id },
-        {
-          closure_mail_sent: true,
-          closure_email_date: today,
-        }
-      );
-    }
+        await strapi.services.batches.update(
+          { id }, 
+          { 
+            formation_mail_sent: true, 
+            last_attendance_date: new Date().toISOString().split("T")[0],
+            formation_mail_sent_at: new Date()
+          }
+        );
+        
+      } else {
+        await strapi.services.batches.update({ id }, { closure_mail_sent: true , closure_mail_sent_at: new Date() });
+      }
   } catch (error) {
     console.log("error", error);
     throw new Error(error.message);
