@@ -371,7 +371,8 @@ module.exports = {
               {
                 manual_email_sent: true, 
                 reminder_sent: true,
-                reminder_count: currentCount + 1
+                reminder_count: currentCount + 1,
+                manual_reminder_sent_at: new Date()
               });
     
     
