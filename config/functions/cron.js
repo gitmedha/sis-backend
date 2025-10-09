@@ -83,7 +83,8 @@ module.exports = {
                       { id },
                       { 
                         reminder_sent: true,
-                        reminder_count: currentCount + 1
+                        reminder_count: currentCount + 1,
+                        reminder_sent_atr_sent_at: new Date()
                       }
                     );
 
