@@ -54,7 +54,7 @@
       position: absolute;
     }
 
-   .heading-logo {
+    .heading-logo {
       width: 100% !important;
       max-width: 500px !important;
 
@@ -169,6 +169,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      top: 2rem;
     }
 
     .label {
@@ -204,7 +206,7 @@
     <div class="certificate-container">
       <img src="{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.jpeg" id="cert_img" />
       <div class="heading-logo">
-         <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/Logos.png" alt="Medha Logo"
+        <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/Logos.png" alt="Medha Logo"
           id="Logo" />
       </div>
       <div class="certificate-info-sec">
@@ -243,7 +245,7 @@
         </div>
       </div>
       <div class="footer_sec">
-        <div class="cert_no_sec">
+        <div class="cert_no_sec student_cred_sec">
           <div class="label">
             Certificate no: &nbsp;
           </div>
@@ -253,10 +255,10 @@
         </div>
         <div class="stamp_sec text-align-center">
           <div>
-              <img src="{{app_url}}/program-enrollment-certificate-template/default/mcc-logo.jpg" alt="Stamp Logo"
+            <img src="mcc-logo.jpg" alt="Stamp Logo"
               id="mcc-logo" />
           </div>
-          <div>
+          <div class="mt-1">
             <p class="center">This program is part of the Al Opportunity Fund: Asia Pacific by AVPN,<br /> with support
               from Google.org and ADB</p>
           </div>
@@ -265,7 +267,7 @@
 
         </div>
 
-        <div class="student_id_sec">
+        <div class="student_id_sec student_cred_sec ">
           <div class="label">
             Student ID: &nbsp;
           </div>
