@@ -1,241 +1,215 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      @font-face {
-          font-family: 'BebasNeuePro-Regular';
-          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf')  format('truetype');
-        }
+  @font-face {
+    font-family: 'BebasNeuePro-Regular';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf') format('truetype');
+  }
 
-      @font-face {
-          font-family: 'Lato-Regular';
-          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
-      }
+  @font-face {
+    font-family: 'Lato-Regular';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
+  }
 
-      @font-face {
-          font-family: 'Lato-Light';
-          src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
-      }
+  @font-face {
+    font-family: 'Lato-Light';
+    src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
+  }
 
-      body {
-          padding:0;
-          margin: 0;
-      }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+  }
 
-      .main-container {
-          height: 100vh;
-          width: 100vw;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-      }
-.otg_msg{
-  margin-bottom: 2rem;
-}
+  .main-container {
+    width: 1440px;
+    height: 1120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-      .certificate-container {
-          height: 100%;
-          width: 100%;
-          padding: 0;
-          margin: 0;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-      }
+  #cert_img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
-      #cert_img {
-          height: 100%;
-          width: 100%;
-          position: absolute;
-      }
+  .certificate-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 40px 150px 20px 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-      .heading-logo,.institution-logo {
-          height: 10rem;
-          width: 10rem;
-          z-index: 1;
-          margin-bottom:30px;
-      }
+  /* Logo */
+  .heading-logo {
+    height: 140px;
+    margin-bottom: 35px;
+    margin-top: 135px;
+  }
 
+  .heading-logo img {
+    height: 100%;
+    width: auto;
+  }
 
-      #Logo {
-          height: 100%;
-          width: 100%;
-          z-index: 1;
-      }
+  /* Main Heading */
+  .heading {
+    font-family: 'BebasNeuePro-Regular', sans-serif;
+    font-size: 80px;
+    color: #2c3e50;
+    letter-spacing: 1.5px;
+    margin-bottom: 35px;
+  }
+  
+  /* Intro Text */
+  .sub-heading {
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 30px;
+    color: #555;
+    margin-bottom: 15px;
+    font-weight: 400;
+  }
 
-      .heading-logo {
-          z-index: 1;
-      }
+  /* Student Info */
+  .name-sec {
+    font-family: 'Lato-Regular', sans-serif;
+    font-size: 45px;
+    color: #000;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
 
-      .certificate-info-sec {
-          z-index: 1;
-          text-align: center;
-      }
+  .course_sec,
+  .institution_sec,
+  .success_msg {
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 30px;
+    color: #555;
+    line-height: 1.4;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
 
-      .heading {
-          font-family: 'BebasNeuePro-Regular';
-          font-size:100px;
-          color:#282828;
-          margin-top:15px;
-          letter-spacing: 2px;
-          margin-bottom: 15px;
-      }
+  .program_name {
+    font-family: 'Lato-Regular', sans-serif;
+    font-size: 45px;
+    color: #000;
+    font-weight: 400;
+    margin: 25px 0 5px 0;
+  }
 
-      .sub-heading {
-          font-family: 'Lato-Light';
-          color: #171717;
-          font-size: 2.2rem;
-          font-weight: 400;
-      }
-      .name-sec{
-          font-family: 'Lato-Regular';
-          font-size: 3rem;
-          color: #171717;
-          font-weight: 400;
-          margin-top: 0.5rem;
-          margin-bottom: 0.5rem;
-      }
-      .course_sec,.institution_sec, .success_msg,.desc{
-          font-size: 2.2rem;
-          font-family: 'Lato-Light';
-          color: #171717;
-          font-weight: 400;
-          line-height: 1.5;
-      }
-      .success_msg {
-          margin-bottom: 15px;
-      }
-     
+  .desc {
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 30px;
+    color: #555;
+    margin-bottom: 25px;
+    font-weight: 400;
+  }
 
-      .desc, .date_sec {
-          margin-bottom: 2.09rem;
-      }
-      .program_name {
-        margin-bottom: 1rem;
-        color: #171717;
-        font-size: 3rem;
-        font-family: 'Lato-Regular';
-      }
-      .date_label{
-          font-family: 'Lato-Light';
-          font-size: 25px;
-          color: #171717;
-          font-weight: 400;
+  /* Date Section */
+  .date_sec {
+    margin-top: 25px;
+    text-align: center;
+  }
 
-      }
+  .date_label {
+    font-family: 'Lato-Light', sans-serif;
+    font-size: 22px;
+    color: #666;
+  }
 
-      .date {
-          font-family: 'Lato-Regular';
-          font-size: 26px;
-          color: #171717;
-          font-weight: 400;
-      }
+  .date {
+    font-family: 'Lato-Regular', sans-serif;
+    font-size: 22px;
+    color: #000;
+    margin-top: 5px;
+    font-weight: 700;
+  }
 
-      .footer_sec {
-          display: flex;
-          justify-content: space-between;
-          align-items: baseline;
-          width: 90%;
-          z-index: 1;
-          margin-top: 1rem;
-      }
+  /* Footer */
+  .footer_sec {
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    right: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+  }
 
-      #mcc-logo {
-          height: 10rem;
-          width: 10rem;
-          object-fit: cover;
-      }
-      .cert_no_sec,.student_id_sec {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-      }
-      .label {
-          font-family: 'Lato-Light';
-          font-size: 26px;
-          color: #171717;
-          font-weight: 400;
-      }
+  .label {
+    font-family: 'Lato-Light', sans-serif;
+    color: #666;
+    font-size: 22px;
+    font-weight: 400;
 
-      .value {
-          font-family: 'Lato-Regular';
-          font-size: 26px;
-          color: #171717;
-          font-weight: 400;
-      }
-      .stamp_sec{
-        margin-left: 30px;
-      }
+  }
 
-  </style>
+  .value {
+    font-family: 'Lato-Regular', sans-serif;
+    color: #000;
+    font-weight: 700;
+    font-size: 22px;
+  }
+</style>
+
   </head>
+
   <body>
     <div class="main-container">
+      <img src="{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.jpeg" id="cert_img" alt="Background" />
       <div class="certificate-container">
-        <img src="{{app_url}}/program-enrollment-certificate-template/default/certificate-bg.jpeg" id="cert_img"/>
         <div class="heading-logo">
-          <img src="{{app_url}}/program-enrollment-certificate-template/default/medha-logo.png" alt="Medha Logo" id="Logo"/>
+          <img src="{{app_url}}/program-enrollment-certificate-template/default/medha-logo.png" alt="Medha Logo" />
         </div>
-        <div class="certificate-info-sec">
-          <div class="heading">
-            COMPLETION CERTIFICATE
-          </div>
-          <div class="sub-heading">
-            Medha hereby confirms that
-          </div>
-          <div class="stundent-info">
-            <div class="name-sec">
-              {{student_name}}
-            </div>
-            <div class="course_sec">
-              pursuing {{course_name}}
-            </div>
-            <div class="institution_sec">
-              from {{institution_name}}
-            </div>
-            <div class="success_msg">
-              has successfully completed
-            </div>
-          </div>
-          <div class="program_details_sec">
-            <div class="program_name">
-              <div>{{program_name}}</div>
-            </div>
-            <div class="success_msg otg_msg">
-              a 7-day research training program
-            </div>
-            <div class="date_sec">
-              <div class="date_label">
-                Date
-              </div>
-              <div class="date">
-                {{certification_date}}
-              </div>
-            </div>
-          </div>
+
+        <div class="heading">COMPLETION CERTIFICATE</div>
+
+        <div class="sub-heading">Medha hereby confirms that</div>
+
+        <div class="name-sec">Student Name</div>
+        <div class="course_sec">pursuing Diploma in Electronics Engineering</div>
+        <div class="institution_sec">from College Name</div>
+        <div class="success_msg">has successfully completed</div>
+
+        <div class="program_name">On The Ground</div>
+        <div class="desc">a 7-day research training program</div>
+
+        <div class="date_sec">
+          <div class="date_label">Date</div>
+          <div class="date">30th November, 2021</div>
         </div>
+
         <div class="footer_sec">
-          <div class="cert_no_sec">
-            <div class="label">
-              Certificate no: &nbsp;
-            </div>
-            <div class="value">
-              {{certificate_no}}          
-            </div>
+          <div>
+            <span class="label">Certificate no: </span>
+            <span class="value">001</span>
           </div>
-          <div class="student_id_sec">
-            <div class="label">
-              Student ID: &nbsp;
-            </div>
-            <div class="value">
-              {{student_id}}
-            </div>
+          <div>
+            <span class="label">Student ID: </span>
+            <span class="value">STU148482</span>
           </div>
         </div>
       </div>
