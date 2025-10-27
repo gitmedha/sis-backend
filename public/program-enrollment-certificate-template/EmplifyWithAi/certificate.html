@@ -57,7 +57,7 @@
     .heading-logo {
       width: 100% !important;
       max-width: 500px !important;
-
+      
       height: auto;
       z-index: 1;
       text-align: center;
@@ -85,7 +85,7 @@
     .heading {
       font-family: 'BebasNeuePro-Regular';
       font-size: 80px;
-      color: #282828;
+      color: #333333;
       margin-top: 15px;
       letter-spacing: 2px;
       margin-bottom: 15px;
@@ -93,7 +93,7 @@
 
     .sub-heading {
       font-family: 'Lato-Light';
-      color: #171717;
+      color: #666666;
       font-size: 2rem;
       font-weight: 400;
     }
@@ -101,7 +101,7 @@
     .name-sec {
       font-family: 'Lato-Regular';
       font-size: 3rem;
-      color: #171717;
+      color: #333333;
       font-weight: 400;
       margin-top: 0.5rem;
       margin-bottom: 0.5rem;
@@ -113,7 +113,7 @@
     .desc {
       font-size: 2.2rem;
       font-family: 'Lato-Light';
-      color: #171717;
+      color: #666666;
       font-weight: 400;
       line-height: 1.5;
     }
@@ -130,7 +130,7 @@
 
     .program_name {
       margin-bottom: 3rem;
-      color: #171717;
+      color: #333333;
       font-size: 3rem;
       font-family: 'Lato-Regular';
     }
@@ -138,7 +138,7 @@
     .date_label {
       font-family: 'Lato-Light';
       font-size: 25px;
-      color: #171717;
+      color: #A0A0A0;
       font-weight: 400;
 
     }
@@ -162,6 +162,7 @@
       height: 10rem;
       width: 10rem;
       object-fit: cover;
+      /* margin-top: 2rem; */
     }
 
     .cert_no_sec,
@@ -170,7 +171,7 @@
       justify-content: space-between;
       align-items: center;
       position: relative;
-      top: 2rem;
+      top: 3rem;
     }
 
     .label {
@@ -194,10 +195,15 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      margin-top: 3rem;
     }
     .center{
       text-align: center;
     }
+    .mt-1{
+      margin-top: 1rem;
+    }
+    
   </style>
 </head>
 
@@ -219,12 +225,15 @@
         <div class="stundent-info">
           <div class="name-sec">
             {{student_name}}
+             <!-- Rohit -->
           </div>
           <div class="course_sec">
             pursuing {{course_name}}
+             <!-- pusuing test course -->
           </div>
           <div class="institution_sec">
             from {{institution_name}}
+             <!-- from test university -->
           </div>
           <div class="success_msg">
             has successfully completed
@@ -233,12 +242,14 @@
         <div class="program_details_sec">
           <div class="program_name">
             <div>{{program_name}}</div>
+            <!-- <div>Emplify with AI</div> -->
           </div>
           <div class="date_sec">
             <div class="date_label">
               Date
             </div>
             <div class="date">
+                    <!-- 30th Novemeber,2021 -->
               {{certification_date}}
             </div>
           </div>
@@ -250,6 +261,7 @@
             Certificate no: &nbsp;
           </div>
           <div class="value">
+            <!-- 16620 -->
             {{certificate_no}}
           </div>
         </div>
@@ -259,7 +271,7 @@
               id="mcc-logo" />
           </div>
           <div class="mt-1">
-            <p class="center">This program is part of the Al Opportunity Fund: Asia Pacific by AVPN,<br /> with support
+            <p class="center">This program is part of the AI Opportunity Fund: Asia Pacific by AVPN,<br /> with support
               from Google.org and ADB</p>
           </div>
 
@@ -273,6 +285,7 @@
           </div>
           <div class="value">
             {{student_id}}
+            <!-- STU123456 -->
           </div>
         </div>
       </div>

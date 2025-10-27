@@ -61,6 +61,7 @@ module.exports = {
     student.status = "New Request"; // default status is Registered
     student.date_of_birth = dateString;
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
+    student.department = "Core Programs";
     student.category = data.category;
     student.gender = data.gender;
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
