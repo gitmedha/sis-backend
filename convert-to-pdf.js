@@ -8,7 +8,7 @@ const path = require('path'); // Import the path module to handle file paths
     
     // Construct the absolute file path
 
-    const filePath = path.resolve(__dirname, './public/program-enrollment-certificate-template/otg/certificate.html');
+    const filePath = path.resolve(__dirname, './public/program-enrollment-certificate-template/EmplifyWithAi/certificate.html');
 
     
     // Use the file:// protocol with the absolute path
