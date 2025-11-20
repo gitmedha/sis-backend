@@ -91,9 +91,25 @@ module.exports = {
     let certificateFileName = `${programEnrollment.id}-` + (new Date()).getTime() + '.pdf';
     let certificatePath = `./public/${certificateFileName}`;
  
- 
-    // generate pdf
-    await page.pdf({
+     // generate pdf
+
+    if(program.certificate === 'EmplifyWithAi'){
+       await page.pdf({
+      path: certificatePath,
+      width: '1057px',
+      height: '831px',
+      printBackground: true,
+      margin: {
+        left: '0px',
+        top: '0px',
+        right: '0px',
+        bottom: '0px'
+      }
+    });
+      
+
+    }else {
+      await page.pdf({
       path: certificatePath,
       width: '1440px',
       height: '1120px',
@@ -105,6 +121,9 @@ module.exports = {
         bottom: '0px'
       }
     });
+
+    }
+    
  
     // terminate puppeteer instance
     await browser.close();

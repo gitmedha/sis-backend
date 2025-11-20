@@ -2,7 +2,7 @@
   "kind": "collectionType",
   "collectionName": "sa_trades",
   "info": {
-    "name": "SA_trade"
+    "name": "sa_trade"
   },
   "options": {
     "increments": true,
