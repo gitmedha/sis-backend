@@ -34,7 +34,8 @@
       "enum": [
         "default",
         "svapoorna",
-        "pehliudaan"
+        "pehliudaan",
+        "EmplifyWithAi"
       ],
       "default": "default"
     }
