@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    @font-face {
+      font-family: 'BebasNeuePro-Regular';
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/BebasNeuePro-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Lato-Regular';
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Lato-Light';
+      src: url('{{app_url}}/program-enrollment-certificate-template/fonts/Lato-Light.ttf') format('truetype');
+    }
+  </style>
+</head>
+
+<body class="m-0 p-0">
+
+  <div class="w-[1057px] h-[831px] p-[50px] bg-cover bg-center flex flex-col"
+       style="background-image: url('{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/certificate-bg.jpeg');">
+
+    <!-- INNER CONTAINER -->
+    <div class="flex flex-col flex-1 items-center mt-[22px] relative top-[2px]">
+
+      <!-- ICON -->
+      <div class="relative right-[6px]">
+        <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/Logos.png" class="h-[72px]" />
+      </div>
+
+      <!-- HEADING -->
+      <div class="text-[65px] text-[#232323] relative top-[17px]" style="font-family: 'BebasNeuePro-Regular';">
+        COMPLETION CERTIFICATE
+      </div>
+
+      <!-- SUB HEADING -->
+      <div class="mt-2 text-[24px] text-[#282828] relative top-[9.5px]" style="font-family: 'Lato-Light';">
+        Medha Career Center hereby confirms that
+      </div>
+
+      <!-- NAME -->
+      <div class="mt-2 text-[32px] font-normal relative top-[3px]" style="font-family: 'Lato-Regular';">
+        <!-- Student Name -->
+                 {{student_name}}
+
+      </div>
+
+      <!-- CONTENT LINES -->
+      <div class="mt-1 text-center text-[24px] font-[#282828] leading-6 relative top-[3px]" style="font-family: 'Lato-Light';">
+        <p>
+          pursuing 
+          <!-- Diploma in Electronics Engineering -->
+           {{course_name}}
+        </p>
+        <p class="relative top-[6px]">
+          from
+           <!-- College Name -->
+            {{institution_name}}
+        </p>
+        <p class="relative top-[16px]">has successfully completed</p>
+      </div>
+
+      <!-- PROGRAM NAME -->
+      <div class="text-[32px] relative top-[28px]" style="font-family: 'Lato-Regular';">
+        <!-- Emplify with AI -->
+        {{program_name}}
+      </div>
+
+      <!-- DATE SECTION -->
+      <div class="mt-6 text-center">
+        <div class="text-[18px] text-[#282828] relative top-[21px]" style="font-family: 'Lato-Light';">Date</div>
+        <div class="text-[19px] text-[#000000] relative top-[14px]" style="font-family: 'Lato-Regular';">
+          <!-- 30th November, 2021 -->
+                     {{certification_date}}
+        </div>
+      </div>
+
+      <!-- STAMP -->
+      <div class="mt-6 relative top-[10px]">
+        <img src="{{app_url}}/program-enrollment-certificate-template/EmplifyWithAi/mcc-logo.jpg" class="h-[141px] w-auto object-cover" />
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="mt-auto w-full flex justify-between items-center text-[16px]">
+
+      <!-- Left -->
+      <div class="flex relative bottom-[5px]">
+        <div class="font-[Lato-Light] text-[#282828] text-[16px]">Certificate no: &nbsp</div>
+        <div>
+          <!-- 16620 -->
+                     {{certificate_no}}
+
+        </div>
+      </div>
+
+      <!-- Center -->
+      <div class="text-center text-[12.5px] leading-tight relative bottom-[7px]" style="font-family: 'Lato-Regular';">
+        This program is part of the AI Opportunity Fund: Asia Pacific by AVPN,<br />
+        with support from Google.org and ADB.
+      </div>
+
+      <!-- Right -->
+      <div class="text-right flex relative bottom-[5px]">
+        <div class="font-[Lato-Light] text-[16px] text-[#282828]">
+          Student ID: &nbsp</div>
+        <div>
+          <!-- STU148482 -->
+            {{student_id}}
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
