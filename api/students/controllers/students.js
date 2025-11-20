@@ -145,7 +145,6 @@ module.exports = {
   async createFromSystemAdoptionWebhook(ctx) {
     const data = ctx.request.body;
     const logged_in_user = ctx.state.user.id;
-    
 
     // Generate custom student ID
     const customStudentId = generateCustomStudentId(data.state, data.phone, data.type, data.course_type);
@@ -201,7 +200,7 @@ module.exports = {
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
     });
-   
+    
     console.log(`
             STUDENT CREATED ID: ${sanitizedStudentEntity.student_id}
             NAME: ${sanitizedStudentEntity.full_name}
@@ -300,6 +299,8 @@ function generateCustomStudentId(state, phone, type, course_type) {
     ctx.send(responseEntity);
     return responseEntity;
   },
+
+
 
   async delete(ctx) {
     const { id } = ctx.params;
