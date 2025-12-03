@@ -63,7 +63,7 @@ module.exports = {
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
     student.category = data.category;
     student.gender = data.gender;
-
+    student.department = "Core Programs";
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.income_level = data.income_level;
