@@ -41,13 +41,16 @@
     },
     "compensation_type": {
       "type": "enumeration",
-      "enum": ["Paid", "Unpaid"]
+      "enum": [
+        "Paid",
+        "Unpaid"
+      ]
     },
     "skills_required": {
       "type": "string"
     },
-    "experience_required":{
-      "type":"string"
+    "experience_required": {
+      "type": "string"
     },
     "address": {
       "type": "string"
@@ -88,6 +91,9 @@
       "plugin": "upload",
       "required": false,
       "pluginOptions": {}
+    },
+    "earning_type": {
+      "type": "string"
     }
   }
 }

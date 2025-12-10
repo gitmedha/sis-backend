@@ -80,6 +80,9 @@
     },
     "reason_if_rejected_other": {
       "type": "string"
+    },
+    "earning_type": {
+      "type": "string"
     }
   }
 }
