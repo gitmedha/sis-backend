@@ -78,7 +78,17 @@ module.exports = {
                     cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
                   }, emailBody);
                   
-                  await strapi.services['batches'].update({ id }, { reminder_sent: true});
+                    const currentBatch = await strapi.services['batches'].findOne({ id });
+                    const currentCount = currentBatch?.reminder_count || 0;
+
+                    await strapi.services['batches'].update(
+                      { id },
+                      { 
+                        reminder_sent: true,
+                        reminder_count: currentCount + 1,
+                        reminder_sent_atr_sent_at: new Date()
+                      }
+                    );
 
                     console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
                 } catch (emailError) {

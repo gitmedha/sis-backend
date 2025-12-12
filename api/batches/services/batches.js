@@ -282,12 +282,13 @@ module.exports = {
           { id }, 
           { 
             formation_mail_sent: true, 
-            last_attendance_date: new Date().toISOString().split("T")[0]
+            last_attendance_date: new Date().toISOString().split("T")[0],
+            formation_mail_sent_at: new Date()
           }
         );
         
       } else {
-        await strapi.services.batches.update({ id }, { closure_mail_sent: true });
+        await strapi.services.batches.update({ id }, { closure_mail_sent: true , closure_mail_sent_at: new Date() });
       }
     } catch (error) {
       console.log("error",error)
