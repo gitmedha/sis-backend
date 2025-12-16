@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sa_trades",
+  "info": {
+    "name": "sa_trade"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "trade_name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "category_value": {
+      "type": "integer"
+    }
+  }
+}

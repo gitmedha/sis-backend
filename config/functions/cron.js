@@ -15,73 +15,111 @@ module.exports = {
   // '* * * * *': async () => {
   //   await generateCertificates();
   // },
-// '00 12 * * *': 
-// async () => { // Runs daily at 12:00 AM
-//   try{
-//     const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
-//     for (const batch of batches) {
-//         const { last_attendance_date, status_changed_date, id, name } = batch;
+  //Setted up utc 05:30 AM which is 11:00 PM IST 
+'30 5 * * 1-5': async () => { // Runs only Monday to Friday at 11:00 PM IST
+  try {
+    const batches = await strapi.services['batches'].find({ status: 'In Progress' });
 
-//         const assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
-//             id: Number(batch.assigned_to.id),
-//         });
+    for (const batch of batches) {
+        const { last_attendance_date, status_changed_date, id, name, assigned_to } = batch;
 
-//         const srmName = assignedTo.username;
-//         const srmEmail = assignedTo.email;
-//         const managerEmail = assignedTo.reports_to?.email;
+        // Skip if no assigned SRM
+        if (!assigned_to) {
+            console.log(`Skipping batch ${id} as no assigned SRM`);
+            continue;
+        }
 
-//         const now = moment();
+        const assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
+            id: Number(assigned_to.id),
+        });
 
-//         // Skip batches within the grace period
-//         if (status_changed_date && moment(status_changed_date).isAfter(moment().subtract(5, 'days'))) {
-//             continue;
-//         }
+        const srmName = assignedTo?.username || "SRM";
+        const srmEmail = assignedTo?.email;
+        const managerEmail = assignedTo?.reports_to?.email;
 
-//         // Check if last attendance was more than 5 days ago
-//         if (last_attendance_date && now.diff(moment(last_attendance_date), 'days') > 1) {
-//             // Generate the dynamic link
-//             const baseUrl = 'https://sisstg.medha.org.in/';
-//             const attendanceLink = `${baseUrl}/batch/${id}`;
+        const now = moment();
 
-//             // Trigger email
-//             await strapi.plugins['email'].services.email.send({
-//                 to:srmEmail,
-//                 cc: [managerEmail, 'kirti.gour@medha.org.in','maryam.raza@medha.org.in','sanskaar.pradhan@medha.org.in'],
-//                 subject: `Reminder: Please Mark Attendance for Batch ${name}`,
-//                 text: `
-//                     Dear ${srmName},
-                    
-//                     This is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
-//                     Please ensure it is marked within the next 2 days to maintain accurate records.
-                    
-//                     You can update the attendance by clicking on the following link:
-//                     [Mark Attendance Now](${attendanceLink})
-                    
-//                     Best,
-//                     Data Management
-//                 `,
-//                 html: `
-//                     <p>Dear ${srmName},</p>
-//                     <p>
-//                         This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.
-//                         Please ensure it is marked within the next 2 days to maintain accurate records.
-//                     </p>
-//                     <p>
-//                         You can update the attendance by clicking on the following link:<br>
-//                         <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a>
-//                     </p>
-//                     <p>Best,<br>Data Management</p>
-//                 `,
-//             });
-//         }
-//     }
+        // Log dates for debugging
 
-//   }catch(e){
-//     console.log('Error in cron job', e);
-//   }   
-// }
+        // Skip batches within the grace period (excluding weekends)
+        if (status_changed_date) {
+            const workingDaysSinceStatusChange = countWeekdaysBetween(status_changed_date, now);
+            if (workingDaysSinceStatusChange < 5) {
+                console.log(`Skipping batch ${name} (ID: ${id}): Status changed recently (${workingDaysSinceStatusChange} working days ago)`);
+                continue;
+            }
+        }
 
+        // Check if last attendance was more than 5 working days ago
+        if (last_attendance_date) {
+            const workingDaysSinceAttendance = countWeekdaysBetween(last_attendance_date, now);
+            if (workingDaysSinceAttendance > 5) {
+                // Generate the dynamic link
+                const baseUrl = 'https://sisnew.medha.org.in/';
+                const attendanceLink = `${baseUrl}batch/${id}`;
+
+                // Trigger email with error handling
+                const emailBody = {
+                  subject: `Reminder: Please Mark Attendance for Batch ${name}`,
+                  text: `Dear ${srmName},\n\nThis is a reminder that attendance for batch "${name}" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.\nPlease ensure it is marked within the next 2 days to maintain accurate records.\n\nYou can update the attendance by clicking on the following link:\n[Mark Attendance Now](${attendanceLink})\n\nBest,\nData Management`,
+                  html: `
+                  <p>Dear ${srmName},</p>
+                  <p>This is a reminder that attendance for batch "<strong>${name}</strong>" has not been updated since ${moment(last_attendance_date).format('MMMM DD, YYYY')}.</p>
+                  <p>Please ensure it is marked by today to maintain accurate records.</p>
+                  <p>You can update the attendance by clicking on the following link : <a href="${attendanceLink}" target="_blank">Mark Attendance Now</a></p>
+                  <p>Best,<br>Data Management</p>
+              `
+                }
+                try {
+
+                  await strapi.plugins['email'].services.email.sendTemplatedEmail({
+                    to:srmEmail,
+                    cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+                  }, emailBody);
+                  
+                    const currentBatch = await strapi.services['batches'].findOne({ id });
+                    const currentCount = currentBatch?.reminder_count || 0;
+
+                    await strapi.services['batches'].update(
+                      { id },
+                      { 
+                        reminder_sent: true,
+                        reminder_count: currentCount + 1,
+                        reminder_sent_atr_sent_at: new Date()
+                      }
+                    );
+
+                    console.log(`Email sent to ${srmEmail} for batch ${name} (ID: ${id})`);
+                } catch (emailError) {
+                    console.error(`Failed to send email for batch ${id}:`, emailError);
+                }
+            } else {
+                console.log(`Skipping batch ${name} (ID: ${id}): Attendance was recently updated.`);
+            }
+        }
+    }
+
+  } catch (e) {
+    console.error('Error in cron job:', e);
+  }
+}
+
+};
+
+const countWeekdaysBetween = (startDate, endDate) => {
+  let count = 0;
+  let current = moment(startDate);
+
+  while (current.isBefore(endDate, 'day')) {
+      const day = current.isoWeekday(); // 1 = Monday, 7 = Sunday
+      if (day >= 1 && day <= 5) { // Only count weekdays
+          count++;
+      }
+      current.add(1, 'day');
+  }
+
+  return count;
 };
 
 const generateCertificates = async () => {

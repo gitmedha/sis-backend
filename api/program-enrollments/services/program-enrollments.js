@@ -19,7 +19,7 @@ module.exports = {
     let student_id  = programEnrollment.student.student_id
     let program_name = program.name
     let institution_name = programEnrollment.institution.name
-    let course_name = programEnrollment.course_name_in_current_sis
+    let course_name = programEnrollment.course_name_in_current_sis ==='Other' ? programEnrollment.course_name_other:programEnrollment.course_name_in_current_sis;
 
     let today = new Date().toISOString().split('T')[0]
     let certification_date = new Date(today);
@@ -45,7 +45,9 @@ module.exports = {
       case 'pehliudaan':
         certifcateFilePath = './public/program-enrollment-certificate-template/pehliUdaan/certificate.html';
         break;
-
+      case 'EmplifyWithAi':
+        certifcateFilePath = './public/program-enrollment-certificate-template/EmplifyWithAi/certificate.html';
+        break;
       case 'default':
       default:
         certifcateFilePath = './public/program-enrollment-certificate-template/default/certificate.html';
@@ -84,7 +86,24 @@ module.exports = {
 
 
     // generate pdf
-    await page.pdf({
+
+    if(program.certificate === 'EmplifyWithAi'){
+       await page.pdf({
+      path: certificatePath,
+      width: '1057px',
+      height: '831px',
+      printBackground: true,
+      margin: {
+        left: '0px',
+        top: '0px',
+        right: '0px',
+        bottom: '0px'
+      }
+    });
+      
+
+    }else {
+      await page.pdf({
       path: certificatePath,
       width: '1440px',
       height: '1120px',
@@ -96,6 +115,8 @@ module.exports = {
         bottom: '0px'
       }
     });
+
+    }
 
     // terminate puppeteer instance
     await browser.close();
