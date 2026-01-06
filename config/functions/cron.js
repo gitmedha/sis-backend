@@ -75,7 +75,7 @@ module.exports = {
 
                   await strapi.plugins['email'].services.email.sendTemplatedEmail({
                     to:srmEmail,
-                    cc:[managerEmail, 'kirti.gour@medha.org.in', 'maryam.raza@medha.org.in', 'sanskaar.pradhan@medha.org.in']
+                    cc:[managerEmail, 'kirti.gour@medha.org.in',"mohil.joshi@medha.org.in", 'sanskaar.pradhan@medha.org.in']
                   }, emailBody);
                   
                     const currentBatch = await strapi.services['batches'].findOne({ id });

@@ -35,7 +35,7 @@ module.exports = {
             };
 
         
-            const recipents = ['sanskaar.pradhan@medha.org.in','kirti.gour@medha.org.in','maryam.raza@medha.org.in','rohit.sharma@medha.org.in','deepak.sharma@medha.org.in']
+            const recipents = ['sanskaar.pradhan@medha.org.in','kirti.gour@medha.org.in',"mohil.joshi@medha.org.in",'rohit.sharma@medha.org.in','deepak.sharma@medha.org.in']
     
             await strapi.plugins['email'].services.email.sendTemplatedEmail({
                 to:recipents
