@@ -33,6 +33,38 @@ module.exports = {
     return sanitizeEntity(entity, { model: strapi.models.students });
   },
 
+  // find students by phone (query param: ?phone=...)
+  async findByPhone(ctx) {
+    const { phone } = ctx.query;
+
+    if (!phone) {
+      return ctx.badRequest("Query parameter 'phone' is required");
+    }
+
+    // Exact match on phone; change to phone_contains if you want partial
+    const entities = await strapi.services.students.find({ phone });
+
+    return entities.map(entity =>
+      sanitizeEntity(entity, { model: strapi.models.students })
+    );
+  },
+
+  // find students by email (query param: ?email=...)
+  async findByEmail(ctx) {
+    const { email } = ctx.query;
+
+    if (!email) {
+      return ctx.badRequest("Query parameter 'email' is required");
+    }
+
+    // Exact match on email; change to email_contains if you want partial
+    const entities = await strapi.services.students.find({ email });
+
+    return entities.map(entity =>
+      sanitizeEntity(entity, { model: strapi.models.students })
+    );
+  },
+
   // create from webhook
   async createFromWebhook(ctx) {
     const data = ctx.request.body;
