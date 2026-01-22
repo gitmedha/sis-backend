@@ -18,6 +18,22 @@
     },
     {
       "method": "GET",
+      "path": "/students/by-phone",
+      "handler": "students.findByPhone",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/students/by-email",
+      "handler": "students.findByEmail",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/students",
       "handler": "students.find",
       "config": {
