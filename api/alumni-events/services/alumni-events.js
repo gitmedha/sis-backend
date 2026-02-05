@@ -30,7 +30,7 @@ module.exports = {
 
             const emailTemplate = {
                 subject: 'Alumni Service Reporting',
-                text: `Hi,<br><br>An event has been Reported by ${name} on ${formattedDate}. Please check SIS for more details.<br><br><br><br>`,
+                text: `Hi,<br/> <br/>An event has been Reported by ${name} on ${formattedDate}. Please check SIS for more details.<br>`,
                 html:''
             };
 

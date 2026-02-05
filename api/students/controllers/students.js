@@ -33,6 +33,38 @@ module.exports = {
     return sanitizeEntity(entity, { model: strapi.models.students });
   },
 
+  // find students by phone (query param: ?phone=...)
+  async findByPhone(ctx) {
+    const { phone } = ctx.query;
+
+    if (!phone) {
+      return ctx.badRequest("Query parameter 'phone' is required");
+    }
+
+    // Exact match on phone; change to phone_contains if you want partial
+    const entities = await strapi.services.students.find({ phone });
+
+    return entities.map(entity =>
+      sanitizeEntity(entity, { model: strapi.models.students })
+    );
+  },
+
+  // find students by email (query param: ?email=...)
+  async findByEmail(ctx) {
+    const { email } = ctx.query;
+
+    if (!email) {
+      return ctx.badRequest("Query parameter 'email' is required");
+    }
+
+    // Exact match on email; change to email_contains if you want partial
+    const entities = await strapi.services.students.find({ email });
+
+    return entities.map(entity =>
+      sanitizeEntity(entity, { model: strapi.models.students })
+    );
+  },
+
   // create from webhook
   async createFromWebhook(ctx) {
     const data = ctx.request.body;
@@ -61,9 +93,9 @@ module.exports = {
     student.status = "New Request"; // default status is Registered
     student.date_of_birth = dateString;
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
+    student.department = "Core Programs";
     student.category = data.category;
     student.gender = data.gender;
-    student.department = "Core Programs";
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.income_level = data.income_level;
@@ -82,6 +114,7 @@ module.exports = {
     student.how_did_you_hear_about_us_other =
       data.how_did_you_hear_about_us_other;
     student.your_plan_after_your_current_course = data.your_plan_after_your_current_course;
+
     let studentEntity = await strapi.services.students.create(student);
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
@@ -334,6 +367,7 @@ function generateCustomStudentId(state, phone, type, course_type) {
     );
 
     try {
+      
       const values = await strapi.query("students").find({
         _limit: 100,
         _start: 0,

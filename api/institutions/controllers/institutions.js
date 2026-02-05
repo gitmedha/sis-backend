@@ -152,7 +152,8 @@ module.exports = {
             { type: { $contains: query } },
             { city: { $contains: query } },
             { state: { $contains: query } },
-            { district: { $contains: query } }
+            { district: { $contains: query } },
+            {source: { $contains: query } }
           ]
         },
         _limit: 20, // Limit to 20 results (you can adjust this number) // Select only the 'id' and 'name' fields
@@ -167,10 +168,11 @@ module.exports = {
   async fetchAllInstitutions(ctx) {
     try {
       // Fetch all institutions without limits
-      const allInstitutions = await strapi.query('institutions').find({ _limit: -1 });
+      const allInstitutions = await strapi.query("institutions").find({ _limit: -1 });
       return allInstitutions;
     } catch (error) {
-      ctx.throw(500, 'An error occurred while fetching institutions.');
+      console.error("Error fetching institutions:", error);
+      ctx.throw(500, "An error occurred while fetching institutions.");
     }
   },
 };

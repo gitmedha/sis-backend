@@ -21,7 +21,6 @@ module.exports = {
     logged_in_user = ctx.state.user.id;
     data = ctx.request.body;
     data.updated_by_frontend = logged_in_user;
-
     if (data.status === 'In Progress') {
       // Query the batch to check the current status
       const batch = await strapi.services['batches'].find({ id:id });  
@@ -31,11 +30,12 @@ module.exports = {
         data.status_changed_date =  new Date().toISOString().split("T")[0];
       }
     }
+   
     entity = await strapi.services.batches.update({ id }, data);
     const isEmailSent = await strapi.services.batches.findOne({id});
     const {formation_mail_sent,closure_mail_sent} = isEmailSent;
     
-    if(data.status === 'Enrollment Complete -- To Be Started' && !formation_mail_sent){
+    if(data.status === 'Enrollment Complete -- To Be Started'){
       
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
@@ -70,8 +70,7 @@ module.exports = {
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);
     }
     if (data.status === "Complete" && !closure_mail_sent) {
-      await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
-  
+await strapi.services["batches"].handleProgramEnrollmentOnCompletion(entity);
       data.id = id;
       const institution = await strapi.services['institutions'].findOne({id: data.institution});
       let assignedTo = await strapi.plugins['users-permissions'].services.user.fetch({
@@ -103,16 +102,27 @@ module.exports = {
 
       
       await strapi.services['batches'].sendEmailOnCreationAndCompletion(data);  
-    } else if (data.status === "Certified") {
-      await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
-  
-      // AuditLog: batch certification triggered by user
-      await strapi.services["audit-logs"].create({
-        user: ctx.state?.user?.id,
-        action: "batch_mark_as_certified",
-        content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
-      });
-    }
+    }else if (data.status === "Certified") {
+  const program = entity.program?.name;
+
+  if (program === "On the Ground") {
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified_ontheground",
+      content: `Batch "${entity.name}" (ID ${entity.id}) for program "On the Ground" marked as certified (custom flow) by "${ctx.state.user.username}" (ID ${ctx.state.user.id})`,
+    });
+  } else {
+    await strapi.services["batches"].handleProgramEnrollmentOnCertification(entity);
+
+    await strapi.services["audit-logs"].create({
+      user: ctx.state?.user?.id,
+      action: "batch_mark_as_certified",
+      content: `Batch "${entity.name}" having ID ${entity.id} is marked as certified by user "${ctx.state.user.username}" having ID ${ctx.state.user.id}`,
+    });
+  }
+}
   
     return sanitizeEntity(entity, { model: strapi.models.batches });
   },
@@ -183,7 +193,7 @@ module.exports = {
     return ctx.send({ batch: batch });
   },
   async findDistinctField(ctx) {
-    const { field, tab, info } = ctx.params; // Extract the field name from the query parameters
+    const { field, tab, info } = ctx.params;
     let optionsArray = [];
 
     const queryString = info.substring();
@@ -195,8 +205,9 @@ module.exports = {
     );
 
     try {
+      const totalRecords = await strapi.query("batches").count();
       const values = await strapi.query("batches").find({
-        _limit: 100,
+        _limit: totalRecords,
         _start: 0,
         ...((tab === "my_data" && { assigned_to: infoObject.id }) ||
           (tab === "my_state" && { state: infoObject.state }) ||
@@ -305,7 +316,9 @@ module.exports = {
     } catch (error) {
       console.log("Error in sendEmailOnCreationAndCompletion:", error);
       return ctx.badRequest(error.message);
-    }},
+    }
+  },
+ 
   async sendReminderEmail (ctx){
     try{
       const { id } = ctx.params;
@@ -364,6 +377,5 @@ module.exports = {
         console.log('Error in cron job', e);
       }
   }
-
 
 };

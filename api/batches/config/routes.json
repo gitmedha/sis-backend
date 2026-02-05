@@ -81,7 +81,7 @@
       }
     }, {
       "method": "POST",
-      "path": "/batch/sendEmailONCreationAndUpdate",
+      "path": "/batches/sendEmailOnCreationAndCompletion",
       "handler":"batches.sendEmailOnCreationAndCompletion",
       "config": {
         "policies": []
@@ -99,6 +99,22 @@
       "method": "GET",
       "path": "/batch/:id/send-post-batch-link",
       "handler": "batches.sendPostBatchLinks",
+      "config": {
+        "policies": []
+      }
+    }
+    , {
+      "method": "POST",
+      "path": "/batch/sendEmailONCreationAndUpdate",
+      "handler":"batches.sendEmailOnCreationAndCompletion",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/batch/sendReminderEmail/:id",
+      "handler":"batches.sendReminderEmail",
       "config": {
         "policies": []
       }

@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/pmuses",
+      "handler": "pmus.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/pmuses/count",
+      "handler": "pmus.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/pmuses/:id",
+      "handler": "pmus.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/pmuses/distinct/:field",
+      "handler": "pmus.findDistinctField",
+      "config": {
+        "policies":[]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/pmuses",
+      "handler": "pmus.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/pmuses/:id",
+      "handler": "pmus.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/pmuses/:id",
+      "handler": "pmus.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/pmuses/createBulkPmus",
+      "handler":"pmus.createBulkPmus",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method":"POST",
+      "path":"/pmuses/search",
+      "handler":"pmus.searchOps",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
