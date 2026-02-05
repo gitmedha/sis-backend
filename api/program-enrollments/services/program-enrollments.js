@@ -336,16 +336,16 @@ module.exports = {
 
     switch (name) {
         case 'Technology Advancement Bootcamp':
-            preBatchLink = `https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/tab_pre_20242025?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         case 'Svapoorna':
-            preBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=${student_id}+${programEnrollment.batch.name}`;
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_new_prepost?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         case 'Swarambh':
-            preBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_pre_2024?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         default:
-            preBatchLink = `https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
+            preBatchLink = `https://medhasurvey.surveycto.com/collect/cab_pre_20242025_new?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
     }
 
@@ -381,16 +381,16 @@ async postBatchLinks(programEnrollment) {
 
     switch (name) {
         case 'Technology Advancement Bootcamp':
-            postBatchLink = `https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=${student_id}+${programEnrollment.batch.name}`;
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/tab_post_20242025?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         case 'Svapoorna':
-            postBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=${student_id}+${programEnrollment.batch.name}`;
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/svapoorna_post_202425?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         case 'Swarambh':
-            postBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=${student_id}+${programEnrollment.batch.name}`;
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/swarambh_post_2024?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
         default:
-            postBatchLink = `https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=${student_id}+${programEnrollment.batch.name}`;
+            postBatchLink = `https://medhasurvey.surveycto.com/collect/cab_post_20242025_new?caseid=${student_id}_${programEnrollment.batch.name}`;
             break;
     }
 
