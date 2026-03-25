@@ -52,7 +52,14 @@
       "type": "string"
     },
     "role": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": [
+        "Participant",
+        "Volunteer",
+        "Resource_Person",
+        "Chapter_Leader",
+        "Central_Team"
+      ]
     }
   }
 }
