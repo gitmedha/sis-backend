@@ -152,7 +152,8 @@ module.exports = {
             { type: { $contains: query } },
             { city: { $contains: query } },
             { state: { $contains: query } },
-            { district: { $contains: query } }
+            { district: { $contains: query } },
+            {source: { $contains: query } }
           ]
         },
         _limit: 20, // Limit to 20 results (you can adjust this number) // Select only the 'id' and 'name' fields

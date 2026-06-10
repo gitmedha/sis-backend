@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "latest_activities",
+  "info": {
+    "name": "Latest Activity"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "activity": {
+      "type": "string",
+      "required": true
+    },
+    "module_name": {
+      "type": "string"
+    },
+    "changes_in": {
+      "type": "json"
+    },
+    "updatedby": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "event_id": {
+      "type": "string"
+    }
+  }
+}

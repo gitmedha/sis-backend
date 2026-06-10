@@ -19,3 +19,20 @@
 ```
 yarn build
 ```
+
+
+### Deployment Process
+```
+    Login to aws and update your ip in the instance
+```
+1. Connect with the instance through ssh command, you will get it from the aws .
+2. cd strapi/sis-backend .
+3. PM2 list : `it will show the list of running sessions ` .
+4. PM2 stop session id `it will stop the session and the session id you will get by step 3 ` .
+5. sudo git pull .
+6. npm i `if there are new changes in the package.json` .
+7. PM2 restart session id ` this will restart the session with current changes`.
+#### Note:
+``` 
+  if you do not see any running session after PM2 list run :  pm2 start npm --name backend -- run start
+```

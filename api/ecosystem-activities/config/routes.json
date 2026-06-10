@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/ecosystem-activities",
+      "handler": "ecosystem-activities.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystem-activities/count",
+      "handler": "ecosystem-activities.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/ecosystem-activities/:id",
+      "handler": "ecosystem-activities.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ecosystem-activities",
+      "handler": "ecosystem-activities.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/ecosystem-activities/:id",
+      "handler": "ecosystem-activities.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/ecosystem-activities/:id",
+      "handler": "ecosystem-activities.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

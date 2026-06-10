@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "student_outreaches",
+  "info": {
+    "name": "student_outreach",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "year_fy": {
+      "type": "string"
+    },
+    "month": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "Haryana",
+        "UttarPradesh",
+        "Bihar",
+        "Uttarkhand"
+      ]
+    },
+    "department": {
+      "type": "string"
+    },
+    "institution_type": {
+      "type": "string"
+    },
+    "created_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "updated_by_frontend": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "isactive": {
+      "type": "boolean"
+    },
+    "quarter": {
+      "type": "string"
+    },
+    "students": {
+      "type": "integer"
+    },
+    "faculty": {
+      "type": "integer"
+    },
+    "male": {
+      "type": "decimal"
+    },
+    "female": {
+      "type": "decimal"
+    }
+  }
+}

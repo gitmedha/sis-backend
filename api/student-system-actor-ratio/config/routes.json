@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/student-system-actor-ratios",
+      "handler": "student-system-actor-ratio.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/student-system-actor-ratios/count",
+      "handler": "student-system-actor-ratio.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/student-system-actor-ratios/:id",
+      "handler": "student-system-actor-ratio.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/student-system-actor-ratios",
+      "handler": "student-system-actor-ratio.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/student-system-actor-ratios/:id",
+      "handler": "student-system-actor-ratio.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/student-system-actor-ratios/:id",
+      "handler": "student-system-actor-ratio.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

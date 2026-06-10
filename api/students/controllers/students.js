@@ -33,8 +33,8 @@ module.exports = {
     return sanitizeEntity(entity, { model: strapi.models.students });
   },
 
-   // find students by phone (query param: ?phone=...)
-   async findByPhone(ctx) {
+  // find students by phone (query param: ?phone=...)
+  async findByPhone(ctx) {
     const { phone } = ctx.query;
 
     if (!phone) {
@@ -93,9 +93,9 @@ module.exports = {
     student.status = "New Request"; // default status is Registered
     student.date_of_birth = dateString;
     student.name_of_parent_or_guardian = data.parent_or_guardian_name;
+    student.department = "Core Programs";
     student.category = data.category;
     student.gender = data.gender;
-    student.department = "Core Programs";
     student.assigned_to = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.registered_by = institution?.assigned_to.id ? institution?.assigned_to.id :'2';
     student.income_level = data.income_level;
@@ -114,6 +114,7 @@ module.exports = {
     student.how_did_you_hear_about_us_other =
       data.how_did_you_hear_about_us_other;
     student.your_plan_after_your_current_course = data.your_plan_after_your_current_course;
+
     let studentEntity = await strapi.services.students.create(student);
     let sanitizedStudentEntity = sanitizeEntity(studentEntity, {
       model: strapi.models.students,
@@ -366,6 +367,7 @@ function generateCustomStudentId(state, phone, type, course_type) {
     );
 
     try {
+      
       const values = await strapi.query("students").find({
         _limit: 100,
         _start: 0,
