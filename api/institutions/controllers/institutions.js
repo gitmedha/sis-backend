@@ -166,13 +166,51 @@ module.exports = {
     }
   },
   async fetchAllInstitutions(ctx) {
-    try {
-      // Fetch all institutions without limits
-      const allInstitutions = await strapi.query("institutions").find({ _limit: -1 });
-      return allInstitutions;
-    } catch (error) {
-      console.error("Error fetching institutions:", error);
-      ctx.throw(500, "An error occurred while fetching institutions.");
+  try {
+    const knex = strapi.connections.default;
+
+    const {
+      search = "",
+      limit = 100,
+      start = 0,
+      source,
+    } = ctx.request.body || {};
+
+    let query = knex("institutions")
+      .select("id", "name")
+      .orderBy("name", "asc")
+      .limit(Number(limit))
+      .offset(Number(start));
+
+    // Base query only for testing/debugging
+    // let baseQuery = knex("institutions")
+    //   .select("id", "name", "source")
+    //   .orderBy("name", "asc");
+
+    if (search) {
+      query = query.where("name", "ilike", `%${search}%`);
+      // baseQuery = baseQuery.where("name", "ilike", `%${search}%`);
     }
-  },
+
+    if (source) {
+      query = query.where("source", source);
+      // baseQuery = baseQuery.where("source", source);
+    }
+
+    // Fetch requested institutions
+    const institutions = await query;
+
+    // const testingColleges = await baseQuery
+    //   .clone()
+    //   .limit(5)
+    //   .offset(100);
+
+    // console.log("Testing Colleges:", testingColleges);
+
+    return ctx.send(institutions);
+  } catch (error) {
+    console.error("Error fetching institutions:", error);
+    ctx.throw(500, "An error occurred while fetching institutions.");
+  }
+},
 };
