@@ -56,9 +56,9 @@
       "enum": [
         "Participant",
         "Volunteer",
-        "Resource Person",
-        "Chapter Leader",
-        "Central Team"
+        "Resource_Person",
+        "Chapter_Leader",
+        "Central_Team"
       ]
     }
   }
